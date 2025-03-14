@@ -1,0 +1,52 @@
+{
+  "name": "page1",
+  "metadata": {
+    "title": "Page 1"
+  },
+  "components": [
+    {
+      "component": "Row",
+      "props": {
+        "align": "center",
+        "justify": "center"
+      },
+      "slots": {
+        "main": [
+          {
+            "component": "Column",
+            "props": {
+              "align": "center",
+              "justify": "center"
+            },
+            "slots": [
+              {
+                "name": "main",
+                "component": "Button",
+                "props": {
+                  "text": "Click me"
+                },
+                "events": {
+                  "click": {
+                    "preventDefault": false,
+                    "stopPropagation": false,
+                    "fn": "doSomething"
+                  }
+                },
+                "slots": {
+                  "leftIcon": [
+                    {
+                      "component": "Icon",
+                      "props": {
+                        "name": "arrow-right"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
