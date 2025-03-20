@@ -140,6 +140,7 @@
   body {
     @apply h-full;
     @apply bg-background text-foreground;
+    color-scheme: light dark;
   }
   #root {
     @apply h-full;

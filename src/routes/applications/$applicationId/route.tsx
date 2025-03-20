@@ -1,9 +1,9 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 import { useMachine } from "@xstate/react";
 import { useEffect } from "react";
-import { ApplicationEntityType } from "../../../modules/applicationEditor/domain/Application/ApplicationEntity";
-import { applicationEditorLogic } from "../../../modules/applicationEditor/interactors/applicationEditor";
-import { ApplicationEntityExploreFragment } from "../../../modules/applicationEditor/ui/fragments/ApplicationEntityExplorer";
+import { ApplicationEntityType } from "../../../modules/application/domain/entities/Application/ApplicationEntity";
+import { applicationEditorLogic } from "../../../modules/application/interactors/applicationEditor";
+import { AppExplorerAdapter } from "../../../modules/application/ui/components/AppExplorer/AppExplorer.adapter";
 import { Route as PageRoute } from "./$entityType.$entityId";
 
 export const Route = createFileRoute("/applications/$applicationId")({
@@ -49,7 +49,7 @@ function ApplicationPage() {
     <div className="flex w-full flex-1">
       <div className="border-r border-gray-200 overflow-auto w-[250px]">
         <div className="p-3">{applicationEditor.context.application?.name}</div>
-        <ApplicationEntityExploreFragment
+        <AppExplorerAdapter
           selectedEntityId={entityId}
           applicationEditorActor={applicationEditorActor}
         />

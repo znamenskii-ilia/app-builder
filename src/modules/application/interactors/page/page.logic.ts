@@ -1,0 +1,227 @@
+import { ActorRefFromLogic, assign, enqueueActions, fromPromise, setup } from "xstate";
+import { Component, Page } from "../../domain/entities";
+import {
+  newBoxComponent,
+  newButtonComponent,
+  newHeadingComponent,
+  newTextComponent,
+} from "../../domain/entities/Component/components";
+import { componentsCompatibilityRuleSatisfied } from "../../domain/rules/componentsCompatibilityRule";
+import { ComponentActor, componentLogic } from "../component";
+import type { PageContext, PageEvents } from "./page.interface";
+
+export type PageActor = ActorRefFromLogic<typeof pageLogic>;
+
+export const pageLogic = setup({
+  types: {
+    input: {} as {
+      pageId: string;
+    },
+    context: {} as PageContext,
+    events: {} as PageEvents,
+  },
+  actors: {
+    loadPage: fromPromise(async ({ input }: { input: { pageId: string } }) => {
+      await new Promise((resolve) => setTimeout(resolve, 0));
+
+      const components: Record<string, Component> = {
+        "box-1": {
+          id: "box-1",
+          component: "Box",
+          props: {
+            height: "full",
+            width: "full",
+            direction: "column",
+            align: "center",
+            justify: "center",
+            gap: 2,
+            padding: 2,
+            background: "white",
+            border: 1,
+          },
+          children: [],
+        },
+      };
+
+      const page: Page = {
+        id: input.pageId,
+        applicationId: "1",
+        name: "New Page",
+        metadata: {
+          title: "New Page",
+        },
+        children: components,
+        childrenOrder: ["box-1"],
+      };
+
+      return page;
+    }),
+  },
+}).createMachine({
+  id: "pageSchema",
+  context: ({ input }) => {
+    return {
+      pageId: input.pageId,
+      page: null,
+      children: [],
+    };
+  },
+  initial: "loadingPage",
+  on: {
+    CHANGE_PAGE: {
+      actions: [assign(({ event }) => ({ pageId: event.pageId }))],
+      target: ".loadingPage",
+    },
+  },
+  states: {
+    loadingPage: {
+      invoke: {
+        src: "loadPage",
+        input: ({ context }) => ({
+          pageId: context.pageId,
+        }),
+        onDone: {
+          target: "pageLoaded",
+          actions: [
+            assign(({ event, spawn }) => ({
+              page: {
+                ...event.output,
+                children: Object.values(event.output.children).reduce(
+                  (acc, component) => {
+                    const actor = spawn(componentLogic, { input: component });
+
+                    return {
+                      ...acc,
+                      [component.id]: actor,
+                    };
+                  },
+                  {} as Record<string, ComponentActor>,
+                ),
+              },
+            })),
+          ],
+        },
+      },
+    },
+    pageLoaded: {
+      initial: "idle",
+      states: {
+        idle: {},
+        componentSelected: {
+          target: "componentSelected",
+        },
+      },
+      on: {
+        CHILD_SELECTED: {
+          target: ".componentSelected",
+          actions: [
+            assign(({ context }) => ({
+              page: { ...context.page! },
+            })),
+            enqueueActions(({ context, enqueue, event }) => {
+              Object.values(context.page?.children ?? {}).forEach((actor) => {
+                if (actor.getSnapshot().context.id !== event.componentId) {
+                  enqueue.sendTo(actor, { type: "UNSELECT" });
+                }
+              });
+            }),
+          ],
+        },
+        RESET_SELECTION: {
+          target: ".idle",
+          actions: ({ context }) => {
+            Object.values(context.page?.children ?? {}).forEach((actor) => {
+              actor.send({ type: "UNSELECT" });
+            });
+          },
+        },
+        ADD_COMPONENT: {
+          actions: [
+            assign(({ context, event, spawn }): PageContext => {
+              if (!context.page) return context;
+
+              const resolveComponent = (): Component => {
+                const id = Math.random().toString(36).substring(2, 15);
+
+                switch (event.componentType) {
+                  case "Box":
+                    return newBoxComponent(id);
+                  case "Text":
+                    return newTextComponent(id);
+                  case "Heading":
+                    return newHeadingComponent(id);
+                  case "Button":
+                    return newButtonComponent(id);
+                  default: {
+                    const exhaustiveCheck: never = event.componentType;
+
+                    throw new Error(`Unknown component type: ${exhaustiveCheck}`);
+                  }
+                }
+              };
+
+              const newComponent = resolveComponent();
+
+              context.page?.children[event.targetComponentId].send({
+                type: "ADD_COMPONENT",
+                componentId: newComponent.id,
+              });
+
+              return {
+                ...context,
+                page: {
+                  ...context.page,
+                  children: {
+                    ...context.page?.children,
+                    [newComponent.id]: spawn(componentLogic, { input: newComponent }),
+                  },
+                },
+              };
+            }),
+          ],
+        },
+        COMPONENT_DELETED: {
+          actions: assign(({ context, event }) => {
+            const { page } = context;
+
+            if (!page) return context;
+
+            const newChildrenOrder = page.childrenOrder.filter(
+              (id) => !event.componentIds.includes(id),
+            );
+
+            Object.values(page.children).forEach((actor) => {
+              event.componentIds.forEach((id) => {
+                if (actor.getSnapshot().context.id !== id) {
+                  actor.send({
+                    type: "DELETE_COMPONENT",
+                    componentId: id,
+                  });
+                }
+              });
+            });
+
+            // event.componentIds.forEach((id) => {
+            //   if (page.children[id]) {
+            //     delete page.children[id];
+            //   }
+            // });
+
+            return {
+              ...context,
+              // selectedComponentId:
+              //   context.selectedComponentId &&
+              //   event.componentIds.includes(context.selectedComponentId)
+              //     ? null
+              //     : context.selectedComponentId,
+              page: {
+                ...page,
+                childrenOrder: newChildrenOrder,
+              },
+            };
+          }),
+        },
+      },
+    },
+  },
+});
