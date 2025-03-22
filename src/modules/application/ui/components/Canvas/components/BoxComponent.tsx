@@ -21,10 +21,11 @@ const styles = tv({
   base: "flex flex-1 border",
   variants: {
     isHovering: {
-      true: "[&:not(:has(*:hover))]:hover:ring-1 [&:not(:has(*:hover))]:hover:ring-amber-500",
+      // true: "[&:not(:has(*:hover))]:hover:ring-1 [&:not(:has(*:hover))]:hover:ring-amber-500",
+      true: "shadow-[inset_0_0_0_1000px_rgba(245,158,11,0.3)]",
     },
     isSelected: {
-      true: "ring-2 ring-amber-500",
+      true: "ring-2 ring-amber-500 shadow-[inset_0_0_0_1000px_rgba(245,158,11,0.3)]",
     },
     isOver: {
       true: "ring-2 ring-lime-500",
@@ -87,10 +88,16 @@ export const BoxComponent = memo(({ pageChildren, actor }: BoxComponentProps) =>
     <div
       ref={setNodeRef}
       tabIndex={0}
-      onMouseEnter={() => actor.send({ type: "HOVER_ENTER" })}
-      onMouseLeave={() => actor.send({ type: "HOVER_LEAVE" })}
-      onClick={(e) => {
-        e.stopPropagation();
+      onMouseOver={(event) => {
+        event.stopPropagation();
+        actor.send({ type: "HOVER_ENTER" });
+      }}
+      onMouseOut={(event) => {
+        event.stopPropagation();
+        actor.send({ type: "HOVER_LEAVE" });
+      }}
+      onClick={(event) => {
+        event.stopPropagation();
         actor.send({ type: "SELECT" });
       }}
       className={styles({

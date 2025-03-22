@@ -14,10 +14,11 @@ const makeStyles = tv({
   },
   variants: {
     isHovering: {
-      true: "outline outline-1 outline-solid outline-amber-500",
+      // true: "outline outline-1 outline-solid outline-amber-500",
+      true: "shadow-[inset_0_0_0_1000px_rgba(245,158,11,0.3)]",
     },
     isSelected: {
-      true: "outline outline-2 outline-solid outline-amber-500",
+      true: "ring-2 ring-amber-500 shadow-[inset_0_0_0_1000px_rgba(245,158,11,0.3)]",
     },
     level: {
       1: "text-4xl font-bold",
@@ -51,8 +52,14 @@ export const HeadingComponent = memo(({ actor }: HeadingComponentProps) => {
         align: context.props.align,
       })}
       style={{ color: context.props.color }}
-      onMouseOver={() => actor.send({ type: "HOVER_ENTER" })}
-      onMouseOut={() => actor.send({ type: "HOVER_LEAVE" })}
+      onMouseOver={(event) => {
+        event.stopPropagation();
+        actor.send({ type: "HOVER_ENTER" });
+      }}
+      onMouseOut={(event) => {
+        event.stopPropagation();
+        actor.send({ type: "HOVER_LEAVE" });
+      }}
       onClick={(event) => {
         event.stopPropagation();
         actor.send({ type: "SELECT" });

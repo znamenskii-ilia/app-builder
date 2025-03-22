@@ -7,7 +7,7 @@ type CanvasProps = PropsWithChildren<{
 
 export const Canvas = ({ children, onBackgroundClick }: CanvasProps) => {
   return (
-    <div className="flex flex-1 p-4 items-start bg-white" tabIndex={0} onClick={onBackgroundClick}>
+    <div className="flex flex-1 items-start bg-white" tabIndex={0} onClick={onBackgroundClick}>
       {children}
     </div>
   );
