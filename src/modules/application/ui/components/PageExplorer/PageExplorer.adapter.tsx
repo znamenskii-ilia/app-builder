@@ -6,15 +6,7 @@ import { PageExplorer } from "./PageExplorer.component";
 import { PageExplorerItem } from "./PageExplorerItem.component";
 
 const PageExplorerItemAdapter = memo(
-  ({
-    pageActor,
-    actor,
-    level,
-  }: {
-    pageActor: PageActor;
-    actor: ComponentActor;
-    level: 0 | 1 | 2 | 3 | 4;
-  }) => {
+  ({ pageActor, actor, level }: { pageActor: PageActor; actor: ComponentActor; level: number }) => {
     const isSelected = useSelector(actor, (state) => state.matches("selected"));
     const pageChildren = useSelector(pageActor, (state) => state.context.page?.children || {});
     const componentChildrenIds = useSelector(actor, (state) => state.context.children);

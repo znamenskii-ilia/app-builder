@@ -4,7 +4,7 @@ import { ComponentsLibrarySection } from "./ComponentsLibrarySection.component";
 
 export const ComponentsLibraryAdapter = () => {
   const layoutBlueprintComponentTypes: ComponentType[] = ["Box"];
-  const textBlueprintComponentTypes: ComponentType[] = ["Heading", "Text"];
+  const textBlueprintComponentTypes: ComponentType[] = ["Heading", "Text", "Image"];
   const formBlueprintComponentTypes: ComponentType[] = ["Button"];
 
   return (

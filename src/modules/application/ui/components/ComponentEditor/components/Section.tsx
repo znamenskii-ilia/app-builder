@@ -7,7 +7,7 @@ type SectionProps = {
 
 const makeStyles = tv({
   slots: {
-    base: "flex flex-col gap-2 p-3 [&:not(:first-child)]:border-t [&:not(:first-child)]:border-gray-200",
+    base: "flex flex-col gap-2 [&:not(:first-child)]:border-t [&:not(:first-child)]:border-gray-200",
     title: "",
   },
 });

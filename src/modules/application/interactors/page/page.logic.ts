@@ -4,9 +4,9 @@ import {
   newBoxComponent,
   newButtonComponent,
   newHeadingComponent,
+  newImageComponent,
   newTextComponent,
 } from "../../domain/entities/Component/components";
-import { componentsCompatibilityRuleSatisfied } from "../../domain/rules/componentsCompatibilityRule";
 import { ComponentActor, componentLogic } from "../component";
 import type { PageContext, PageEvents } from "./page.interface";
 
@@ -283,6 +283,8 @@ export const pageLogic = setup({
                     return newHeadingComponent(id);
                   case "Button":
                     return newButtonComponent(id);
+                  case "Image":
+                    return newImageComponent(id);
                   default: {
                     const exhaustiveCheck: never = event.componentType;
 

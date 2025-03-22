@@ -4,7 +4,7 @@ import { ComponentIcon } from "../ComponentIcon/ComponentIcon";
 export type PageExplorerItemProps = {
   children: React.ReactNode;
   componentName: string;
-  level: 0 | 1 | 2 | 3 | 4;
+  level: number;
   isSelected: boolean;
   onHoverEnter: () => void;
   onHoverLeave: () => void;
@@ -27,6 +27,18 @@ const makeStyles = tv({
       2: { name: "pl-10" },
       3: { name: "pl-14" },
       4: { name: "pl-18" },
+      5: { name: "pl-22" },
+      6: { name: "pl-26" },
+      7: { name: "pl-30" },
+      8: { name: "pl-34" },
+      9: { name: "pl-38" },
+      10: { name: "pl-42" },
+      11: { name: "pl-46" },
+      12: { name: "pl-50" },
+      13: { name: "pl-54" },
+      14: { name: "pl-58" },
+      15: { name: "pl-62" },
+      16: { name: "pl-66" },
     },
   },
 });

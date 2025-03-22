@@ -3,6 +3,7 @@ import { BaseEditorProps } from "./components/editors/BaseEditor";
 import { BoxEditor } from "./components/editors/BoxEditor";
 import { ButtonEditor } from "./components/editors/ButtonEditor";
 import { HeadingEditor } from "./components/editors/HeadingEditor";
+import { ImageEditor } from "./components/editors/ImageEditor";
 import { TextEditor } from "./components/editors/TextEditor";
 
 type ComponentEditorProps = BaseEditorProps<Component> & {
@@ -47,6 +48,15 @@ export const ComponentEditor = ({
       case "Heading":
         return (
           <HeadingEditor
+            component={component}
+            onComponentRename={onComponentRename}
+            onComponentChange={onComponentChange}
+            onComponentDelete={onComponentDelete}
+          />
+        );
+      case "Image":
+        return (
+          <ImageEditor
             component={component}
             onComponentRename={onComponentRename}
             onComponentChange={onComponentChange}

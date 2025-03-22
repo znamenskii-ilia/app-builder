@@ -2,6 +2,7 @@ import { ComponentActor } from "../../../interactors/component";
 import { BoxComponent } from "./components/BoxComponent";
 import { ButtonComponent } from "./components/ButtonComponent";
 import { HeadingComponent } from "./components/HeadingComponent";
+import { ImageComponent } from "./components/ImageComponent";
 import { TextComponent } from "./components/TextComponent";
 
 export const resolveComponent = (pageChildren: Record<string, ComponentActor>, childId: string) => {
@@ -17,6 +18,8 @@ export const resolveComponent = (pageChildren: Record<string, ComponentActor>, c
       return <TextComponent actor={actor} key={context.id} />;
     case "Heading":
       return <HeadingComponent actor={actor} key={context.id} />;
+    case "Image":
+      return <ImageComponent actor={actor} key={context.id} />;
     default: {
       const exhaustiveCheck: never = context.component;
 
