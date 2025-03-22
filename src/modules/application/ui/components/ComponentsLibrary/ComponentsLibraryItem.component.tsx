@@ -1,14 +1,16 @@
 import { useDraggable } from "@dnd-kit/core";
 import { tv } from "tailwind-variants";
+import { ComponentType } from "../../../domain/entities";
+import { ComponentIcon } from "../ComponentIcon/ComponentIcon";
 
 type ComponentsLibraryItemProps = {
-  type: string;
+  type: ComponentType;
   title: string;
 };
 
 const makeStyles = tv({
   slots: {
-    base: "block box-border w-full p-2 border rounded-md cursor-grab touch-none bg-white",
+    base: "flex items-center gap-2 box-border w-full p-2 border rounded-md cursor-grab touch-none bg-white",
   },
   variants: {
     isOver: {
@@ -34,6 +36,7 @@ export const ComponentsLibraryItem = ({ type, title }: ComponentsLibraryItemProp
 
   return (
     <button className={styles.base()} ref={setNodeRef} style={style} {...listeners} {...attributes}>
+      <ComponentIcon componentType={type} />
       {title}
     </button>
   );
