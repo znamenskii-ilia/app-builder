@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { Input } from "../../../../../../../common/ui/components/input";
 import { Label } from "../../../../../../../common/ui/components/label";
+import { Slider } from "../../../../../../../common/ui/components/slider";
 import {
   ToggleGroup,
   ToggleGroupItem,
@@ -135,36 +136,34 @@ export const BoxEditor = ({
           </ToggleGroup>
 
           <Label htmlFor="column-editor:padding">Padding</Label>
-          <Input
+          <Slider
             id="column-editor:padding"
-            type="number"
+            value={[component.props.padding]}
             min={0}
             max={6}
-            value={component.props.padding}
-            onChange={(e) =>
+            onValueChange={(value) =>
               onComponentChange({
                 ...component,
                 props: {
                   ...component.props,
-                  padding: parseInt(e.target.value) as 0 | 1 | 2 | 3 | 4 | 5 | 6,
+                  padding: value[0] as 0 | 1 | 2 | 3 | 4 | 5 | 6,
                 },
               })
             }
           />
 
           <Label htmlFor="column-editor:gap">Gap</Label>
-          <Input
+          <Slider
             id="column-editor:gap"
-            type="number"
+            value={[component.props.gap]}
             min={0}
             max={6}
-            value={component.props.gap}
-            onChange={(e) =>
+            onValueChange={(value) =>
               onComponentChange({
                 ...component,
                 props: {
                   ...component.props,
-                  gap: parseInt(e.target.value) as 0 | 1 | 2 | 3 | 4 | 5 | 6,
+                  gap: value[0] as 0 | 1 | 2 | 3 | 4 | 5 | 6,
                 },
               })
             }
@@ -184,14 +183,15 @@ export const BoxEditor = ({
           />
 
           <Label htmlFor="column-editor:border">Border</Label>
-          <Input
+          <Slider
             id="column-editor:border"
-            type="number"
-            value={component.props.border}
-            onChange={(e) =>
+            value={[component.props.border]}
+            min={0}
+            max={3}
+            onValueChange={(value) =>
               onComponentChange({
                 ...component,
-                props: { ...component.props, border: parseInt(e.target.value) as 0 | 1 | 2 | 3 },
+                props: { ...component.props, border: value[0] as 0 | 1 | 2 | 3 },
               })
             }
           />
