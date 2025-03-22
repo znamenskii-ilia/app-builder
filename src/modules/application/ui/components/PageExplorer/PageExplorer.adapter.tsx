@@ -11,10 +11,12 @@ const PageExplorerItemAdapter = memo(
     const pageChildren = useSelector(pageActor, (state) => state.context.page?.children || {});
     const componentChildrenIds = useSelector(actor, (state) => state.context.children);
     const componentName = useSelector(actor, (state) => state.context.name);
+    const componentType = useSelector(actor, (state) => state.context.component);
 
     return (
       <PageExplorerItem
         componentName={componentName}
+        componentType={componentType}
         level={level}
         isSelected={isSelected}
         onHoverEnter={() => actor.send({ type: "HOVER_ENTER" })}
