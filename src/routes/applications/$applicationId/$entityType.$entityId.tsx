@@ -61,7 +61,7 @@ function PagePage() {
           <Canvas.Skeleton />
         </div>
 
-        <div className="w-[20%] min-w-[220px] max-w-[270px] border-l border-gray-200 "></div>
+        <div className="w-[20%] min-w-[220px] max-w-[300px] border-l border-gray-200 "></div>
       </div>
     );
   }

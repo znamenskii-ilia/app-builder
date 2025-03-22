@@ -1,12 +1,22 @@
+import {
+  AlignCenterHorizontal,
+  AlignCenterVertical,
+  AlignEndHorizontal,
+  AlignHorizontalJustifyEnd,
+  AlignHorizontalJustifyStart,
+  AlignHorizontalSpaceAround,
+  AlignHorizontalSpaceBetween,
+  AlignStartHorizontal,
+  MoveDown,
+  MoveRight,
+  SeparatorHorizontal,
+} from "lucide-react";
 import { Input } from "../../../../../../../common/ui/components/input";
 import { Label } from "../../../../../../../common/ui/components/label";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../../../../../../../common/ui/components/select";
+  ToggleGroup,
+  ToggleGroupItem,
+} from "../../../../../../../common/ui/components/toggle-group";
 import { BoxComponent } from "../../../../../domain/entities/Component/components";
 import { PropertyGrid } from "../PropertyGrid";
 import { Section } from "../Section";
@@ -23,6 +33,8 @@ export const BoxEditor = ({
   onComponentDelete,
 }: BoxEditorProps) => {
   const handleDirectionChange = (value: string) => {
+    if (!value) return;
+
     onComponentChange({
       ...component,
       props: {
@@ -33,6 +45,8 @@ export const BoxEditor = ({
   };
 
   const handleAlignChange = (value: string) => {
+    if (!value) return;
+
     onComponentChange({
       ...component,
       props: {
@@ -43,6 +57,8 @@ export const BoxEditor = ({
   };
 
   const handleJustifyChange = (value: string) => {
+    if (!value) return;
+
     onComponentChange({
       ...component,
       props: {
@@ -61,42 +77,62 @@ export const BoxEditor = ({
       <Section title="Style">
         <PropertyGrid>
           <Label htmlFor="column-editor:direction">Direction</Label>
-          <Select value={component.props.direction} onValueChange={handleDirectionChange}>
-            <SelectTrigger id="column-editor:direction">
-              <SelectValue placeholder="Direction" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="row">Row</SelectItem>
-              <SelectItem value="column">Column</SelectItem>
-            </SelectContent>
-          </Select>
+
+          <ToggleGroup
+            type="single"
+            value={component.props.direction}
+            onValueChange={handleDirectionChange}
+          >
+            <ToggleGroupItem value="row" aria-label="Row direction">
+              <MoveRight className="w-4 h-4" />
+            </ToggleGroupItem>
+            <ToggleGroupItem value="column" aria-label="Column direction">
+              <MoveDown className="w-4 h-4" />
+            </ToggleGroupItem>
+          </ToggleGroup>
 
           <Label htmlFor="column-editor:align">Align</Label>
-          <Select value={component.props.align} onValueChange={handleAlignChange}>
-            <SelectTrigger id="column-editor:align">
-              <SelectValue placeholder="Align" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="center">Center</SelectItem>
-              <SelectItem value="start">Start</SelectItem>
-              <SelectItem value="end">End</SelectItem>
-              <SelectItem value="stretch">Stretch</SelectItem>
-            </SelectContent>
-          </Select>
+          <ToggleGroup
+            type="single"
+            value={component.props.align}
+            onValueChange={handleAlignChange}
+          >
+            <ToggleGroupItem value="start" aria-label="Start align">
+              <AlignStartHorizontal className="w-4 h-4" />
+            </ToggleGroupItem>
+            <ToggleGroupItem value="center" aria-label="Center align">
+              <AlignCenterHorizontal className="w-4 h-4" />
+            </ToggleGroupItem>
+            <ToggleGroupItem value="end" aria-label="End align">
+              <AlignEndHorizontal className="w-4 h-4" />
+            </ToggleGroupItem>
+            <ToggleGroupItem value="stretch" aria-label="Stretch align">
+              <SeparatorHorizontal className="w-4 h-4" />
+            </ToggleGroupItem>
+          </ToggleGroup>
 
           <Label htmlFor="column-editor:justify">Justify</Label>
-          <Select value={component.props.justify} onValueChange={handleJustifyChange}>
-            <SelectTrigger id="column-editor:justify">
-              <SelectValue placeholder="Justify" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="center">Center</SelectItem>
-              <SelectItem value="start">Start</SelectItem>
-              <SelectItem value="end">End</SelectItem>
-              <SelectItem value="space-between">Space Between</SelectItem>
-              <SelectItem value="space-around">Space Around</SelectItem>
-            </SelectContent>
-          </Select>
+          <ToggleGroup
+            type="single"
+            value={component.props.justify}
+            onValueChange={handleJustifyChange}
+          >
+            <ToggleGroupItem value="start" aria-label="Start justify">
+              <AlignHorizontalJustifyStart className="w-4 h-4" />
+            </ToggleGroupItem>
+            <ToggleGroupItem value="center" aria-label="Center justify">
+              <AlignCenterVertical className="w-4 h-4" />
+            </ToggleGroupItem>
+            <ToggleGroupItem value="end" aria-label="End justify">
+              <AlignHorizontalJustifyEnd className="w-4 h-4" />
+            </ToggleGroupItem>
+            <ToggleGroupItem value="space-between" aria-label="Space between">
+              <AlignHorizontalSpaceBetween className="w-4 h-4" />
+            </ToggleGroupItem>
+            <ToggleGroupItem value="space-around" aria-label="Space around">
+              <AlignHorizontalSpaceAround className="w-4 h-4" />
+            </ToggleGroupItem>
+          </ToggleGroup>
 
           <Label htmlFor="column-editor:padding">Padding</Label>
           <Input

@@ -1,12 +1,17 @@
+import { AlignCenter, AlignLeft, AlignRight } from "lucide-react";
 import { Input } from "../../../../../../../common/ui/components/input";
 import { Label } from "../../../../../../../common/ui/components/label";
 import {
   Select,
   SelectContent,
   SelectItem,
-  SelectValue,
   SelectTrigger,
+  SelectValue,
 } from "../../../../../../../common/ui/components/select";
+import {
+  ToggleGroup,
+  ToggleGroupItem,
+} from "../../../../../../../common/ui/components/toggle-group";
 import { HeadingComponent } from "../../../../../domain/entities/Component/components";
 import { PropertyGrid } from "../PropertyGrid";
 import { Section } from "../Section";
@@ -70,24 +75,28 @@ export const HeadingEditor = ({
           />
 
           <Label htmlFor="column-editor:align">Align</Label>
-          <Select
+          <ToggleGroup
+            type="single"
             value={component.props.align}
-            onValueChange={(value) =>
+            onValueChange={(value) => {
+              if (!value) return;
+
               onComponentChange({
                 ...component,
                 props: { ...component.props, align: value as "left" | "center" | "right" },
-              })
-            }
+              });
+            }}
           >
-            <SelectTrigger id="column-editor:align">
-              <SelectValue placeholder="Align" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="left">Left</SelectItem>
-              <SelectItem value="center">Center</SelectItem>
-              <SelectItem value="right">Right</SelectItem>
-            </SelectContent>
-          </Select>
+            <ToggleGroupItem value="left" aria-label="Left align">
+              <AlignLeft className="w-4 h-4" />
+            </ToggleGroupItem>
+            <ToggleGroupItem value="center" aria-label="Center align">
+              <AlignCenter className="w-4 h-4" />
+            </ToggleGroupItem>
+            <ToggleGroupItem value="right" aria-label="Right align">
+              <AlignRight className="w-4 h-4" />
+            </ToggleGroupItem>
+          </ToggleGroup>
 
           <Label htmlFor="column-editor:color">Color</Label>
           <Input

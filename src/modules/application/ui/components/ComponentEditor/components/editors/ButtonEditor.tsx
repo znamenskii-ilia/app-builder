@@ -8,6 +8,10 @@ import {
   SelectValue,
 } from "../../../../../../../common/ui/components/select";
 import {
+  ToggleGroup,
+  ToggleGroupItem,
+} from "../../../../../../../common/ui/components/toggle-group";
+import {
   ButtonComponent,
   ButtonComponentSize,
 } from "../../../../../domain/entities/Component/components";
@@ -30,6 +34,8 @@ export const ButtonEditor = ({
   };
 
   const handleSizeChange = (value: string) => {
+    if (!value) return;
+
     onComponentChange({
       ...component,
       props: { ...component.props, size: value as ButtonComponentSize },
@@ -54,16 +60,17 @@ export const ButtonEditor = ({
           />
 
           <Label htmlFor="button-editor:size">Size</Label>
-          <Select value={component.props.size} onValueChange={handleSizeChange}>
-            <SelectTrigger id="button-editor:size">
-              <SelectValue placeholder="Size" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="small">Small</SelectItem>
-              <SelectItem value="medium">Medium</SelectItem>
-              <SelectItem value="large">Large</SelectItem>
-            </SelectContent>
-          </Select>
+          <ToggleGroup type="single" value={component.props.size} onValueChange={handleSizeChange}>
+            <ToggleGroupItem value="small" aria-label="Small size">
+              S
+            </ToggleGroupItem>
+            <ToggleGroupItem value="medium" aria-label="Medium size">
+              M
+            </ToggleGroupItem>
+            <ToggleGroupItem value="large" aria-label="Large size">
+              L
+            </ToggleGroupItem>
+          </ToggleGroup>
         </PropertyGrid>
       </Section>
       <Section title="Events">TBD</Section>
