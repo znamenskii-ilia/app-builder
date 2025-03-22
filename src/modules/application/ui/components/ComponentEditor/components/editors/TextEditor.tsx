@@ -11,11 +11,16 @@ type TextEditorProps = BaseEditorProps<TextComponent> & {
 
 export const TextEditor = ({
   component,
+  onComponentRename,
   onComponentChange,
   onComponentDelete,
 }: TextEditorProps) => {
   return (
-    <BaseEditor component={component} onComponentDelete={onComponentDelete}>
+    <BaseEditor
+      component={component}
+      onComponentRename={onComponentRename}
+      onComponentDelete={onComponentDelete}
+    >
       <Section title="Style">
         <PropertyGrid>
           <Label htmlFor="column-editor:gap">Text</Label>

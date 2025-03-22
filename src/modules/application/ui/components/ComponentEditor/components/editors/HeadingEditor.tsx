@@ -18,11 +18,16 @@ type HeadingEditorProps = BaseEditorProps<HeadingComponent> & {
 
 export const HeadingEditor = ({
   component,
+  onComponentRename,
   onComponentChange,
   onComponentDelete,
 }: HeadingEditorProps) => {
   return (
-    <BaseEditor component={component} onComponentDelete={onComponentDelete}>
+    <BaseEditor
+      component={component}
+      onComponentRename={onComponentRename}
+      onComponentDelete={onComponentDelete}
+    >
       <Section title="Style">
         <PropertyGrid>
           <Label htmlFor="column-editor:level">Level</Label>

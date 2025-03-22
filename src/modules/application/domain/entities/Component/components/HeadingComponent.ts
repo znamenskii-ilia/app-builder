@@ -6,15 +6,20 @@ export type HeadingComponent = BaseComponent & {
   props: {
     text: string;
     level: 1 | 2 | 3 | 4 | 5 | 6;
+    align: "left" | "center" | "right";
+    color: string;
   };
 };
 
 export const newHeadingComponent = (id: string): HeadingComponent => ({
   id,
   component: "Heading",
+  name: "Heading",
   props: {
     text: "Heading",
     level: 1,
+    align: "left",
+    color: "black",
   },
   children: [],
 });

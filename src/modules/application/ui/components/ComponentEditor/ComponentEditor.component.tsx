@@ -11,6 +11,7 @@ type ComponentEditorProps = BaseEditorProps<Component> & {
 
 export const ComponentEditor = ({
   component,
+  onComponentRename,
   onComponentChange,
   onComponentDelete,
 }: ComponentEditorProps) => {
@@ -20,6 +21,7 @@ export const ComponentEditor = ({
         return (
           <BoxEditor
             component={component}
+            onComponentRename={onComponentRename}
             onComponentChange={onComponentChange}
             onComponentDelete={onComponentDelete}
           />
@@ -28,15 +30,16 @@ export const ComponentEditor = ({
         return (
           <ButtonEditor
             component={component}
+            onComponentRename={onComponentRename}
             onComponentChange={onComponentChange}
             onComponentDelete={onComponentDelete}
-            key={component.id}
           />
         );
       case "Text":
         return (
           <TextEditor
             component={component}
+            onComponentRename={onComponentRename}
             onComponentChange={onComponentChange}
             onComponentDelete={onComponentDelete}
           />
@@ -45,6 +48,7 @@ export const ComponentEditor = ({
         return (
           <HeadingEditor
             component={component}
+            onComponentRename={onComponentRename}
             onComponentChange={onComponentChange}
             onComponentDelete={onComponentDelete}
           />

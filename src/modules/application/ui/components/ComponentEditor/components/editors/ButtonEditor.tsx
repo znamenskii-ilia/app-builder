@@ -21,6 +21,7 @@ type ButtonEditorProps = BaseEditorProps<ButtonComponent> & {
 
 export const ButtonEditor = ({
   component,
+  onComponentRename,
   onComponentChange,
   onComponentDelete,
 }: ButtonEditorProps) => {
@@ -36,7 +37,11 @@ export const ButtonEditor = ({
   };
 
   return (
-    <BaseEditor component={component} onComponentDelete={onComponentDelete}>
+    <BaseEditor
+      component={component}
+      onComponentRename={onComponentRename}
+      onComponentDelete={onComponentDelete}
+    >
       <Section title="Styles">
         <PropertyGrid>
           <Label htmlFor="button-editor:text">Text</Label>

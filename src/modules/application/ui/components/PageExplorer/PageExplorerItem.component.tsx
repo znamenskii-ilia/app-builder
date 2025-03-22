@@ -1,10 +1,9 @@
 import { tv } from "tailwind-variants";
-import { ComponentType } from "../../../domain/entities";
 import { ComponentIcon } from "../ComponentIcon/ComponentIcon";
 
 export type PageExplorerItemProps = {
   children: React.ReactNode;
-  componentName: ComponentType;
+  componentName: string;
   level: 0 | 1 | 2 | 3 | 4;
   isSelected: boolean;
   onHoverEnter: () => void;

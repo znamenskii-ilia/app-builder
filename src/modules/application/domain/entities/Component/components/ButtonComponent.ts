@@ -25,6 +25,7 @@ export type ButtonComponent = BaseComponent & {
 export const newButtonComponent = (id: string): ButtonComponent => ({
   id,
   component: "Button",
+  name: "Button",
   props: {
     text: "Button",
     size: "medium",

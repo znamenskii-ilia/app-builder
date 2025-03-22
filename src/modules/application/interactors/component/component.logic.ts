@@ -49,6 +49,14 @@ export const componentLogic = setup({
     },
     selected: {
       on: {
+        RENAME: {
+          actions: assign(
+            ({ event, context }): ComponentContext => ({
+              ...context,
+              name: event.name,
+            }),
+          ),
+        },
         UPDATE: {
           actions: assign(
             ({ event, context }): ComponentContext => ({

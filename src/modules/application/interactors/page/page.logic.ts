@@ -28,6 +28,7 @@ export const pageLogic = setup({
         "box-1": {
           id: "box-1",
           component: "Box",
+          name: "Box1",
           props: {
             height: "full",
             width: "full",

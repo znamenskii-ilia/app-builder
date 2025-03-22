@@ -25,6 +25,7 @@ export type BoxComponent = BaseComponent & {
 export const newBoxComponent = (id: string): BoxComponent => ({
   id,
   component: "Box",
+  name: "Box",
   props: {
     direction: "column",
     height: "full",

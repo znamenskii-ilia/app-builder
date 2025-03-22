@@ -16,7 +16,12 @@ type BoxEditorProps = BaseEditorProps<BoxComponent> & {
   onComponentChange: (component: BoxComponent) => void;
 };
 
-export const BoxEditor = ({ component, onComponentChange, onComponentDelete }: BoxEditorProps) => {
+export const BoxEditor = ({
+  component,
+  onComponentRename,
+  onComponentChange,
+  onComponentDelete,
+}: BoxEditorProps) => {
   const handleDirectionChange = (value: string) => {
     onComponentChange({
       ...component,
@@ -48,7 +53,11 @@ export const BoxEditor = ({ component, onComponentChange, onComponentDelete }: B
   };
 
   return (
-    <BaseEditor component={component} onComponentDelete={onComponentDelete}>
+    <BaseEditor
+      component={component}
+      onComponentRename={onComponentRename}
+      onComponentDelete={onComponentDelete}
+    >
       <Section title="Style">
         <PropertyGrid>
           <Label htmlFor="column-editor:direction">Direction</Label>

@@ -17,6 +17,12 @@ export const ComponentEditorAdapter = ({ pageActor }: ComponentEditorAdapterProp
   return (
     <ComponentEditor
       component={context}
+      onComponentRename={(name) => {
+        selectedComponent.send({
+          type: "RENAME",
+          name,
+        });
+      }}
       onComponentChange={(newContext) => {
         selectedComponent.send({
           type: "UPDATE",
