@@ -29,6 +29,7 @@ export const pageLogic = setup({
           component: "Box",
           name: "Root",
           props: {
+            tag: "div",
             height: "full",
             width: "full",
             direction: "column",
@@ -46,6 +47,7 @@ export const pageLogic = setup({
           component: "Box",
           name: "Header",
           props: {
+            tag: "header",
             height: "full",
             width: "full",
             direction: "row",
@@ -91,6 +93,7 @@ export const pageLogic = setup({
           component: "Box",
           name: "Main",
           props: {
+            tag: "main",
             height: "full",
             width: "full",
             direction: "row",
@@ -108,6 +111,7 @@ export const pageLogic = setup({
           component: "Box",
           name: "Sidebar",
           props: {
+            tag: "aside",
             height: "full",
             width: "full",
             direction: "column",
@@ -136,6 +140,7 @@ export const pageLogic = setup({
           component: "Box",
           name: "Content",
           props: {
+            tag: "section",
             height: "full",
             width: "full",
             direction: "column",

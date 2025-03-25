@@ -1,6 +1,14 @@
 import { BaseComponent } from "../BaseComponent";
 import { Component } from "../Component";
 
+export type BoxComponentTag =
+  | "div"
+  | "section"
+  | "article"
+  | "header"
+  | "footer"
+  | "main"
+  | "aside";
 export type BoxComponentDirection = "row" | "column";
 export type BoxComponentWidth = "full" | "fit-content" | "custom";
 export type BoxComponentHeight = "full" | "fit-content" | "custom";
@@ -10,6 +18,7 @@ export type BoxComponentJustify = "start" | "center" | "end" | "space-between" |
 export type BoxComponent = BaseComponent & {
   component: "Box";
   props: {
+    tag: BoxComponentTag;
     direction: BoxComponentDirection;
     height: BoxComponentHeight;
     width: BoxComponentWidth;
@@ -27,6 +36,7 @@ export const newBoxComponent = (id: string): BoxComponent => ({
   component: "Box",
   name: "Box",
   props: {
+    tag: "div",
     direction: "column",
     height: "full",
     width: "full",

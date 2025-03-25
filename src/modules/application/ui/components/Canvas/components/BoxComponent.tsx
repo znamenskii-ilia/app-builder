@@ -84,8 +84,10 @@ export const BoxComponent = memo(({ pageChildren, actor }: BoxComponentProps) =>
 
   assertIsBoxComponent(context);
 
+  const Component = context.props.tag || "div";
+
   return (
-    <div
+    <Component
       ref={setNodeRef}
       tabIndex={0}
       onMouseOver={(event) => {
@@ -114,6 +116,6 @@ export const BoxComponent = memo(({ pageChildren, actor }: BoxComponentProps) =>
       style={{ backgroundColor: context.props.background }}
     >
       {context.children.map((childId) => resolveComponent(pageChildren, childId))}
-    </div>
+    </Component>
   );
 });

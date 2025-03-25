@@ -22,6 +22,13 @@ import { BoxComponent } from "../../../../../domain/entities/Component/component
 import { PropertyGrid } from "../PropertyGrid";
 import { Section } from "../Section";
 import { BaseEditor, BaseEditorProps } from "./BaseEditor";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../../../../../../../common/ui/components/select";
 
 type BoxEditorProps = BaseEditorProps<BoxComponent> & {
   onComponentChange: (component: BoxComponent) => void;
@@ -77,8 +84,41 @@ export const BoxEditor = ({
     >
       <Section title="Style">
         <PropertyGrid>
-          <Label htmlFor="column-editor:direction">Direction</Label>
+          <Label htmlFor="column-editor:tag">Tag</Label>
+          <Select
+            value={component.props.tag}
+            onValueChange={(value) =>
+              onComponentChange({
+                ...component,
+                props: {
+                  ...component.props,
+                  tag: value as
+                    | "div"
+                    | "section"
+                    | "article"
+                    | "header"
+                    | "footer"
+                    | "main"
+                    | "aside",
+                },
+              })
+            }
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Select a tag" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="div">Div</SelectItem>
+              <SelectItem value="section">Section</SelectItem>
+              <SelectItem value="article">Article</SelectItem>
+              <SelectItem value="header">Header</SelectItem>
+              <SelectItem value="footer">Footer</SelectItem>
+              <SelectItem value="main">Main</SelectItem>
+              <SelectItem value="aside">Aside</SelectItem>
+            </SelectContent>
+          </Select>
 
+          <Label htmlFor="column-editor:direction">Direction</Label>
           <ToggleGroup
             type="single"
             value={component.props.direction}
