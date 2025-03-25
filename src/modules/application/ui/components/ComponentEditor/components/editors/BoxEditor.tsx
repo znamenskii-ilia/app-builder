@@ -104,7 +104,7 @@ export const BoxEditor = ({
               })
             }
           >
-            <SelectTrigger>
+            <SelectTrigger size="sm">
               <SelectValue placeholder="Select a tag" />
             </SelectTrigger>
             <SelectContent>

@@ -5,7 +5,7 @@ type PropertyGridProps = PropsWithChildren;
 
 const makeStyles = tv({
   slots: {
-    base: "grid grid-cols-[70px_1fr] auto-rows-[30px] gap-2",
+    base: "grid grid-cols-[70px_1fr] auto-rows-[32px] gap-2",
   },
 });
 
