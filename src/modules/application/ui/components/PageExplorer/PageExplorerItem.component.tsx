@@ -1,9 +1,14 @@
+import { useDndContext, useDraggable } from "@dnd-kit/core";
 import { tv } from "tailwind-variants";
 import { ComponentType } from "../../../domain/entities/Component/valueObjects/ComponentType";
 import { ComponentIcon } from "../ComponentIcon/ComponentIcon";
+import { PageExplorerBottomDropLine } from "./PageExplorerBottomDropLine";
+import { PageExplorerDropOn } from "./PageExplorerDropOn";
+import { PageExplorerTopDropLine } from "./PageExplorerTopDropLine";
 
 export type PageExplorerItemProps = {
   children: React.ReactNode;
+  componentId: string;
   componentName: string;
   componentType: ComponentType;
   level: number;
@@ -15,12 +20,22 @@ export type PageExplorerItemProps = {
 
 const makeStyles = tv({
   slots: {
-    base: "",
-    name: "flex items-center gap-1 px-2 py-1 cursor-pointer transition-colors text-sm hover:bg-zinc-200",
+    base: "relative",
+    name: "relative flex items-center gap-1 px-2 py-1 cursor-pointer transition-colors text-sm",
   },
   variants: {
     isSelected: {
-      true: { name: "bg-zinc-400 text-white hover:bg-zinc-500", icon: "stroke-white" },
+      true: {
+        name: "bg-zinc-400 text-white hover:bg-zinc-500",
+        icon: "stroke-white",
+      },
+    },
+    isDndActive: {
+      true: { name: "" },
+      false: { name: "hover:bg-zinc-300" },
+    },
+    isDragging: {
+      true: { name: "z-1000" },
     },
     level: {
       0: { name: "pl-2" },
@@ -46,6 +61,7 @@ const makeStyles = tv({
 
 export const PageExplorerItem = ({
   children,
+  componentId,
   componentName,
   componentType,
   level,
@@ -54,8 +70,26 @@ export const PageExplorerItem = ({
   onHoverLeave,
   onSelect,
 }: PageExplorerItemProps) => {
+  const isRootBox = componentType === "Box" && level === 0;
+  const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
+    id: componentId,
+    data: {
+      componentType,
+    },
+    disabled: isRootBox,
+  });
+  const dnd = useDndContext();
+
+  const style = transform
+    ? {
+        transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
+      }
+    : undefined;
+
   const styles = makeStyles({
     isSelected,
+    isDndActive: Boolean(dnd.active),
+    isDragging: isDragging,
     level: level as 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16,
   });
 
@@ -63,13 +97,31 @@ export const PageExplorerItem = ({
     <div className={styles.base()}>
       <div
         className={styles.name()}
-        tabIndex={0}
-        onMouseOver={onHoverEnter}
-        onMouseOut={onHoverLeave}
+        ref={setNodeRef}
+        style={style}
+        {...listeners}
+        {...attributes}
+        onMouseOver={() => {
+          if (dnd.active) return;
+          onHoverEnter();
+        }}
+        onMouseOut={() => {
+          if (dnd.active) return;
+          onHoverLeave();
+        }}
         onClick={onSelect}
       >
         <ComponentIcon componentType={componentType} />
         {componentName}
+
+        {/* Primitive components can be dropped on a box */}
+        {componentType === "Box" && (
+          <PageExplorerDropOn componentId={componentId} isHidden={isDragging} />
+        )}
+        {!isRootBox && <PageExplorerTopDropLine componentId={componentId} isHidden={isDragging} />}
+        {!isRootBox && (
+          <PageExplorerBottomDropLine componentId={componentId} isHidden={isDragging} />
+        )}
       </div>
 
       {children && <div>{children}</div>}

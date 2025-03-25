@@ -25,17 +25,61 @@ export const componentLogic = setup({
     UNSELECT: {
       target: ".idle",
     },
-    ADD_COMPONENT: {
-      actions: assign(({ context, event }) => ({
-        children: [...context.children, event.componentId],
-      })),
+    ADD_CHILD: {
+      actions: assign(({ context, event }) => {
+        const { componentId, targetComponentId, position = "after" } = event;
+
+        if (targetComponentId) {
+          const targetComponentIndex = context.children.indexOf(targetComponentId);
+
+          if (targetComponentIndex === -1) {
+            if (position === "before") {
+              return {
+                children: [...context.children, componentId],
+              };
+            }
+
+            return {
+              children: [...context.children, componentId],
+            };
+          }
+
+          if (position === "before") {
+            return {
+              children: [
+                ...context.children.slice(0, targetComponentIndex),
+                componentId,
+                ...context.children.slice(targetComponentIndex),
+              ],
+            };
+          }
+
+          return {
+            children: [
+              ...context.children.slice(0, targetComponentIndex + 1),
+              componentId,
+              ...context.children.slice(targetComponentIndex + 1),
+            ],
+          };
+        }
+
+        if (position === "before") {
+          return {
+            children: [componentId, ...context.children],
+          };
+        }
+
+        return {
+          children: [...context.children, componentId],
+        };
+      }),
     },
   },
   states: {
     idle: {
       on: {
         HOVER_ENTER: { target: "hover" },
-        DELETE_COMPONENT: {
+        DELETE_CHILD: {
           actions: assign(({ context, event }) => ({
             children: context.children.filter((id) => id !== event.componentId),
           })),

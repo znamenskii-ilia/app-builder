@@ -23,7 +23,6 @@ export const pageLogic = setup({
   actors: {
     loadPage: fromPromise(async ({ input }: { input: { pageId: string } }) => {
       await new Promise((resolve) => setTimeout(resolve, 0));
-
       const components: Record<string, Component> = {
         "box-1": {
           id: "box-1",
@@ -174,6 +173,59 @@ export const pageLogic = setup({
         },
       };
 
+      // const components: Record<string, Component> = {
+      //   "box-1": {
+      //     id: "box-1",
+      //     component: "Box",
+      //     name: "Root",
+      //     props: {
+      //       height: "full",
+      //       width: "full",
+      //       direction: "column",
+      //       align: "stretch",
+      //       justify: "start",
+      //       gap: 2,
+      //       padding: 0,
+      //       background: "white",
+      //       border: 0,
+      //     },
+      //     children: ["heading-2", "text-bio-1", "text-bio-2"],
+      //   },
+      //   "heading-2": {
+      //     id: "heading-2",
+      //     component: "Heading",
+      //     name: "AboutMe",
+      //     props: {
+      //       text: "About me",
+      //       level: 2,
+      //       align: "left",
+      //       color: "black",
+      //     },
+      //     children: [],
+      //   },
+      //   "text-bio-1": {
+      //     id: "text-bio-1",
+      //     component: "Text",
+      //     name: "Bio",
+      //     props: {
+      //       text: "My name is Antony. I'm 33 years old. I've been working in IT (information technology) for a long time. Pretty good at software development, researching and overtiming. Very inspired by challenging math in tasks. But actually, lately I've been coding less and talking more. Probably, this is some kind of bell.",
+      //       align: "left",
+      //       color: "black",
+      //     },
+      //     children: [],
+      //   },
+      //   "text-bio-2": {
+      //     id: "text-bio-2",
+      //     component: "Text",
+      //     name: "Bio2",
+      //     props: {
+      //       text: "My name is Antony. I'm 33 years old. I've been working in IT (information technology) for a long time. Pretty good at software development, researching and overtiming. Very inspired by challenging math in tasks. But actually, lately I've been coding less and talking more. Probably, this is some kind of bell.",
+      //       align: "left",
+      //       color: "black",
+      //     },
+      //     children: [],
+      //   },
+      // };
       const page: Page = {
         id: input.pageId,
         applicationId: "1",
@@ -296,7 +348,7 @@ export const pageLogic = setup({
               const newComponent = resolveComponent();
 
               context.page?.children[event.targetComponentId].send({
-                type: "ADD_COMPONENT",
+                type: "ADD_CHILD",
                 componentId: newComponent.id,
               });
 
@@ -313,6 +365,73 @@ export const pageLogic = setup({
             }),
           ],
         },
+        MOVE_COMPONENT: {
+          actions: assign(({ context, event }) => {
+            const { page } = context;
+            const { componentId, targetComponentId, position } = event;
+
+            if (!page) return context;
+
+            console.log("Page [MOVE_COMPONENT]", {
+              componentId: componentId,
+              targetComponentId: targetComponentId,
+              position: position,
+            });
+
+            // Component can't be moved to itself or next to itself
+            if (componentId === targetComponentId) return context;
+
+            const componentParentId = Object.values(context.page?.children ?? {})
+              .find((actor) => actor.getSnapshot().context.children.includes(componentId))
+              ?.getSnapshot().context.id;
+
+            // Component have to be inside a parent
+            // The only component without a parent is the root component
+            // And it can't be moved
+            if (!componentParentId) return context;
+
+            if (position === "inside") {
+              const componentType =
+                page.children[targetComponentId].getSnapshot().context.component;
+
+              // Component can only be moved only inside a box
+              if (componentType !== "Box") return context;
+
+              // TODO: Something this event is not being triggered. Figure out why.
+              page.children[componentParentId].send({
+                type: "DELETE_CHILD",
+                componentId,
+              });
+
+              page.children[targetComponentId].send({
+                type: "ADD_CHILD",
+                componentId,
+              });
+
+              return context;
+            }
+
+            const targetComponentParentId = Object.values(context.page?.children ?? {})
+              .find((actor) => actor.getSnapshot().context.children.includes(targetComponentId))
+              ?.getSnapshot().context.id;
+
+            if (!targetComponentParentId) return context;
+
+            page.children[componentParentId].send({
+              type: "DELETE_CHILD",
+              componentId,
+            });
+
+            page.children[targetComponentParentId].send({
+              type: "ADD_CHILD",
+              componentId,
+              targetComponentId,
+              position,
+            });
+
+            return context;
+          }),
+        },
         COMPONENT_DELETED: {
           actions: assign(({ context, event }) => {
             const { page } = context;
@@ -327,7 +446,7 @@ export const pageLogic = setup({
               event.componentIds.forEach((id) => {
                 if (actor.getSnapshot().context.id !== id) {
                   actor.send({
-                    type: "DELETE_COMPONENT",
+                    type: "DELETE_CHILD",
                     componentId: id,
                   });
                 }

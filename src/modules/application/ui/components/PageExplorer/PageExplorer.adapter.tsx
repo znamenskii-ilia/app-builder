@@ -1,3 +1,5 @@
+import { DndContext, DragEndEvent, MouseSensor, useSensor, useSensors } from "@dnd-kit/core";
+import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import { useSelector } from "@xstate/react";
 import { memo } from "react";
 import { ComponentActor } from "../../../interactors/component";
@@ -10,11 +12,13 @@ const PageExplorerItemAdapter = memo(
     const isSelected = useSelector(actor, (state) => state.matches("selected"));
     const pageChildren = useSelector(pageActor, (state) => state.context.page?.children || {});
     const componentChildrenIds = useSelector(actor, (state) => state.context.children);
+    const componentId = useSelector(actor, (state) => state.context.id);
     const componentName = useSelector(actor, (state) => state.context.name);
     const componentType = useSelector(actor, (state) => state.context.component);
 
     return (
       <PageExplorerItem
+        componentId={componentId}
         componentName={componentName}
         componentType={componentType}
         level={level}
@@ -37,16 +41,41 @@ const PageExplorerItemAdapter = memo(
 );
 
 export const PageExplorerAdapter = memo(({ pageActor }: PageExplorerAdapterProps) => {
+  const mouseSensor = useSensor(MouseSensor, {
+    // Require the mouse to move by 10 pixels before activating
+    activationConstraint: {
+      distance: 5,
+    },
+  });
+  const sensors = useSensors(mouseSensor);
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    if (!event.over) return;
+
+    const componentId = event.active.id;
+    const targetComponentId = event.over.data.current?.componentId;
+    const position = event.over.data.current?.position;
+
+    pageActor.send({
+      type: "MOVE_COMPONENT",
+      componentId: componentId as string,
+      targetComponentId,
+      position,
+    });
+  };
+
   return (
-    <PageExplorer>
-      {iteratePage(pageActor, (actor) => (
-        <PageExplorerItemAdapter
-          pageActor={pageActor}
-          actor={actor}
-          level={0}
-          key={actor.getSnapshot().context.id}
-        />
-      ))}
-    </PageExplorer>
+    <DndContext onDragEnd={handleDragEnd} modifiers={[restrictToVerticalAxis]} sensors={sensors}>
+      <PageExplorer>
+        {iteratePage(pageActor, (actor) => (
+          <PageExplorerItemAdapter
+            pageActor={pageActor}
+            actor={actor}
+            level={0}
+            key={actor.getSnapshot().context.id}
+          />
+        ))}
+      </PageExplorer>
+    </DndContext>
   );
 });

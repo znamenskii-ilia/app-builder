@@ -46,6 +46,8 @@ function PagePage() {
   );
   const pageJson = useSelector(pageActor[2], selectToJson);
 
+  console.info(pageJson);
+
   useEffect(() => {
     if (pageActor[0].context.pageId !== entityId) {
       pageActor[1]({ type: "CHANGE_PAGE", pageId: entityId });
@@ -81,9 +83,12 @@ function PagePage() {
   };
 
   return (
-    <DndContext modifiers={[snapCenterToCursor]} onDragEnd={handleDragEnd}>
+    <DndContext
+      // modifiers={[snapCenterToCursor]}
+      onDragEnd={handleDragEnd}
+    >
       <div className="flex flex-1">
-        <div className="w-[200px] border-r border-gray-200 py-1">
+        <div className="w-[270px] border-r border-gray-200 py-1">
           <PageExplorerAdapter pageActor={pageActor[2]} />
         </div>
 
@@ -91,7 +96,7 @@ function PagePage() {
           <CanvasAdapter pageActor={pageActor[2]} />
         </div>
 
-        <div className="w-[20%] p-2 min-w-[220px] max-w-[270px] border-l border-gray-200 ">
+        <div className="p-2 w-[270px] border-l border-gray-200 ">
           {selectedComponent ? (
             <ComponentEditorAdapter pageActor={pageActor[2]} />
           ) : (

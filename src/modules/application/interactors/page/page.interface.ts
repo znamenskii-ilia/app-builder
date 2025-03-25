@@ -27,6 +27,12 @@ export type PageEvents =
       type: "DELETE_COMPONENT";
       componentId: string;
     }
+  | {
+      type: "MOVE_COMPONENT";
+      componentId: string;
+      targetComponentId: string;
+      position: "before" | "after" | "inside";
+    }
   // NOTIFICATIONS
   | {
       type: "CHILD_SELECTED";

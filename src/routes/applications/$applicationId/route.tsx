@@ -47,13 +47,13 @@ function ApplicationPage() {
 
   return (
     <div className="flex w-full flex-1">
-      <div className="border-r border-gray-200 overflow-auto w-[250px]">
+      {/* <div className="border-r border-gray-200 overflow-auto w-[250px]">
         <div className="p-3">{applicationEditor.context.application?.name}</div>
         <AppExplorerAdapter
           selectedEntityId={entityId}
           applicationEditorActor={applicationEditorActor}
         />
-      </div>
+      </div> */}
       <div className="flex flex-col flex-1 bg-gray-50">
         {/* <WorkareaTabsList>
           {openEntities.map((entity) => (

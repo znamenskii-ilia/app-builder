@@ -14,5 +14,10 @@ export type ComponentEvents =
   | { type: "RENAME"; name: string }
   | { type: "UPDATE"; component: Component }
   | { type: "DELETE" }
-  | { type: "ADD_COMPONENT"; componentId: string }
-  | { type: "DELETE_COMPONENT"; componentId: string };
+  | {
+      type: "ADD_CHILD";
+      componentId: string;
+      targetComponentId?: string;
+      position?: "before" | "after";
+    }
+  | { type: "DELETE_CHILD"; componentId: string };

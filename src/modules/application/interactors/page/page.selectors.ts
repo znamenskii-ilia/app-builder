@@ -17,18 +17,20 @@ export const selectSelectedComponent = memoizeOne(
 
 export const selectToJson = memoizeOne((pageContext: SnapshotFrom<typeof pageLogic>): string => {
   const { page } = pageContext.context;
-  const json: any = {};
 
   if (!page) {
     return {} as any;
   }
 
-  page.childrenOrder.forEach((id) => {
-    json[id] = {
-      id,
-      component: page.children[id].getSnapshot().context.component,
+  const componentToJson = (component: ComponentActor): any => {
+    return {
+      id: component.getSnapshot().context.id,
+      component: component.getSnapshot().context.component,
+      children: component.getSnapshot().context.children,
     };
-  });
+  };
+
+  const json = Object.values(page.children).map(componentToJson);
 
   return JSON.stringify(json, null, 2);
 });
