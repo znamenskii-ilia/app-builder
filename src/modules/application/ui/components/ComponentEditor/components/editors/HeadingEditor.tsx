@@ -12,7 +12,11 @@ import {
   ToggleGroup,
   ToggleGroupItem,
 } from "../../../../../../../common/ui/components/toggle-group";
-import { HeadingComponent } from "../../../../../domain/entities/Component/components";
+import {
+  HeadingComponent,
+  HeadingComponentLevel,
+  HeadingComponentMargin,
+} from "../../../../../domain/entities/Component/components";
 import { PropertyGrid } from "../PropertyGrid";
 import { Section } from "../Section";
 import { BaseEditor, BaseEditorProps } from "./BaseEditor";
@@ -41,7 +45,7 @@ export const HeadingEditor = ({
             onValueChange={(value) =>
               onComponentChange({
                 ...component,
-                props: { ...component.props, level: parseInt(value) as 1 | 2 | 3 | 4 | 5 | 6 },
+                props: { ...component.props, level: parseInt(value) as HeadingComponentLevel },
               })
             }
           >
@@ -97,6 +101,78 @@ export const HeadingEditor = ({
               <AlignRight className="w-4 h-4" />
             </ToggleGroupItem>
           </ToggleGroup>
+
+          <Label htmlFor="column-editor:marginTop">Margin Top</Label>
+          <Input
+            id="column-editor:marginTop"
+            type="number"
+            min={0}
+            max={6}
+            value={component.props.marginTop}
+            onChange={(e) =>
+              onComponentChange({
+                ...component,
+                props: {
+                  ...component.props,
+                  marginTop: parseInt(e.target.value) as HeadingComponentMargin,
+                },
+              })
+            }
+          />
+
+          <Label htmlFor="column-editor:marginRight">Margin Right</Label>
+          <Input
+            id="column-editor:marginRight"
+            type="number"
+            min={0}
+            max={6}
+            value={component.props.marginRight}
+            onChange={(e) =>
+              onComponentChange({
+                ...component,
+                props: {
+                  ...component.props,
+                  marginRight: parseInt(e.target.value) as HeadingComponentMargin,
+                },
+              })
+            }
+          />
+
+          <Label htmlFor="column-editor:marginBottom">Margin Bottom</Label>
+          <Input
+            id="column-editor:marginBottom"
+            type="number"
+            min={0}
+            max={6}
+            value={component.props.marginBottom}
+            onChange={(e) =>
+              onComponentChange({
+                ...component,
+                props: {
+                  ...component.props,
+                  marginBottom: parseInt(e.target.value) as HeadingComponentMargin,
+                },
+              })
+            }
+          />
+
+          <Label htmlFor="column-editor:marginLeft">Margin Left</Label>
+          <Input
+            id="column-editor:marginLeft"
+            type="number"
+            min={0}
+            max={6}
+            value={component.props.marginLeft}
+            onChange={(e) =>
+              onComponentChange({
+                ...component,
+                props: {
+                  ...component.props,
+                  marginLeft: parseInt(e.target.value) as HeadingComponentMargin,
+                },
+              })
+            }
+          />
 
           <Label htmlFor="column-editor:color">Color</Label>
           <Input

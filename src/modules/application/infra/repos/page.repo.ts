@@ -2,7 +2,7 @@ import { Component, Page } from "../../domain/entities";
 import { PageRepo } from "./type";
 
 const loadPage = async (pageId: string): Promise<Page> => {
-  await new Promise((resolve) => setTimeout(resolve, 200));
+  await new Promise((resolve) => setTimeout(resolve, 0));
   const components: Record<string, Component> = {
     "box-1": {
       id: "box-1",
@@ -11,7 +11,7 @@ const loadPage = async (pageId: string): Promise<Page> => {
       props: {
         tag: "div",
         height: "full",
-        width: "full",
+        widthType: "full",
         direction: "column",
         align: "stretch",
         justify: "start",
@@ -29,7 +29,7 @@ const loadPage = async (pageId: string): Promise<Page> => {
       props: {
         tag: "header",
         height: "full",
-        width: "full",
+        widthType: "full",
         direction: "row",
         align: "stretch",
         justify: "space-between",
@@ -75,7 +75,7 @@ const loadPage = async (pageId: string): Promise<Page> => {
       props: {
         tag: "main",
         height: "full",
-        width: "full",
+        widthType: "full",
         direction: "row",
         align: "stretch",
         justify: "start",
@@ -93,7 +93,7 @@ const loadPage = async (pageId: string): Promise<Page> => {
       props: {
         tag: "aside",
         height: "full",
-        width: "full",
+        widthType: "full",
         direction: "column",
         align: "stretch",
         justify: "start",
@@ -122,7 +122,7 @@ const loadPage = async (pageId: string): Promise<Page> => {
       props: {
         tag: "section",
         height: "full",
-        width: "full",
+        widthType: "full",
         direction: "column",
         align: "stretch",
         justify: "start",

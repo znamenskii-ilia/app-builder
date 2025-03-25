@@ -1,12 +1,12 @@
 import { ActorRefFromLogic, assign, enqueueActions, fromPromise, setup } from "xstate";
-import { Component, Page } from "../../domain/entities";
+import { Component, Page } from "../../../domain/entities";
 import {
   newBoxComponent,
   newButtonComponent,
   newHeadingComponent,
   newImageComponent,
   newTextComponent,
-} from "../../domain/entities/Component/components";
+} from "../../../domain/entities/Component/components";
 import { ComponentActor, componentLogic } from "../component";
 import type { PageContext, PageEvents } from "./page.interface";
 
@@ -36,6 +36,10 @@ export const pageLogic = setup({
 
       return page;
     }),
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    savePage: fromPromise(async (_input: { input: { page: Page } }) => {
+      return;
+    }),
   },
 }).createMachine({
   id: "pageSchema",
@@ -51,6 +55,9 @@ export const pageLogic = setup({
     CHANGE_PAGE: {
       actions: [assign(({ event }) => ({ pageId: event.pageId }))],
       target: ".loadingPage",
+    },
+    SAVE: {
+      target: ".savingPage",
     },
   },
   states: {
@@ -267,6 +274,37 @@ export const pageLogic = setup({
               },
             };
           }),
+        },
+      },
+    },
+    savingPage: {
+      invoke: {
+        src: "savePage",
+        input: ({ context }) => {
+          const { page } = context;
+
+          if (!page) {
+            throw new Error("Page is not loaded");
+          }
+
+          const getContext = (actor: ComponentActor) => actor.getSnapshot().context;
+
+          return {
+            page: {
+              ...page,
+              children: Object.entries(page.children).reduce(
+                (acc, [id, actor]) => {
+                  acc[id] = getContext(actor);
+
+                  return acc;
+                },
+                {} as Record<string, Component>,
+              ),
+            },
+          };
+        },
+        onDone: {
+          target: "pageLoaded",
         },
       },
     },

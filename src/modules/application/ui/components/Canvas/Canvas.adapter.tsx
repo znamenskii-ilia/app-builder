@@ -1,6 +1,6 @@
 import { useSelector } from "@xstate/react";
 import { PropsWithChildren } from "react";
-import { PageActor } from "../../../interactors/page";
+import { PageActor } from "../../../application/interactors/page/page.logic";
 import { Canvas } from "./Canvas";
 import { resolveComponent } from "./utils";
 

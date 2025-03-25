@@ -1,5 +1,5 @@
 import { assign, sendParent, setup } from "xstate";
-import { Component } from "../../domain/entities";
+import { Component } from "../../../domain/entities";
 import { ComponentContext, ComponentEvents } from "./component.interface";
 
 export const componentLogic = setup({

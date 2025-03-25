@@ -10,7 +10,8 @@ export type BoxComponentTag =
   | "main"
   | "aside";
 export type BoxComponentDirection = "row" | "column";
-export type BoxComponentWidth = "full" | "fit-content" | "custom";
+export type BoxComponentWidthType = "full" | "fit-content" | "custom";
+export type BoxComponentWidthUnit = "px" | "%";
 export type BoxComponentHeight = "full" | "fit-content" | "custom";
 export type BoxComponentAlign = "start" | "center" | "end" | "stretch";
 export type BoxComponentJustify = "start" | "center" | "end" | "space-between" | "space-around";
@@ -21,7 +22,10 @@ export type BoxComponent = BaseComponent & {
     tag: BoxComponentTag;
     direction: BoxComponentDirection;
     height: BoxComponentHeight;
-    width: BoxComponentWidth;
+    width: {
+      unit: BoxComponentWidthUnit;
+      value: number;
+    };
     align: BoxComponentAlign;
     justify: BoxComponentJustify;
     gap: 0 | 1 | 2 | 3 | 4 | 5 | 6;
@@ -39,13 +43,16 @@ export const newBoxComponent = (id: string): BoxComponent => ({
     tag: "div",
     direction: "column",
     height: "full",
-    width: "full",
+    width: {
+      unit: "px",
+      value: 0,
+    },
     align: "stretch",
     justify: "start",
-    gap: 2,
-    padding: 2,
+    gap: 0,
+    padding: 0,
     background: "white",
-    border: 1,
+    border: 0,
   },
   children: [],
 });

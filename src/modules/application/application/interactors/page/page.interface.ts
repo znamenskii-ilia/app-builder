@@ -1,4 +1,4 @@
-import { Component, Page } from "../../domain/entities";
+import { Component, Page } from "../../../domain/entities";
 import { ComponentActor } from "../component/component.interface";
 
 export type PageContext = {

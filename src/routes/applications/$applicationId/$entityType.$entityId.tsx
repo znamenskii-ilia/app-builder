@@ -1,20 +1,18 @@
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
-import { snapCenterToCursor } from "@dnd-kit/modifiers";
 import { createFileRoute } from "@tanstack/react-router";
 import { useActor, useSelector } from "@xstate/react";
 import { useEffect } from "react";
+import { Button } from "../../../common/ui/components/button";
 import {
   pageLogic,
   selectSelectedComponent,
   selectToJson,
-} from "../../../modules/application/interactors/page";
+} from "../../../modules/application/application/interactors/page";
 import { Canvas } from "../../../modules/application/ui/components/Canvas";
 import { CanvasAdapter } from "../../../modules/application/ui/components/Canvas/Canvas.adapter";
 import { ComponentEditorAdapter } from "../../../modules/application/ui/components/ComponentEditor/ComponentEditor.adapter";
 import { ComponentsLibraryAdapter } from "../../../modules/application/ui/components/ComponentsLibrary/ComponentsLibrary.adapter";
 import { PageExplorerAdapter } from "../../../modules/application/ui/components/PageExplorer/PageExplorer.adapter";
-import { send } from "process";
-import { pageMemoryRepo } from "../../../modules/application/infrastructure/repos/page.repo";
 
 export const Route = createFileRoute("/applications/$applicationId/$entityType/$entityId")({
   component: EntityPage,
@@ -49,8 +47,6 @@ function PagePage() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const pageJson = useSelector(pageActor[2], selectToJson);
 
-  // console.info(pageJson);
-
   const handleDragEnd = (event: DragEndEvent) => {
     if (!event.over) return;
 
@@ -66,9 +62,7 @@ function PagePage() {
       pageActor[1]({ type: "RESET_SELECTION" });
     }
 
-    console.log(event.key, selectedComponent);
-
-    if (event.key === "Backspace" && selectedComponent) {
+    if (event.key === "Backspace" && (event.metaKey || event.ctrlKey) && selectedComponent) {
       selectedComponent.send({ type: "DELETE" });
     }
   };
@@ -124,6 +118,16 @@ function PagePage() {
         </div>
 
         <div className="p-2 w-[270px] border-l border-gray-200 ">
+          <div className="flex items-center gap-2">
+            <Button
+              onClick={() => pageActor[1]({ type: "SAVE" })}
+              size="sm"
+              color="primary"
+              isLoading={pageActor[0].matches("savingPage")}
+            >
+              Save
+            </Button>
+          </div>
           {selectedComponent ? (
             <ComponentEditorAdapter pageActor={pageActor[2]} />
           ) : (

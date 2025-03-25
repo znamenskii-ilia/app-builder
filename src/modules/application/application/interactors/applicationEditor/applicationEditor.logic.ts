@@ -4,7 +4,7 @@ import {
   ApplicationEditorEvents,
   ApplicationEditorInput,
 } from "./applicationEditor.interface";
-import { Application } from "../../domain/entities/Application";
+import { Application } from "../../../domain/entities/Application/Application";
 
 export const applicationEditorLogic = setup({
   types: {

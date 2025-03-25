@@ -2,8 +2,9 @@ import { DndContext, DragEndEvent, MouseSensor, useSensor, useSensors } from "@d
 import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import { useSelector } from "@xstate/react";
 import { memo } from "react";
-import { ComponentActor } from "../../../interactors/component";
-import { iteratePage, PageActor, PageExplorerAdapterProps } from "../../../interactors/page";
+import { ComponentActor } from "../../../application/interactors/component";
+import { iteratePage, PageExplorerAdapterProps } from "../../../application/interactors/page";
+import { PageActor } from "../../../application/interactors/page/page.logic";
 import { PageExplorer } from "./PageExplorer.component";
 import { PageExplorerItem } from "./PageExplorerItem.component";
 

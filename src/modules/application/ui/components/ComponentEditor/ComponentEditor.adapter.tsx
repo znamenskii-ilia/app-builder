@@ -1,5 +1,6 @@
 import { useSelector } from "@xstate/react";
-import { selectSelectedComponent, PageActor } from "../../../interactors/page";
+import { selectSelectedComponent } from "../../../application/interactors/page";
+import { PageActor } from "../../../application/interactors/page/page.logic";
 import { ComponentEditor } from "./ComponentEditor.component";
 
 type ComponentEditorAdapterProps = {

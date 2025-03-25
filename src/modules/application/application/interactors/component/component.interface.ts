@@ -1,5 +1,5 @@
 import { ActorRefFromLogic } from "xstate";
-import { Component } from "../../domain/entities";
+import { Component } from "../../../domain/entities";
 import { componentLogic } from "./component.logic";
 
 export type ComponentActor = ActorRefFromLogic<typeof componentLogic>;
