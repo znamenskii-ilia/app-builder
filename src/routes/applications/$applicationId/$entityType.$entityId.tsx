@@ -14,6 +14,7 @@ import { ComponentEditorAdapter } from "../../../modules/application/ui/componen
 import { ComponentsLibraryAdapter } from "../../../modules/application/ui/components/ComponentsLibrary/ComponentsLibrary.adapter";
 import { PageExplorerAdapter } from "../../../modules/application/ui/components/PageExplorer/PageExplorer.adapter";
 import { send } from "process";
+import { pageMemoryRepo } from "../../../modules/application/infrastructure/repos/page.repo";
 
 export const Route = createFileRoute("/applications/$applicationId/$entityType/$entityId")({
   component: EntityPage,
