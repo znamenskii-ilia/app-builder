@@ -13,6 +13,7 @@ import { CanvasAdapter } from "../../../modules/application/ui/components/Canvas
 import { ComponentEditorAdapter } from "../../../modules/application/ui/components/ComponentEditor/ComponentEditor.adapter";
 import { ComponentsLibraryAdapter } from "../../../modules/application/ui/components/ComponentsLibrary/ComponentsLibrary.adapter";
 import { PageExplorerAdapter } from "../../../modules/application/ui/components/PageExplorer/PageExplorer.adapter";
+import { send } from "process";
 
 export const Route = createFileRoute("/applications/$applicationId/$entityType/$entityId")({
   component: EntityPage,
@@ -44,16 +45,51 @@ function PagePage() {
   const selectedComponent = useSelector(pageActor[2], (state) =>
     state.context.page ? selectSelectedComponent(state) : null,
   );
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const pageJson = useSelector(pageActor[2], selectToJson);
 
-  console.info(pageJson);
+  // console.info(pageJson);
 
+  const handleDragEnd = (event: DragEndEvent) => {
+    if (!event.over) return;
+
+    pageActor[1]({
+      type: "ADD_COMPONENT",
+      componentType: event.active.id as "Button" | "Heading" | "Text",
+      targetComponentId: event.over.id as string,
+    });
+  };
+
+  const handleWindowKeyDown = (event: KeyboardEvent) => {
+    if (event.key === "Escape") {
+      pageActor[1]({ type: "RESET_SELECTION" });
+    }
+
+    console.log(event.key, selectedComponent);
+
+    if (event.key === "Backspace" && selectedComponent) {
+      selectedComponent.send({ type: "DELETE" });
+    }
+  };
+
+  // EFFECTS
   useEffect(() => {
     if (pageActor[0].context.pageId !== entityId) {
       pageActor[1]({ type: "CHANGE_PAGE", pageId: entityId });
     }
   }, [pageActor, entityId]);
 
+  useEffect(() => {
+    const abortController = new AbortController();
+
+    window.addEventListener("keydown", handleWindowKeyDown, { signal: abortController.signal });
+
+    return () => {
+      abortController.abort();
+    };
+  }, [selectedComponent]);
+
+  // RENDER
   if (pageActor[0].matches("loadingPage")) {
     return (
       <div className="flex flex-1">
@@ -71,16 +107,6 @@ function PagePage() {
   if (!page) {
     return <div>Page not found</div>;
   }
-  // console.log(pageJson);
-  const handleDragEnd = (event: DragEndEvent) => {
-    if (!event.over) return;
-
-    pageActor[1]({
-      type: "ADD_COMPONENT",
-      componentType: event.active.id as "Button" | "Heading" | "Text",
-      targetComponentId: event.over.id as string,
-    });
-  };
 
   return (
     <DndContext

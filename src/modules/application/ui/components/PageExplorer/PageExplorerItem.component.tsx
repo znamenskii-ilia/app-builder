@@ -21,7 +21,7 @@ export type PageExplorerItemProps = {
 const makeStyles = tv({
   slots: {
     base: "relative",
-    name: "relative flex items-center gap-1 px-2 py-1 cursor-pointer transition-colors text-sm",
+    name: "relative flex items-center gap-1 px-2 py-1 cursor-pointer transition-colors text-sm select-none",
   },
   variants: {
     isSelected: {
