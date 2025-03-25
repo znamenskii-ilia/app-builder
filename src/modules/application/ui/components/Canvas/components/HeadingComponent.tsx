@@ -43,10 +43,12 @@ export const HeadingComponent = memo(({ actor }: HeadingComponentProps) => {
 
   assertIsHeadingComponent(context);
 
+  const Component = `h${context.props.level}` as const;
+
   const styles = makeStyles({ isSelected, isHovering });
 
   return (
-    <p
+    <Component
       className={styles.base({
         level: context.props.level,
         align: context.props.align,
@@ -66,6 +68,6 @@ export const HeadingComponent = memo(({ actor }: HeadingComponentProps) => {
       }}
     >
       {context.props.text}
-    </p>
+    </Component>
   );
 });
