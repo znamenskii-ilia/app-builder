@@ -1,4 +1,4 @@
-export * from "./page.interface";
+export * from "./page.ports";
 export * from "./page.selectors";
 import { fromPromise } from "xstate";
 import { Page } from "../../../domain/entities";

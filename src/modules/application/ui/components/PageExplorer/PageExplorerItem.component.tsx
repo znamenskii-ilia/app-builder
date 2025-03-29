@@ -13,8 +13,9 @@ export type PageExplorerItemProps = {
   componentType: ComponentType;
   level: number;
   isSelected: boolean;
-  onHoverEnter: () => void;
-  onHoverLeave: () => void;
+  isHighlighted: boolean;
+  onMouseOver: () => void;
+  onMouseOut: () => void;
   onSelect: () => void;
 };
 
@@ -26,13 +27,14 @@ const makeStyles = tv({
   variants: {
     isSelected: {
       true: {
-        name: "bg-zinc-400 text-white hover:bg-zinc-500",
+        name: "bg-zinc-400 text-white",
         icon: "stroke-white",
       },
     },
-    isDndActive: {
-      true: { name: "" },
-      false: { name: "hover:bg-zinc-300" },
+    isHighlighted: {
+      true: {
+        name: "bg-zinc-300",
+      },
     },
     isDragging: {
       true: { name: "z-1000" },
@@ -66,8 +68,9 @@ export const PageExplorerItem = ({
   componentType,
   level,
   isSelected,
-  onHoverEnter,
-  onHoverLeave,
+  isHighlighted,
+  onMouseOver,
+  onMouseOut,
   onSelect,
 }: PageExplorerItemProps) => {
   const isRootBox = componentType === "Box" && level === 0;
@@ -79,7 +82,6 @@ export const PageExplorerItem = ({
     disabled: isRootBox,
   });
   const dnd = useDndContext();
-
   const style = transform
     ? {
         transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
@@ -88,7 +90,7 @@ export const PageExplorerItem = ({
 
   const styles = makeStyles({
     isSelected,
-    isDndActive: Boolean(dnd.active),
+    isHighlighted,
     isDragging: isDragging,
     level: level as 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16,
   });
@@ -103,11 +105,11 @@ export const PageExplorerItem = ({
         {...attributes}
         onMouseOver={() => {
           if (dnd.active) return;
-          onHoverEnter();
+          onMouseOver();
         }}
         onMouseOut={() => {
           if (dnd.active) return;
-          onHoverLeave();
+          onMouseOut();
         }}
         onClick={onSelect}
       >

@@ -1,32 +1,46 @@
 import memoizeOne from "memoize-one";
 import { SnapshotFrom } from "xstate";
-import { ComponentActor } from "../component";
+import { Component, getComponent, getRootComponent, Page } from "../../../domain/entities";
 import { PageActor, pageLogic } from "./page.logic";
 
-export const selectSelectedComponent = memoizeOne(
-  (pageContext: SnapshotFrom<typeof pageLogic>): ComponentActor | undefined => {
-    const { page } = pageContext.context;
+export const selectPageMaybe = (pageSnapshot: SnapshotFrom<typeof pageLogic>): Page | null => {
+  const { page } = pageSnapshot.context;
 
-    if (!page) {
-      throw new Error("Page or selected component id not found");
-    }
+  if (!page) return null;
 
-    return Object.values(page.children).find((actor) => actor.getSnapshot().matches("selected"));
-  },
-);
+  return page;
+};
+
+export const selectComponentMaybe =
+  (componentId: string) =>
+  (pageSnapshot: SnapshotFrom<typeof pageLogic>): Component | null => {
+    const { page } = pageSnapshot.context;
+
+    if (!page) return null;
+
+    return getComponent(page, componentId);
+  };
+
+export const selectRootComponent = (pageSnapshot: SnapshotFrom<typeof pageLogic>): Component => {
+  const { page } = pageSnapshot.context;
+
+  if (!page) throw new Error("Page is not found");
+
+  return getRootComponent(page);
+};
 
 export const selectToJson = memoizeOne((pageContext: SnapshotFrom<typeof pageLogic>): string => {
   const { page } = pageContext.context;
 
   if (!page) {
-    return {} as any;
+    throw new Error("Page is not found");
   }
 
-  const componentToJson = (component: ComponentActor): any => {
+  const componentToJson = (component: Component) => {
     return {
-      id: component.getSnapshot().context.id,
-      component: component.getSnapshot().context.component,
-      children: component.getSnapshot().context.children,
+      id: component.id,
+      component: component,
+      children: component.children,
     };
   };
 
@@ -34,15 +48,6 @@ export const selectToJson = memoizeOne((pageContext: SnapshotFrom<typeof pageLog
 
   return JSON.stringify(json, null, 2);
 });
-
-export const iteratePage = <T>(pageActor: PageActor, fn: (actor: ComponentActor) => T): T[] => {
-  const { context } = pageActor.getSnapshot();
-  const { page } = context;
-
-  if (!page) return [];
-
-  return page.childrenOrder.map((childId) => page.children[childId]).map(fn);
-};
 
 export type PageExplorerAdapterProps = {
   pageActor: PageActor;

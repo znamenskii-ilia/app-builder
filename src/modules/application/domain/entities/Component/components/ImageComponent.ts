@@ -1,5 +1,4 @@
 import { BaseComponent } from "../BaseComponent";
-import { Component } from "../Component";
 
 export type ImageComponentWidth = "full" | "custom";
 
@@ -25,9 +24,3 @@ export const newImageComponent = (id: string): ImageComponent => ({
   },
   children: [],
 });
-
-export function assertIsImageComponent(component: Component): asserts component is ImageComponent {
-  if (component.component !== "Image") {
-    throw new Error("Component is not an Image");
-  }
-}

@@ -1,5 +1,5 @@
 import { useSelector } from "@xstate/react";
-import { selectSelectedComponent } from "../../../application/interactors/page";
+import { selectComponentMaybe } from "../../../application/interactors/page";
 import { PageActor } from "../../../application/interactors/page/page.logic";
 import { ComponentEditor } from "./ComponentEditor.component";
 
@@ -8,31 +8,31 @@ type ComponentEditorAdapterProps = {
 };
 
 export const ComponentEditorAdapter = ({ pageActor }: ComponentEditorAdapterProps) => {
-  const selectedComponent = useSelector(pageActor, selectSelectedComponent);
-  const context = useSelector(selectedComponent, (state) => state?.context);
+  const selectedComponent = useSelector(pageActor, selectComponentMaybe("ywj0exx5dm"));
 
-  if (!selectedComponent || !context) {
+  if (!selectedComponent) {
     return null;
   }
 
   return (
     <ComponentEditor
-      component={context}
+      component={selectedComponent}
       onComponentRename={(name) => {
-        selectedComponent.send({
-          type: "RENAME",
-          name,
-        });
+        // selectedComponent.send({
+        //   type: "RENAME",
+        //   name,
+        // });
       }}
       onComponentChange={(newContext) => {
-        selectedComponent.send({
-          type: "UPDATE",
-          component: newContext,
-        });
+        // selectedComponent.send({
+        //   type: "UPDATE",
+        //   component: newContext,
+        // });
       }}
       onComponentDelete={() => {
-        selectedComponent.send({
-          type: "DELETE",
+        pageActor.send({
+          type: "DELETE_COMPONENT",
+          componentId: selectedComponent.id,
         });
       }}
     />

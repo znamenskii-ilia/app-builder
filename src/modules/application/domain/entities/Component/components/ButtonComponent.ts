@@ -1,6 +1,5 @@
-import type { ComponentEvent } from "../valueObjects/ComponentEvent";
 import type { BaseComponent } from "../BaseComponent";
-import type { Component } from "../Component";
+import type { ComponentEvent } from "../valueObjects/ComponentEvent";
 
 export type ButtonComponentSize = "small" | "medium" | "large";
 export type ButtonComponentVariant = "text" | "contained" | "outlined";
@@ -40,11 +39,3 @@ export const newButtonComponent = (id: string): ButtonComponent => ({
   },
   children: [],
 });
-
-export function assertIsButtonComponent(
-  component: Component,
-): asserts component is ButtonComponent {
-  if (component.component !== "Button") {
-    throw new Error("Invalid component schema");
-  }
-}

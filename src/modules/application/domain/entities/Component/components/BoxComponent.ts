@@ -1,5 +1,4 @@
 import { BaseComponent } from "../BaseComponent";
-import { Component } from "../Component";
 
 export type BoxComponentTag =
   | "div"
@@ -56,9 +55,3 @@ export const newBoxComponent = (id: string): BoxComponent => ({
   },
   children: [],
 });
-
-export function assertIsBoxComponent(component: Component): asserts component is BoxComponent {
-  if (component.component !== "Box") {
-    throw new Error("Invalid component schema");
-  }
-}

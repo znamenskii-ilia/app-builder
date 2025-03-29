@@ -5,9 +5,10 @@ import { useEffect } from "react";
 import { Button } from "../../../common/ui/components/button";
 import {
   pageLogic,
-  selectSelectedComponent,
-  selectToJson,
+  selectComponentMaybe,
+  selectPageMaybe,
 } from "../../../modules/application/application/interactors/page";
+import { pageEditorLogic } from "../../../modules/application/application/interactors/pageEditor/pageEditor.logic";
 import { Canvas } from "../../../modules/application/ui/components/Canvas";
 import { CanvasAdapter } from "../../../modules/application/ui/components/Canvas/Canvas.adapter";
 import { ComponentEditorAdapter } from "../../../modules/application/ui/components/ComponentEditor/ComponentEditor.adapter";
@@ -40,12 +41,19 @@ function PagePage() {
       pageId: entityId,
     },
   });
-  const page = useSelector(pageActor[2], (state) => state.context.page);
+  const pageEditorActor = useActor(pageEditorLogic, {
+    input: {
+      pageId: entityId,
+    },
+  });
+
+  const page = useSelector(pageActor[2], selectPageMaybe);
   const selectedComponent = useSelector(pageActor[2], (state) =>
-    state.context.page ? selectSelectedComponent(state) : null,
+    state.context.page ? selectComponentMaybe("ywj0exx5dm")(state) : null,
   );
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const pageJson = useSelector(pageActor[2], selectToJson);
+
+  // const pageJson = useSelector(pageActor[2], selectToJson);
+  // console.log("pageJson", pageJson);
 
   const handleDragEnd = (event: DragEndEvent) => {
     if (!event.over) return;
@@ -58,12 +66,12 @@ function PagePage() {
   };
 
   const handleWindowKeyDown = (event: KeyboardEvent) => {
-    if (event.key === "Escape") {
-      pageActor[1]({ type: "RESET_SELECTION" });
-    }
+    // if (event.key === "Escape") {
+    //   pageActor[1]({ type: "UNSELECT" });
+    // }
 
     if (event.key === "Backspace" && (event.metaKey || event.ctrlKey) && selectedComponent) {
-      selectedComponent.send({ type: "DELETE" });
+      pageActor[1]({ type: "DELETE_COMPONENT", componentId: selectedComponent.id });
     }
   };
 
@@ -85,7 +93,7 @@ function PagePage() {
   }, [selectedComponent]);
 
   // RENDER
-  if (pageActor[0].matches("loadingPage")) {
+  if (pageActor[0].matches("loading")) {
     return (
       <div className="flex flex-1">
         <div className="w-[200px] border-r border-gray-200 p-2"></div>
@@ -110,11 +118,11 @@ function PagePage() {
     >
       <div className="flex flex-1">
         <div className="w-[270px] border-r border-gray-200 py-1">
-          <PageExplorerAdapter pageActor={pageActor[2]} />
+          <PageExplorerAdapter pageActor={pageActor[2]} pageEditorActor={pageEditorActor[2]} />
         </div>
 
         <div className="flex-1 flex flex-col items-stretch justify-stretch overflow-hidden">
-          <CanvasAdapter pageActor={pageActor[2]} />
+          <CanvasAdapter pageActor={pageActor[2]} pageEditorActor={pageEditorActor[2]} />
         </div>
 
         <div className="p-2 w-[270px] border-l border-gray-200 ">
@@ -123,7 +131,7 @@ function PagePage() {
               onClick={() => pageActor[1]({ type: "SAVE" })}
               size="sm"
               color="primary"
-              isLoading={pageActor[0].matches("savingPage")}
+              // isLoading={pageActor[0].matches("savingPage")}
             >
               Save
             </Button>

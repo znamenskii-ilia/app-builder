@@ -2,38 +2,57 @@ import { DndContext, DragEndEvent, MouseSensor, useSensor, useSensors } from "@d
 import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import { useSelector } from "@xstate/react";
 import { memo } from "react";
-import { ComponentActor } from "../../../application/interactors/component";
-import { iteratePage, PageExplorerAdapterProps } from "../../../application/interactors/page";
+import { selectPageMaybe } from "../../../application/interactors/page";
 import { PageActor } from "../../../application/interactors/page/page.logic";
+import { PageEditorActor } from "../../../application/interactors/pageEditor/pageEditor.logic";
+import { Component, getRootComponent } from "../../../domain/entities";
 import { PageExplorer } from "./PageExplorer.component";
 import { PageExplorerItem } from "./PageExplorerItem.component";
 
+type PageExplorerItemAdapterProps = {
+  pageActor: PageActor;
+  pageEditorActor: PageEditorActor;
+  component: Component;
+  level: number;
+};
+
 const PageExplorerItemAdapter = memo(
-  ({ pageActor, actor, level }: { pageActor: PageActor; actor: ComponentActor; level: number }) => {
-    const isSelected = useSelector(actor, (state) => state.matches("selected"));
-    const pageChildren = useSelector(pageActor, (state) => state.context.page?.children || {});
-    const componentChildrenIds = useSelector(actor, (state) => state.context.children);
-    const componentId = useSelector(actor, (state) => state.context.id);
-    const componentName = useSelector(actor, (state) => state.context.name);
-    const componentType = useSelector(actor, (state) => state.context.component);
+  ({ pageActor, pageEditorActor, component, level }: PageExplorerItemAdapterProps) => {
+    const page = useSelector(pageActor, selectPageMaybe);
+    const selectedComponentId = useSelector(
+      pageEditorActor,
+      (state) => state.context.selectedComponentId,
+    );
+    const highlightedComponentId = useSelector(
+      pageEditorActor,
+      (state) => state.context.highlightedComponentId,
+    );
+
+    if (!page) return null;
 
     return (
       <PageExplorerItem
-        componentId={componentId}
-        componentName={componentName}
-        componentType={componentType}
+        componentId={component.id}
+        componentName={component.name}
+        componentType={component.component}
         level={level}
-        isSelected={isSelected}
-        onHoverEnter={() => actor.send({ type: "HOVER_ENTER" })}
-        onHoverLeave={() => actor.send({ type: "HOVER_LEAVE" })}
-        onSelect={() => actor.send({ type: "SELECT" })}
+        isSelected={selectedComponentId === component.id}
+        isHighlighted={highlightedComponentId === component.id}
+        onMouseOver={() =>
+          pageEditorActor.send({ type: "HIGHLIGHT_COMPONENT", componentId: component.id })
+        }
+        onMouseOut={() => pageEditorActor.send({ type: "HIGHLIGHT_COMPONENT", componentId: null })}
+        onSelect={() =>
+          pageEditorActor.send({ type: "SELECT_COMPONENT", componentId: component.id })
+        }
       >
-        {componentChildrenIds.map((childId) => (
+        {component.children.map((componentId) => (
           <PageExplorerItemAdapter
             pageActor={pageActor}
-            actor={pageChildren[childId]}
+            pageEditorActor={pageEditorActor}
+            component={page.children[componentId]}
             level={(level + 1) as 0 | 1 | 2 | 3 | 4}
-            key={childId}
+            key={componentId}
           />
         ))}
       </PageExplorerItem>
@@ -41,42 +60,46 @@ const PageExplorerItemAdapter = memo(
   },
 );
 
-export const PageExplorerAdapter = memo(({ pageActor }: PageExplorerAdapterProps) => {
-  const mouseSensor = useSensor(MouseSensor, {
-    // Require the mouse to move by 10 pixels before activating
-    activationConstraint: {
-      distance: 5,
-    },
-  });
-  const sensors = useSensors(mouseSensor);
+type PageExplorerAdapterProps = {
+  pageActor: PageActor;
+  pageEditorActor: PageEditorActor;
+};
 
-  const handleDragEnd = (event: DragEndEvent) => {
-    if (!event.over) return;
-
-    const componentId = event.active.id;
-    const targetComponentId = event.over.data.current?.componentId;
-    const position = event.over.data.current?.position;
-
-    pageActor.send({
-      type: "MOVE_COMPONENT",
-      componentId: componentId as string,
-      targetComponentId,
-      position,
+export const PageExplorerAdapter = memo(
+  ({ pageActor, pageEditorActor }: PageExplorerAdapterProps) => {
+    const mouseSensor = useSensor(MouseSensor, {
+      activationConstraint: {
+        distance: 5, // Added to prevent accidental drag and avoid conflicts with click events
+      },
     });
-  };
+    const sensors = useSensors(mouseSensor);
+    const page = useSelector(pageActor, selectPageMaybe);
 
-  return (
-    <DndContext onDragEnd={handleDragEnd} modifiers={[restrictToVerticalAxis]} sensors={sensors}>
-      <PageExplorer>
-        {iteratePage(pageActor, (actor) => (
+    if (!page) return null;
+
+    const handleDragEnd = ({ active, over }: DragEndEvent) => {
+      if (!over) return;
+
+      pageActor.send({
+        type: "MOVE_COMPONENT",
+        componentId: active.id as string,
+        targetComponentId: over.data.current?.componentId,
+        position: over.data.current?.position,
+      });
+    };
+
+    return (
+      <DndContext onDragEnd={handleDragEnd} modifiers={[restrictToVerticalAxis]} sensors={sensors}>
+        <PageExplorer>
           <PageExplorerItemAdapter
             pageActor={pageActor}
-            actor={actor}
+            pageEditorActor={pageEditorActor}
+            component={getRootComponent(page)}
             level={0}
-            key={actor.getSnapshot().context.id}
+            key={getRootComponent(page).id}
           />
-        ))}
-      </PageExplorer>
-    </DndContext>
-  );
-});
+        </PageExplorer>
+      </DndContext>
+    );
+  },
+);
