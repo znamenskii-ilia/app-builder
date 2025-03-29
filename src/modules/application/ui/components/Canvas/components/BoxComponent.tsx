@@ -1,17 +1,18 @@
 import { useDroppable } from "@dnd-kit/core";
-import { useSelector } from "@xstate/react";
 import clsx, { ClassValue } from "clsx";
-import { memo } from "react";
+import { memo, PropsWithChildren } from "react";
 import { twMerge } from "tailwind-merge";
 import { tv } from "tailwind-variants";
-import { assertIsBoxComponent } from "../../../../domain/entities/Component/components";
-import { ComponentActor } from "../../../../interactors/component";
-import { resolveComponent } from "../utils";
+import type { BoxComponent as BoxComponentType } from "../../../../domain";
 
-type BoxComponentProps = {
-  pageChildren: Record<string, ComponentActor>;
-  actor: ComponentActor;
-};
+type BoxComponentProps = PropsWithChildren<{
+  component: BoxComponentType;
+  isSelected: boolean;
+  isHighlighted: boolean;
+  onMouseOver: () => void;
+  onMouseOut: () => void;
+  onClick: () => void;
+}>;
 
 export const cn = (...inputs: ClassValue[]) => {
   return twMerge(clsx(inputs));
@@ -20,7 +21,7 @@ export const cn = (...inputs: ClassValue[]) => {
 const styles = tv({
   base: "flex flex-1 border",
   variants: {
-    isHovering: {
+    isHighlighted: {
       // true: "[&:not(:has(*:hover))]:hover:ring-1 [&:not(:has(*:hover))]:hover:ring-amber-500",
       true: "shadow-[inset_0_0_0_1000px_rgba(245,158,11,0.3)]",
     },
@@ -74,48 +75,53 @@ const styles = tv({
   },
 });
 
-export const BoxComponent = memo(({ pageChildren, actor }: BoxComponentProps) => {
-  const isHovering = useSelector(actor, (state) => state.matches("hover"));
-  const isSelected = useSelector(actor, (state) => state.matches("selected"));
-  const context = useSelector(actor, (state) => state.context);
-  const { isOver, setNodeRef } = useDroppable({
-    id: context.id,
-  });
+export const BoxComponent = memo(
+  ({
+    children,
+    component,
+    isSelected,
+    isHighlighted,
+    onMouseOver,
+    onMouseOut,
+    onClick,
+  }: BoxComponentProps) => {
+    const { isOver, setNodeRef } = useDroppable({
+      id: component.id,
+    });
 
-  assertIsBoxComponent(context);
+    const Component = component.props.tag || "div";
 
-  const Component = context.props.tag || "div";
-
-  return (
-    <Component
-      ref={setNodeRef}
-      tabIndex={0}
-      onMouseOver={(event) => {
-        event.stopPropagation();
-        actor.send({ type: "HOVER_ENTER" });
-      }}
-      onMouseOut={(event) => {
-        event.stopPropagation();
-        actor.send({ type: "HOVER_LEAVE" });
-      }}
-      onClick={(event) => {
-        event.stopPropagation();
-        actor.send({ type: "SELECT" });
-      }}
-      className={styles({
-        isSelected,
-        isHovering,
-        isOver,
-        direction: context.props.direction,
-        align: context.props.align,
-        justify: context.props.justify,
-        padding: context.props.padding,
-        gap: context.props.gap,
-        border: context.props.border,
-      })}
-      style={{ backgroundColor: context.props.background }}
-    >
-      {context.children.map((childId) => resolveComponent(pageChildren, childId))}
-    </Component>
-  );
-});
+    return (
+      <Component
+        ref={setNodeRef}
+        tabIndex={0}
+        onMouseOver={(event) => {
+          event.stopPropagation();
+          onMouseOver();
+        }}
+        onMouseOut={(event) => {
+          event.stopPropagation();
+          onMouseOut();
+        }}
+        onClick={(event) => {
+          event.stopPropagation();
+          onClick();
+        }}
+        className={styles({
+          isSelected,
+          isHighlighted,
+          isOver,
+          direction: component.props.direction,
+          align: component.props.align,
+          justify: component.props.justify,
+          padding: component.props.padding,
+          gap: component.props.gap,
+          border: component.props.border,
+        })}
+        style={{ backgroundColor: component.props.background }}
+      >
+        {children}
+      </Component>
+    );
+  },
+);

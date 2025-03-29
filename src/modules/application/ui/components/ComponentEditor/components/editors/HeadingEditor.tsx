@@ -12,11 +12,11 @@ import {
   ToggleGroup,
   ToggleGroupItem,
 } from "../../../../../../../common/ui/components/toggle-group";
-import {
+import type {
   HeadingComponent,
   HeadingComponentLevel,
   HeadingComponentMargin,
-} from "../../../../../domain/entities/Component/components";
+} from "../../../../../domain";
 import { PropertyGrid } from "../PropertyGrid";
 import { Section } from "../Section";
 import { BaseEditor, BaseEditorProps } from "./BaseEditor";

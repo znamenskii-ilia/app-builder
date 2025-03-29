@@ -4,10 +4,7 @@ import {
   ToggleGroup,
   ToggleGroupItem,
 } from "../../../../../../../common/ui/components/toggle-group";
-import {
-  ImageComponent,
-  ImageComponentWidth,
-} from "../../../../../domain/entities/Component/components";
+import type { ImageComponent, ImageComponentWidth } from "../../../../../domain";
 import { PropertyGrid } from "../PropertyGrid";
 import { Section } from "../Section";
 import { BaseEditor, BaseEditorProps } from "./BaseEditor";

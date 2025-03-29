@@ -1,4 +1,4 @@
-import { Application } from "../../domain/Application/Application";
+import type { Application } from "../../domain";
 
 export type ApplicationInput = {
   applicationId: string;

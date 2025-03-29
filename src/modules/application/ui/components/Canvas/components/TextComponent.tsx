@@ -1,11 +1,14 @@
-import { useSelector } from "@xstate/react";
 import { memo } from "react";
 import { tv } from "tailwind-variants";
-import { assertIsTextComponent } from "../../../../domain/entities/Component/components/TextComponent";
-import { ComponentActor } from "../../../../interactors/component";
+import type { TextComponent as TextComponentType } from "../../../../domain";
 
 type TextComponentProps = {
-  actor: ComponentActor;
+  component: TextComponentType;
+  isSelected: boolean;
+  isHighlighted: boolean;
+  onMouseOver: () => void;
+  onMouseOut: () => void;
+  onClick: () => void;
 };
 
 const makeStyles = tv({
@@ -13,7 +16,7 @@ const makeStyles = tv({
     base: "",
   },
   variants: {
-    isHovering: {
+    isHighlighted: {
       // true: "outline outline-1 outline-solid outline-amber-500",
       true: "shadow-[inset_0_0_0_1000px_rgba(245,158,11,0.3)]",
     },
@@ -23,32 +26,35 @@ const makeStyles = tv({
   },
 });
 
-export const TextComponent = memo(({ actor }: TextComponentProps) => {
-  const context = useSelector(actor, (state) => state.context);
-  const isHovering = useSelector(actor, (state) => state.matches("hover"));
-  const isSelected = useSelector(actor, (state) => state.matches("selected"));
+export const TextComponent = memo(
+  ({
+    component,
+    isSelected,
+    isHighlighted,
+    onMouseOver,
+    onMouseOut,
+    onClick,
+  }: TextComponentProps) => {
+    const styles = makeStyles({ isSelected, isHighlighted });
 
-  assertIsTextComponent(context);
-
-  const styles = makeStyles({ isSelected, isHovering });
-
-  return (
-    <p
-      className={styles.base()}
-      onMouseOver={(event) => {
-        event.stopPropagation();
-        actor.send({ type: "HOVER_ENTER" });
-      }}
-      onMouseOut={(event) => {
-        event.stopPropagation();
-        actor.send({ type: "HOVER_LEAVE" });
-      }}
-      onClick={(event) => {
-        event.stopPropagation();
-        actor.send({ type: "SELECT" });
-      }}
-    >
-      {context.props.text}
-    </p>
-  );
-});
+    return (
+      <p
+        className={styles.base()}
+        onMouseOver={(event) => {
+          event.stopPropagation();
+          onMouseOver();
+        }}
+        onMouseOut={(event) => {
+          event.stopPropagation();
+          onMouseOut();
+        }}
+        onClick={(event) => {
+          event.stopPropagation();
+          onClick();
+        }}
+      >
+        {component.props.text}
+      </p>
+    );
+  },
+);

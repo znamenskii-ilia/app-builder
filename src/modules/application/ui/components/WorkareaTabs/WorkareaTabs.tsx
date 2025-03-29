@@ -3,7 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { ArrowUpDown, Braces, PanelsTopLeft, X } from "lucide-react";
 import * as React from "react";
 import { cn } from "../../../../../common/ui/utils";
-import { ApplicationEntityType } from "../../../domain/entities/Application/ApplicationEntity";
+import type { ApplicationEntityType } from "../../../domain";
 
 type WorkareaTabsProps = React.ComponentProps<typeof TabsPrimitive.Root>;
 

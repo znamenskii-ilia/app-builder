@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Page } from "../../../domain/Page/Page";
+import type { Page } from "../../../domain";
 
 interface PageListProps {
   pages: Page[];

@@ -13,15 +13,6 @@ import {
 } from "lucide-react";
 import { Input } from "../../../../../../../common/ui/components/input";
 import { Label } from "../../../../../../../common/ui/components/label";
-import { Slider } from "../../../../../../../common/ui/components/slider";
-import {
-  ToggleGroup,
-  ToggleGroupItem,
-} from "../../../../../../../common/ui/components/toggle-group";
-import { BoxComponent } from "../../../../../domain/entities/Component/components";
-import { PropertyGrid } from "../PropertyGrid";
-import { Section } from "../Section";
-import { BaseEditor, BaseEditorProps } from "./BaseEditor";
 import {
   Select,
   SelectContent,
@@ -29,6 +20,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../../../../../../common/ui/components/select";
+import { Slider } from "../../../../../../../common/ui/components/slider";
+import {
+  ToggleGroup,
+  ToggleGroupItem,
+} from "../../../../../../../common/ui/components/toggle-group";
+import type { BoxComponent } from "../../../../../domain";
+import { PropertyGrid } from "../PropertyGrid";
+import { Section } from "../Section";
+import { BaseEditor, BaseEditorProps } from "./BaseEditor";
 
 type BoxEditorProps = BaseEditorProps<BoxComponent> & {
   onComponentChange: (component: BoxComponent) => void;

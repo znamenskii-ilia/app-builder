@@ -1,14 +1,13 @@
-import { ActorRefFromLogic, assign, enqueueActions, fromPromise, setup } from "xstate";
-import { Component, Page } from "../../../domain/entities";
+import { ActorRefFromLogic, assign, fromPromise, setup } from "xstate";
 import {
-  newBoxComponent,
-  newButtonComponent,
-  newHeadingComponent,
-  newImageComponent,
-  newTextComponent,
-} from "../../../domain/entities/Component/components";
-import { ComponentActor, componentLogic } from "../component";
-import type { PageContext, PageEvents } from "./page.interface";
+  addComponent,
+  deleteComponent,
+  moveComponent,
+  type Page,
+  renameComponent,
+  updateComponentProps,
+} from "../../../domain";
+import type { PageEvents } from "./page.ports";
 
 export type PageActor = ActorRefFromLogic<typeof pageLogic>;
 
@@ -17,28 +16,20 @@ export const pageLogic = setup({
     input: {} as {
       pageId: string;
     },
-    context: {} as PageContext,
+    context: {} as {
+      pageId: string;
+      page: Page | null;
+    },
     events: {} as PageEvents,
   },
   actors: {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    loadPage: fromPromise(async (_input: { input: { pageId: string } }) => {
-      const page: Page = {
-        id: "1",
-        applicationId: "1",
-        name: "New Page",
-        metadata: {
-          title: "New Page",
-        },
-        children: {},
-        childrenOrder: [],
-      };
-
-      return page;
+    loadPage: fromPromise(async (_input: { input: string }): Promise<Page> => {
+      throw new Error("Implementation is not provided");
     }),
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    savePage: fromPromise(async (_input: { input: { page: Page } }) => {
-      return;
+    savePage: fromPromise(async (_input: { input: Page }): Promise<void> => {
+      throw new Error("Implementation is not provided");
     }),
   },
 }).createMachine({
@@ -47,122 +38,60 @@ export const pageLogic = setup({
     return {
       pageId: input.pageId,
       page: null,
-      children: [],
     };
   },
-  initial: "loadingPage",
+  initial: "loading",
   on: {
     CHANGE_PAGE: {
       actions: [assign(({ event }) => ({ pageId: event.pageId }))],
-      target: ".loadingPage",
-    },
-    SAVE: {
-      target: ".savingPage",
+      target: ".loading",
     },
   },
   states: {
-    loadingPage: {
+    loading: {
       invoke: {
         src: "loadPage",
-        input: ({ context }) => ({
-          pageId: context.pageId,
-        }),
+        input: ({ context }) => context.pageId,
         onDone: {
-          target: "pageLoaded",
-          actions: assign(({ event, spawn }) => ({
-            page: {
-              ...event.output,
-              children: Object.values(event.output.children).reduce(
-                (acc, component) => {
-                  const actor = spawn(componentLogic, { input: component });
-
-                  return {
-                    ...acc,
-                    [component.id]: actor,
-                  };
-                },
-                {} as Record<string, ComponentActor>,
-              ),
-            },
+          target: "loaded",
+          actions: assign(({ event }) => ({
+            page: event.output,
           })),
         },
       },
     },
-    pageLoaded: {
+    loaded: {
       initial: "idle",
       states: {
         idle: {},
-        componentSelected: {
-          target: "componentSelected",
+        saving: {
+          invoke: {
+            src: "savePage",
+            input: ({ context }) => {
+              const { page } = context;
+
+              if (!page) throw new Error("Page is not loaded");
+
+              return page;
+            },
+            onDone: {
+              target: "idle",
+            },
+          },
         },
       },
       on: {
-        CHILD_SELECTED: {
-          target: ".componentSelected",
-          actions: [
-            assign(({ context }) => ({
-              page: { ...context.page! },
-            })),
-            enqueueActions(({ context, enqueue, event }) => {
-              Object.values(context.page?.children ?? {}).forEach((actor) => {
-                if (actor.getSnapshot().context.id !== event.componentId) {
-                  enqueue.sendTo(actor, { type: "UNSELECT" });
-                }
-              });
-            }),
-          ],
-        },
-        RESET_SELECTION: {
-          target: ".idle",
-          actions: ({ context }) => {
-            Object.values(context.page?.children ?? {}).forEach((actor) => {
-              actor.send({ type: "UNSELECT" });
-            });
-          },
+        SAVE: {
+          target: ".saving",
         },
         ADD_COMPONENT: {
           actions: [
-            assign(({ context, event, spawn }): PageContext => {
+            assign(({ context, event }) => {
               if (!context.page) return context;
-
-              const resolveComponent = (): Component => {
-                const id = Math.random().toString(36).substring(2, 15);
-
-                switch (event.componentType) {
-                  case "Box":
-                    return newBoxComponent(id);
-                  case "Text":
-                    return newTextComponent(id);
-                  case "Heading":
-                    return newHeadingComponent(id);
-                  case "Button":
-                    return newButtonComponent(id);
-                  case "Image":
-                    return newImageComponent(id);
-                  default: {
-                    const exhaustiveCheck: never = event.componentType;
-
-                    throw new Error(`Unknown component type: ${exhaustiveCheck}`);
-                  }
-                }
-              };
-
-              const newComponent = resolveComponent();
-
-              context.page?.children[event.targetComponentId].send({
-                type: "ADD_CHILD",
-                componentId: newComponent.id,
-              });
 
               return {
                 ...context,
-                page: {
-                  ...context.page,
-                  children: {
-                    ...context.page?.children,
-                    [newComponent.id]: spawn(componentLogic, { input: newComponent }),
-                  },
-                },
+                page: addComponent(context.page, event.componentType, event.targetComponentId),
               };
             }),
           ],
@@ -180,131 +109,50 @@ export const pageLogic = setup({
               position: position,
             });
 
-            // Component can't be moved to itself or next to itself
-            if (componentId === targetComponentId) return context;
-
-            const componentParentId = Object.values(context.page?.children ?? {})
-              .find((actor) => actor.getSnapshot().context.children.includes(componentId))
-              ?.getSnapshot().context.id;
-
-            // Component have to be inside a parent
-            // The only component without a parent is the root component
-            // And it can't be moved
-            if (!componentParentId) return context;
-
-            if (position === "inside") {
-              const componentType =
-                page.children[targetComponentId].getSnapshot().context.component;
-
-              // Component can only be moved only inside a box
-              if (componentType !== "Box") return context;
-
-              // TODO: Something this event is not being triggered. Figure out why.
-              page.children[componentParentId].send({
-                type: "DELETE_CHILD",
-                componentId,
-              });
-
-              page.children[targetComponentId].send({
-                type: "ADD_CHILD",
-                componentId,
-              });
-
-              return context;
-            }
-
-            const targetComponentParentId = Object.values(context.page?.children ?? {})
-              .find((actor) => actor.getSnapshot().context.children.includes(targetComponentId))
-              ?.getSnapshot().context.id;
-
-            if (!targetComponentParentId) return context;
-
-            page.children[componentParentId].send({
-              type: "DELETE_CHILD",
-              componentId,
-            });
-
-            page.children[targetComponentParentId].send({
-              type: "ADD_CHILD",
-              componentId,
-              targetComponentId,
-              position,
-            });
-
-            return context;
-          }),
-        },
-        COMPONENT_DELETED: {
-          actions: assign(({ context, event }) => {
-            const { page } = context;
-
-            if (!page) return context;
-
-            const newChildrenOrder = page.childrenOrder.filter(
-              (id) => !event.componentIds.includes(id),
-            );
-
-            Object.values(page.children).forEach((actor) => {
-              event.componentIds.forEach((id) => {
-                if (actor.getSnapshot().context.id !== id) {
-                  actor.send({
-                    type: "DELETE_CHILD",
-                    componentId: id,
-                  });
-                }
-              });
-            });
-
-            // event.componentIds.forEach((id) => {
-            //   if (page.children[id]) {
-            //     delete page.children[id];
-            //   }
-            // });
-
             return {
               ...context,
-              // selectedComponentId:
-              //   context.selectedComponentId &&
-              //   event.componentIds.includes(context.selectedComponentId)
-              //     ? null
-              //     : context.selectedComponentId,
-              page: {
-                ...page,
-                childrenOrder: newChildrenOrder,
-              },
+              page: moveComponent(page, componentId, targetComponentId, position),
             };
           }),
         },
-      },
-    },
-    savingPage: {
-      invoke: {
-        src: "savePage",
-        input: ({ context }) => {
-          const { page } = context;
+        RENAME_COMPONENT: {
+          actions: assign(({ context, event }) => {
+            const { page } = context;
+            const { componentId, name } = event;
 
-          if (!page) {
-            throw new Error("Page is not loaded");
-          }
+            if (!page) return context;
 
-          const getContext = (actor: ComponentActor) => actor.getSnapshot().context;
-
-          return {
-            page: {
-              ...page,
-              children: Object.entries(page.children).reduce(
-                (acc, [id, actor]) => {
-                  acc[id] = getContext(actor);
-
-                  return acc;
-                },
-                {} as Record<string, Component>,
-              ),
-            },
-          };
+            return {
+              ...context,
+              page: renameComponent(page, componentId, name),
+            };
+          }),
         },
-        onDone: {
-          target: "pageLoaded",
+        UPDATE_COMPONENT_PROPS: {
+          actions: assign(({ context, event }) => {
+            const { page } = context;
+            const { componentId, component } = event;
+
+            if (!page) return context;
+
+            return {
+              ...context,
+              page: updateComponentProps(page, componentId, component),
+            };
+          }),
+        },
+        DELETE_COMPONENT: {
+          actions: assign(({ context, event }) => {
+            const { page } = context;
+            const { componentId } = event;
+
+            if (!page) return context;
+
+            return {
+              ...context,
+              page: deleteComponent(page, componentId),
+            };
+          }),
         },
       },
     },

@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Application } from "../../../domain/Application/Application";
+import type { Application } from "../../../domain";
 
 type ApplicationListProps = {
   applications: Application[];

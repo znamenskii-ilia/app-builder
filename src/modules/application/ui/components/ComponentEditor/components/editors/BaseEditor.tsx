@@ -2,7 +2,7 @@ import { Trash2 } from "lucide-react";
 import { PropsWithChildren, useState } from "react";
 import { tv } from "tailwind-variants";
 import { Button } from "../../../../../../../common/ui/components/button";
-import { Component } from "../../../../../domain/entities";
+import type { Component } from "../../../../../domain";
 import { Input } from "../../../../../../../common/ui/components/input";
 
 export type BaseEditorProps<TComponent extends Component> = PropsWithChildren<{

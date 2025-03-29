@@ -1,3 +1,3 @@
 export * from "./AppExplorer.component";
-export * from "./AppExplorerItem.component";
-export * from "./AppExplorerSection.component";
+export * from "./components/AppExplorerItem.component";
+export * from "./components/AppExplorerSection.component";

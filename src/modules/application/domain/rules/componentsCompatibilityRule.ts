@@ -1,4 +1,4 @@
-import { ComponentType } from "../entities/Component";
+import { ComponentType } from "../aggregates/page/entities/component";
 
 /**
  * Check if one component can be a child of another component

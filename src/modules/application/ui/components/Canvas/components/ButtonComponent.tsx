@@ -1,21 +1,24 @@
-import { useSelector } from "@xstate/react";
 import { memo } from "react";
 import { tv } from "tailwind-variants";
 import { Button } from "../../../../../../common/ui/components/button";
-import {
-  assertIsButtonComponent,
+import type {
   ButtonComponentSize,
-} from "../../../../domain/entities/Component/components/ButtonComponent";
-import { ComponentActor } from "../../../../interactors/component";
+  ButtonComponent as ButtonComponentType,
+} from "../../../../domain";
 
 type ButtonComponentProps = {
-  actor: ComponentActor;
+  component: ButtonComponentType;
+  isSelected: boolean;
+  isHighlighted: boolean;
+  onMouseOver: () => void;
+  onMouseOut: () => void;
+  onClick: () => void;
 };
 
 const makeStyles = tv({
   base: "flex border bg-white",
   variants: {
-    isHovering: {
+    isHighlighted: {
       // true: "outline outline-1 outline-solid outline-amber-500",
       true: "shadow-[inset_0_0_0_1000px_rgba(245,158,11,0.3)]",
     },
@@ -25,51 +28,53 @@ const makeStyles = tv({
   },
 });
 
-export const ButtonComponent = memo(({ actor }: ButtonComponentProps) => {
-  const context = useSelector(actor, (state) => state.context);
-  const isHovering = useSelector(actor, (state) => state.matches("hover"));
-  const isSelected = useSelector(actor, (state) => state.matches("selected"));
-
-  assertIsButtonComponent(context);
-
-  const mapSizeToVariant = (size: ButtonComponentSize) => {
-    switch (size) {
-      case "small":
-        return "sm";
-      case "medium":
-        return "default";
-      case "large":
-        return "lg";
-      default: {
-        const exhaustiveCheck: never = size;
-        throw new Error(`Unknown button size: ${exhaustiveCheck}`);
+export const ButtonComponent = memo(
+  ({
+    component,
+    isSelected,
+    isHighlighted,
+    onMouseOver,
+    onMouseOut,
+    onClick,
+  }: ButtonComponentProps) => {
+    const mapSizeToVariant = (size: ButtonComponentSize) => {
+      switch (size) {
+        case "small":
+          return "sm";
+        case "medium":
+          return "default";
+        case "large":
+          return "lg";
+        default: {
+          const exhaustiveCheck: never = size;
+          throw new Error(`Unknown button size: ${exhaustiveCheck}`);
+        }
       }
-    }
-  };
+    };
+    const styles = makeStyles({ isSelected, isHighlighted });
 
-  const styles = makeStyles({ isSelected, isHovering });
-
-  return (
-    <Button
-      className={styles}
-      {...{
-        size: mapSizeToVariant(context.props.size),
-        variant: "outline",
-      }}
-      onMouseOver={(event) => {
-        event.stopPropagation();
-        actor.send({ type: "HOVER_ENTER" });
-      }}
-      onMouseOut={(event) => {
-        event.stopPropagation();
-        actor.send({ type: "HOVER_LEAVE" });
-      }}
-      onClick={(event) => {
-        event.stopPropagation();
-        actor.send({ type: "SELECT" });
-      }}
-    >
-      {context.props.text}
-    </Button>
-  );
-});
+    return (
+      <Button
+        className={styles}
+        {...{
+          size: mapSizeToVariant(component.props.size),
+          variant: "outline",
+        }}
+        onMouseOver={(event) => {
+          event.stopPropagation();
+          onMouseOver();
+        }}
+        onMouseOut={(event) => {
+          event.stopPropagation();
+          onMouseOut();
+        }}
+        onClick={(event) => {
+          event.stopPropagation();
+          onClick();
+        }}
+      >
+        {component.props.text}
+      </Button>
+    );
+  },
+);

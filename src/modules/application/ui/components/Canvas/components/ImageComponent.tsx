@@ -1,11 +1,14 @@
-import { useSelector } from "@xstate/react";
 import { memo } from "react";
 import { tv } from "tailwind-variants";
-import { assertIsImageComponent } from "../../../../domain/entities/Component/components/ImageComponent";
-import { ComponentActor } from "../../../../interactors/component";
+import type { ImageComponent as ImageComponentType } from "../../../../domain";
 
 type ImageComponentProps = {
-  actor: ComponentActor;
+  component: ImageComponentType;
+  isSelected: boolean;
+  isHighlighted: boolean;
+  onMouseOver: () => void;
+  onMouseOut: () => void;
+  onClick: () => void;
 };
 
 const makeStyles = tv({
@@ -13,7 +16,7 @@ const makeStyles = tv({
     base: "",
   },
   variants: {
-    isHovering: {
+    isHighlighted: {
       // true: "outline outline-1 outline-solid outline-amber-500",
       true: "shadow-[inset_0_0_0_1000px_rgba(245,158,11,0.3)]",
     },
@@ -27,37 +30,41 @@ const makeStyles = tv({
   },
 });
 
-export const ImageComponent = memo(({ actor }: ImageComponentProps) => {
-  const context = useSelector(actor, (state) => state.context);
-  const isHovering = useSelector(actor, (state) => state.matches("hover"));
-  const isSelected = useSelector(actor, (state) => state.matches("selected"));
+export const ImageComponent = memo(
+  ({
+    component,
+    isSelected,
+    isHighlighted,
+    onMouseOver,
+    onMouseOut,
+    onClick,
+  }: ImageComponentProps) => {
+    const styles = makeStyles({ isSelected, isHighlighted });
 
-  assertIsImageComponent(context);
-
-  const styles = makeStyles({ isSelected, isHovering });
-
-  return (
-    <img
-      src={context.props.src || "https://placehold.co/600x400"}
-      alt={context.props.alt}
-      className={styles.base({
-        widthType: context.props.widthType,
-      })}
-      style={{
-        width: context.props.widthType === "custom" ? `${context.props.customWidth}%` : "auto",
-      }}
-      onMouseOver={(event) => {
-        event.stopPropagation();
-        actor.send({ type: "HOVER_ENTER" });
-      }}
-      onMouseOut={(event) => {
-        event.stopPropagation();
-        actor.send({ type: "HOVER_LEAVE" });
-      }}
-      onClick={(event) => {
-        event.stopPropagation();
-        actor.send({ type: "SELECT" });
-      }}
-    />
-  );
-});
+    return (
+      <img
+        src={component.props.src || "https://placehold.co/600x400"}
+        alt={component.props.alt}
+        className={styles.base({
+          widthType: component.props.widthType,
+        })}
+        style={{
+          width:
+            component.props.widthType === "custom" ? `${component.props.customWidth}%` : "auto",
+        }}
+        onMouseOver={(event) => {
+          event.stopPropagation();
+          onMouseOver();
+        }}
+        onMouseOut={(event) => {
+          event.stopPropagation();
+          onMouseOut();
+        }}
+        onClick={(event) => {
+          event.stopPropagation();
+          onClick();
+        }}
+      />
+    );
+  },
+);

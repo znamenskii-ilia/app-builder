@@ -2,7 +2,7 @@ import { createFileRoute, Outlet } from "@tanstack/react-router";
 import { useMachine } from "@xstate/react";
 import { useEffect } from "react";
 import { applicationEditorLogic } from "../../../modules/application/application/interactors/applicationEditor";
-import { ApplicationEntityType } from "../../../modules/application/domain/entities/Application/ApplicationEntity";
+import { ApplicationEntityType } from "../../../modules/application/domain/aggregates/application/ApplicationEntity";
 import { Route as PageRoute } from "./$entityType.$entityId";
 
 export const Route = createFileRoute("/applications/$applicationId")({

@@ -1,11 +1,14 @@
-import { useSelector } from "@xstate/react";
 import { memo } from "react";
 import { tv } from "tailwind-variants";
-import { ComponentActor } from "../../../../application/interactors/component";
-import { assertIsHeadingComponent } from "../../../../domain/entities/Component/components/HeadingComponent";
+import type { HeadingComponent as HeadingComponentType } from "../../../../domain";
 
 type HeadingComponentProps = {
-  actor: ComponentActor;
+  component: HeadingComponentType;
+  isSelected: boolean;
+  isHighlighted: boolean;
+  onMouseOver: () => void;
+  onMouseOut: () => void;
+  onClick: () => void;
 };
 
 const makeStyles = tv({
@@ -13,7 +16,7 @@ const makeStyles = tv({
     base: "",
   },
   variants: {
-    isHovering: {
+    isHighlighted: {
       // true: "outline outline-1 outline-solid outline-amber-500",
       true: "shadow-[inset_0_0_0_1000px_rgba(245,158,11,0.3)]",
     },
@@ -68,42 +71,44 @@ const makeStyles = tv({
   },
 });
 
-export const HeadingComponent = memo(({ actor }: HeadingComponentProps) => {
-  const context = useSelector(actor, (state) => state.context);
-  const isHovering = useSelector(actor, (state) => state.matches("hover"));
-  const isSelected = useSelector(actor, (state) => state.matches("selected"));
+export const HeadingComponent = memo(
+  ({
+    component,
+    isSelected,
+    isHighlighted,
+    onMouseOver,
+    onMouseOut,
+    onClick,
+  }: HeadingComponentProps) => {
+    const Component = `h${component.props.level}` as const;
+    const styles = makeStyles({ isSelected, isHighlighted });
 
-  assertIsHeadingComponent(context);
-
-  const Component = `h${context.props.level}` as const;
-
-  const styles = makeStyles({ isSelected, isHovering });
-
-  return (
-    <Component
-      className={styles.base({
-        level: context.props.level,
-        align: context.props.align,
-        marginTop: context.props.marginTop,
-        marginRight: context.props.marginRight,
-        marginBottom: context.props.marginBottom,
-        marginLeft: context.props.marginLeft,
-      })}
-      style={{ color: context.props.color }}
-      onMouseOver={(event) => {
-        event.stopPropagation();
-        actor.send({ type: "HOVER_ENTER" });
-      }}
-      onMouseOut={(event) => {
-        event.stopPropagation();
-        actor.send({ type: "HOVER_LEAVE" });
-      }}
-      onClick={(event) => {
-        event.stopPropagation();
-        actor.send({ type: "SELECT" });
-      }}
-    >
-      {context.props.text}
-    </Component>
-  );
-});
+    return (
+      <Component
+        className={styles.base({
+          level: component.props.level,
+          align: component.props.align,
+          marginTop: component.props.marginTop,
+          marginRight: component.props.marginRight,
+          marginBottom: component.props.marginBottom,
+          marginLeft: component.props.marginLeft,
+        })}
+        style={{ color: component.props.color }}
+        onMouseOver={(event) => {
+          event.stopPropagation();
+          onMouseOver();
+        }}
+        onMouseOut={(event) => {
+          event.stopPropagation();
+          onMouseOut();
+        }}
+        onClick={(event) => {
+          event.stopPropagation();
+          onClick();
+        }}
+      >
+        {component.props.text}
+      </Component>
+    );
+  },
+);

@@ -1,6 +1,5 @@
 import { PageRepo } from "../../application/ports/outbound/pageRepo.port";
-import { Page } from "../../domain/entities";
-import { newBoxComponent } from "../../domain/entities/Component/components/BoxComponent";
+import { newBoxComponent, Page } from "../../domain";
 
 const findPage = async (pageId: string) => {
   const page = localStorage.getItem(`page-${pageId}`);
@@ -26,6 +25,8 @@ const findPage = async (pageId: string) => {
 };
 
 const savePage = async (page: Page) => {
+  await new Promise((resolve) => setTimeout(resolve, 500));
+
   localStorage.setItem(`page-${page.id}`, JSON.stringify(page));
 };
 

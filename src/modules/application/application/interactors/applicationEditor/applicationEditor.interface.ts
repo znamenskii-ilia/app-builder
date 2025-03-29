@@ -1,4 +1,4 @@
-import { Application } from "../../../domain/entities/Application/Application";
+import { Application } from "../../../domain";
 
 export type OpenEntityTuple = ["page" | "data-source" | "function", string];
 

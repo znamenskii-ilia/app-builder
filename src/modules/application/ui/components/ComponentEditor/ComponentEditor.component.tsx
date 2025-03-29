@@ -1,4 +1,4 @@
-import { Component } from "../../../domain/entities/Component/Component";
+import type { Component } from "../../../domain";
 import { BaseEditorProps } from "./components/editors/BaseEditor";
 import { BoxEditor } from "./components/editors/BoxEditor";
 import { ButtonEditor } from "./components/editors/ButtonEditor";
@@ -7,23 +7,25 @@ import { ImageEditor } from "./components/editors/ImageEditor";
 import { TextEditor } from "./components/editors/TextEditor";
 
 type ComponentEditorProps = BaseEditorProps<Component> & {
-  onComponentChange: (component: Component) => void;
+  onChange: (component: Component) => void;
 };
 
 export const ComponentEditor = ({
   component,
   onComponentRename,
-  onComponentChange,
+  onChange,
   onComponentDelete,
 }: ComponentEditorProps) => {
   const renderEditor = () => {
-    switch (component.component) {
+    const { component: componentType } = component;
+
+    switch (componentType) {
       case "Box":
         return (
           <BoxEditor
             component={component}
             onComponentRename={onComponentRename}
-            onComponentChange={onComponentChange}
+            onComponentChange={onChange}
             onComponentDelete={onComponentDelete}
           />
         );
@@ -32,7 +34,7 @@ export const ComponentEditor = ({
           <ButtonEditor
             component={component}
             onComponentRename={onComponentRename}
-            onComponentChange={onComponentChange}
+            onComponentChange={onChange}
             onComponentDelete={onComponentDelete}
           />
         );
@@ -41,7 +43,7 @@ export const ComponentEditor = ({
           <TextEditor
             component={component}
             onComponentRename={onComponentRename}
-            onComponentChange={onComponentChange}
+            onComponentChange={onChange}
             onComponentDelete={onComponentDelete}
           />
         );
@@ -50,7 +52,7 @@ export const ComponentEditor = ({
           <HeadingEditor
             component={component}
             onComponentRename={onComponentRename}
-            onComponentChange={onComponentChange}
+            onComponentChange={onChange}
             onComponentDelete={onComponentDelete}
           />
         );
@@ -59,12 +61,12 @@ export const ComponentEditor = ({
           <ImageEditor
             component={component}
             onComponentRename={onComponentRename}
-            onComponentChange={onComponentChange}
+            onComponentChange={onChange}
             onComponentDelete={onComponentDelete}
           />
         );
       default: {
-        const exhaustiveCheck: never = component.component;
+        const exhaustiveCheck: never = componentType;
 
         throw new Error(`Unknown component type: ${exhaustiveCheck}`);
       }

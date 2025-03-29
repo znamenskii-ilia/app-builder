@@ -1,10 +1,10 @@
-import { setup, fromPromise, assign } from "xstate";
+import { assign, fromPromise, setup } from "xstate";
+import type { Application } from "../../../domain";
 import {
   ApplicationEditorContext,
   ApplicationEditorEvents,
   ApplicationEditorInput,
 } from "./applicationEditor.interface";
-import { Application } from "../../../domain/entities/Application/Application";
 
 export const applicationEditorLogic = setup({
   types: {
