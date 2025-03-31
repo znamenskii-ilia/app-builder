@@ -23,11 +23,9 @@ export const pageLogic = setup({
     events: {} as PageEvents,
   },
   actors: {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     loadPage: fromPromise(async (_input: { input: string }): Promise<Page> => {
       throw new Error("Implementation is not provided");
     }),
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     savePage: fromPromise(async (_input: { input: Page }): Promise<void> => {
       throw new Error("Implementation is not provided");
     }),
