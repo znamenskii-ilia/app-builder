@@ -1,7 +1,5 @@
 import { useDroppable } from "@dnd-kit/core";
-import clsx, { ClassValue } from "clsx";
 import { memo, PropsWithChildren } from "react";
-import { twMerge } from "tailwind-merge";
 import { tv } from "tailwind-variants";
 import type { BoxComponent as BoxComponentType } from "../../../../domain";
 
@@ -13,10 +11,6 @@ type BoxComponentProps = PropsWithChildren<{
   onMouseOut: () => void;
   onClick: () => void;
 }>;
-
-export const cn = (...inputs: ClassValue[]) => {
-  return twMerge(clsx(inputs));
-};
 
 const styles = tv({
   base: "flex flex-1 border",

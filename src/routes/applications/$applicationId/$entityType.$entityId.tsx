@@ -1,7 +1,7 @@
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
 import { createFileRoute } from "@tanstack/react-router";
 import { useActor, useSelector } from "@xstate/react";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { Button } from "../../../common/ui/components/button";
 import {
   pageLogic,
@@ -67,15 +67,18 @@ function PagePage() {
     });
   };
 
-  const handleWindowKeyDown = (event: KeyboardEvent) => {
-    if (event.key === "Escape") {
-      pageEditorActor[1]({ type: "SELECT_COMPONENT", componentId: null });
-    }
+  const handleWindowKeyDown = useCallback(
+    (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        pageEditorActor[1]({ type: "SELECT_COMPONENT", componentId: null });
+      }
 
-    if (event.key === "Backspace" && (event.metaKey || event.ctrlKey) && selectedComponent) {
-      pageActor[1]({ type: "DELETE_COMPONENT", componentId: selectedComponent.id });
-    }
-  };
+      if (event.key === "Backspace" && (event.metaKey || event.ctrlKey) && selectedComponent) {
+        pageActor[1]({ type: "DELETE_COMPONENT", componentId: selectedComponent.id });
+      }
+    },
+    [pageActor, pageEditorActor, selectedComponent],
+  );
 
   // EFFECTS
   useEffect(() => {
@@ -92,7 +95,7 @@ function PagePage() {
     return () => {
       abortController.abort();
     };
-  }, [selectedComponent]);
+  }, [selectedComponent, handleWindowKeyDown]);
 
   // RENDER
   if (pageActor[0].matches("loading")) {
