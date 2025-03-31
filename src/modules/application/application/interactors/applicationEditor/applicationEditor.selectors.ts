@@ -1,5 +1,11 @@
 import { SnapshotFrom } from "xstate";
-import type { Application, ApplicationEntity, ApplicationEntityType } from "../../../domain";
+
+import type {
+  Application,
+  ApplicationEntity,
+  ApplicationEntityType,
+} from "@/modules/application/domain";
+
 import { applicationEditorLogic } from "./applicationEditor.logic";
 
 export const selectOpenEntityIds = ({ context }: SnapshotFrom<typeof applicationEditorLogic>) =>

@@ -2,18 +2,19 @@ import { DndContext, DragEndEvent } from "@dnd-kit/core";
 import { createFileRoute } from "@tanstack/react-router";
 import { useActor, useSelector } from "@xstate/react";
 import { useCallback, useEffect } from "react";
-import { Button } from "../../../common/ui/components/button";
+
+import { Button } from "@/common/ui/components/button";
 import {
   pageLogic,
   selectComponentMaybe,
   selectPageMaybe,
-} from "../../../modules/application/application/interactors/page";
-import { pageEditorLogic } from "../../../modules/application/application/interactors/pageEditor/pageEditor.logic";
-import { Canvas } from "../../../modules/application/ui/components/Canvas";
-import { CanvasFragment } from "../../../modules/application/ui/fragments/Canvas.fragment";
-import { ComponentEditorFragment } from "../../../modules/application/ui/fragments/ComponentEditor.fragment";
-import { ComponentsLibraryFragment } from "../../../modules/application/ui/fragments/ComponentsLibrary.fragment";
-import { PageExplorerFragment } from "../../../modules/application/ui/fragments/PageExplorer.fragment";
+} from "@/modules/application/application/interactors/page";
+import { pageEditorLogic } from "@/modules/application/application/interactors/pageEditor/pageEditor.logic";
+import { Canvas } from "@/modules/application/ui/components/Canvas";
+import { CanvasFragment } from "@/modules/application/ui/fragments/Canvas.fragment";
+import { ComponentEditorFragment } from "@/modules/application/ui/fragments/ComponentEditor.fragment";
+import { ComponentsLibraryFragment } from "@/modules/application/ui/fragments/ComponentsLibrary.fragment";
+import { PageExplorerFragment } from "@/modules/application/ui/fragments/PageExplorer.fragment";
 
 export const Route = createFileRoute("/applications/$applicationId/$entityType/$entityId")({
   component: EntityPage,

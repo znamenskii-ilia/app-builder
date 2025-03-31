@@ -1,4 +1,5 @@
 import { PropsWithChildren } from "react";
+
 import { CanvasSkeleton } from "./Canvas.skeleton";
 
 type CanvasProps = PropsWithChildren<{

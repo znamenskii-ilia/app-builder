@@ -1,6 +1,7 @@
 import { memo } from "react";
 import { tv } from "tailwind-variants";
-import type { TextComponent as TextComponentType } from "../../../../domain";
+
+import type { TextComponent as TextComponentType } from "@/modules/application/domain";
 
 type TextComponentProps = {
   component: TextComponentType;

@@ -1,12 +1,14 @@
 import { ActorRefFromLogic, assign, fromPromise, setup } from "xstate";
+
+import type { Page } from "@/modules/application/domain";
 import {
   addComponent,
   deleteComponent,
   moveComponent,
-  type Page,
   renameComponent,
   updateComponentProps,
-} from "../../../domain";
+} from "@/modules/application/domain";
+
 import type { PageEvents } from "./page.ports";
 
 export type PageActor = ActorRefFromLogic<typeof pageLogic>;

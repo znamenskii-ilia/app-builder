@@ -1,6 +1,13 @@
 import memoizeOne from "memoize-one";
 import { SnapshotFrom } from "xstate";
-import { type Component, getComponent, getRootComponent, type Page } from "../../../domain";
+
+import {
+  getComponent,
+  getRootComponent,
+  type Component,
+  type Page,
+} from "@/modules/application/domain";
+
 import { PageActor, pageLogic } from "./page.logic";
 
 export const selectPageMaybe = (pageSnapshot: SnapshotFrom<typeof pageLogic>): Page | null => {

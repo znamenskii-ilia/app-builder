@@ -1,7 +1,8 @@
 import { useDraggable } from "@dnd-kit/core";
 import { tv } from "tailwind-variants";
-import type { ComponentType } from "../../../../domain";
-import { ComponentIcon } from "../../ComponentIcon/ComponentIcon";
+
+import type { ComponentType } from "@/modules/application/domain";
+import { ComponentIcon } from "@/modules/application/ui/components/ComponentIcon/ComponentIcon";
 
 type ComponentsLibraryItemProps = {
   type: ComponentType;

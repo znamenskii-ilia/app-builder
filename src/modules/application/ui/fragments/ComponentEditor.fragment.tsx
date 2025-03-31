@@ -1,8 +1,11 @@
 import { useSelector } from "@xstate/react";
-import { selectComponentMaybe } from "../../application/interactors/page";
-import { PageActor } from "../../application/interactors/page/page.logic";
-import { PageEditorActor } from "../../application/interactors/pageEditor/pageEditor.logic";
-import { ComponentEditor } from "../components/ComponentEditor";
+
+import {
+  PageActor,
+  selectComponentMaybe,
+} from "@/modules/application/application/interactors/page";
+import { PageEditorActor } from "@/modules/application/application/interactors/pageEditor";
+import { ComponentEditor } from "@/modules/application/ui/components/ComponentEditor";
 
 type ComponentEditorFragmentProps = {
   pageActor: PageActor;

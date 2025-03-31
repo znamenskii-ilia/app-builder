@@ -1,3 +1,4 @@
+export type { PageActor } from "./page.logic";
 export * from "./page.ports";
 export * from "./page.selectors";
 import { fromPromise } from "xstate";

@@ -11,21 +11,19 @@ import {
   MoveRight,
   SeparatorHorizontal,
 } from "lucide-react";
-import { Input } from "../../../../../../../common/ui/components/input";
-import { Label } from "../../../../../../../common/ui/components/label";
+
+import { Input } from "@/common/ui/components/input";
+import { Label } from "@/common/ui/components/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../../../../../../../common/ui/components/select";
-import { Slider } from "../../../../../../../common/ui/components/slider";
-import {
-  ToggleGroup,
-  ToggleGroupItem,
-} from "../../../../../../../common/ui/components/toggle-group";
-import type { BoxComponent } from "../../../../../domain";
+} from "@/common/ui/components/select";
+import { Slider } from "@/common/ui/components/slider";
+import { ToggleGroup, ToggleGroupItem } from "@/common/ui/components/toggle-group";
+import type { BoxComponent } from "@/modules/application/domain";
 import { PropertyGrid } from "../PropertyGrid";
 import { Section } from "../Section";
 import { BaseEditor, BaseEditorProps } from "./BaseEditor";

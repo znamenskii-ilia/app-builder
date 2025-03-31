@@ -1,22 +1,20 @@
 import { AlignCenter, AlignLeft, AlignRight } from "lucide-react";
-import { Input } from "../../../../../../../common/ui/components/input";
-import { Label } from "../../../../../../../common/ui/components/label";
+
+import { Input } from "@/common/ui/components/input";
+import { Label } from "@/common/ui/components/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../../../../../../../common/ui/components/select";
-import {
-  ToggleGroup,
-  ToggleGroupItem,
-} from "../../../../../../../common/ui/components/toggle-group";
+} from "@/common/ui/components/select";
+import { ToggleGroup, ToggleGroupItem } from "@/common/ui/components/toggle-group";
 import type {
   HeadingComponent,
   HeadingComponentLevel,
   HeadingComponentMargin,
-} from "../../../../../domain";
+} from "@/modules/application/domain";
 import { PropertyGrid } from "../PropertyGrid";
 import { Section } from "../Section";
 import { BaseEditor, BaseEditorProps } from "./BaseEditor";

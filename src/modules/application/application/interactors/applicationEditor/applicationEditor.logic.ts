@@ -1,6 +1,8 @@
 import { assign, fromPromise, setup } from "xstate";
-import type { Application } from "../../../domain";
-import {
+
+import type { Application } from "@/modules/application/domain";
+
+import type {
   ApplicationEditorContext,
   ApplicationEditorEvents,
   ApplicationEditorInput,

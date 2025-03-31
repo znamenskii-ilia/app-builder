@@ -2,11 +2,11 @@ import { DndContext, DragEndEvent, MouseSensor, useSensor, useSensors } from "@d
 import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import { useSelector } from "@xstate/react";
 import { memo } from "react";
-import { selectPageMaybe } from "../../application/interactors/page";
-import { PageActor } from "../../application/interactors/page/page.logic";
-import { PageEditorActor } from "../../application/interactors/pageEditor/pageEditor.logic";
-import { type Component, getRootComponent } from "../../domain";
-import { PageExplorer, PageExplorerItem } from "../components/PageExplorer";
+
+import { PageActor, selectPageMaybe } from "@/modules/application/application/interactors/page";
+import { PageEditorActor } from "@/modules/application/application/interactors/pageEditor";
+import { type Component, getRootComponent } from "@/modules/application/domain";
+import { PageExplorer, PageExplorerItem } from "@/modules/application/ui/components/PageExplorer";
 
 type PageExplorerItemFragmentProps = {
   pageActor: PageActor;

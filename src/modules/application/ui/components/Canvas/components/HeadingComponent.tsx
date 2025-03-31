@@ -1,6 +1,7 @@
 import { memo } from "react";
 import { tv } from "tailwind-variants";
-import type { HeadingComponent as HeadingComponentType } from "../../../../domain";
+
+import type { HeadingComponent as HeadingComponentType } from "@/modules/application/domain";
 
 type HeadingComponentProps = {
   component: HeadingComponentType;
