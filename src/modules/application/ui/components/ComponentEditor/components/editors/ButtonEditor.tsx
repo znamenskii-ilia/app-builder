@@ -17,7 +17,10 @@ export const ButtonEditor = ({
   onComponentDelete,
 }: ButtonEditorProps) => {
   const handleLabelChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    onComponentChange({ ...component, props: { ...component.props, text: event.target.value } });
+    onComponentChange({
+      ...component,
+      props: { ...component.props, text: event.target.value },
+    });
   };
 
   const handleSizeChange = (value: string) => {

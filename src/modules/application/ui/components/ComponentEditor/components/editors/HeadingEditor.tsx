@@ -43,7 +43,10 @@ export const HeadingEditor = ({
             onValueChange={(value) =>
               onComponentChange({
                 ...component,
-                props: { ...component.props, level: parseInt(value) as HeadingComponentLevel },
+                props: {
+                  ...component.props,
+                  level: parseInt(value) as HeadingComponentLevel,
+                },
               })
             }
           >
@@ -85,18 +88,21 @@ export const HeadingEditor = ({
 
               onComponentChange({
                 ...component,
-                props: { ...component.props, align: value as "left" | "center" | "right" },
+                props: {
+                  ...component.props,
+                  align: value as "left" | "center" | "right",
+                },
               });
             }}
           >
             <ToggleGroupItem value="left" aria-label="Left align">
-              <AlignLeft className="w-4 h-4" />
+              <AlignLeft className="h-4 w-4" />
             </ToggleGroupItem>
             <ToggleGroupItem value="center" aria-label="Center align">
-              <AlignCenter className="w-4 h-4" />
+              <AlignCenter className="h-4 w-4" />
             </ToggleGroupItem>
             <ToggleGroupItem value="right" aria-label="Right align">
-              <AlignRight className="w-4 h-4" />
+              <AlignRight className="h-4 w-4" />
             </ToggleGroupItem>
           </ToggleGroup>
 

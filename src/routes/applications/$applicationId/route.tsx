@@ -53,7 +53,7 @@ function ApplicationPage() {
           applicationEditorActor={applicationEditorActor}
         />
       </div> */}
-      <div className="flex flex-col flex-1 bg-gray-50">
+      <div className="flex flex-1 flex-col bg-gray-50">
         {/* <WorkareaTabsList>
           {openEntities.map((entity) => (
             <WorkareaTabsTrigger

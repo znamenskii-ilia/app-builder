@@ -130,7 +130,10 @@ export const renameComponent = (page: Page, componentId: string, name: string): 
 
   return {
     ...page,
-    children: { ...page.children, [componentId]: { ...page.children[componentId], name } },
+    children: {
+      ...page.children,
+      [componentId]: { ...page.children[componentId], name },
+    },
   };
 };
 

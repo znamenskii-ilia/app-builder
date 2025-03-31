@@ -75,7 +75,10 @@ function PagePage() {
       }
 
       if (event.key === "Backspace" && (event.metaKey || event.ctrlKey) && selectedComponent) {
-        pageActor[1]({ type: "DELETE_COMPONENT", componentId: selectedComponent.id });
+        pageActor[1]({
+          type: "DELETE_COMPONENT",
+          componentId: selectedComponent.id,
+        });
       }
     },
     [pageActor, pageEditorActor, selectedComponent],
@@ -91,7 +94,9 @@ function PagePage() {
   useEffect(() => {
     const abortController = new AbortController();
 
-    window.addEventListener("keydown", handleWindowKeyDown, { signal: abortController.signal });
+    window.addEventListener("keydown", handleWindowKeyDown, {
+      signal: abortController.signal,
+    });
 
     return () => {
       abortController.abort();
@@ -104,11 +109,11 @@ function PagePage() {
       <div className="flex flex-1">
         <div className="w-[200px] border-r border-gray-200 p-2"></div>
 
-        <div className="flex-1 flex flex-col items-stretch justify-stretch overflow-hidden">
+        <div className="flex flex-1 flex-col items-stretch justify-stretch overflow-hidden">
           <Canvas.Skeleton />
         </div>
 
-        <div className="w-[20%] min-w-[220px] max-w-[300px] border-l border-gray-200 "></div>
+        <div className="w-[20%] max-w-[300px] min-w-[220px] border-l border-gray-200"></div>
       </div>
     );
   }
@@ -127,11 +132,11 @@ function PagePage() {
           <PageExplorerFragment pageActor={pageActor[2]} pageEditorActor={pageEditorActor[2]} />
         </div>
 
-        <div className="flex-1 flex flex-col items-stretch justify-stretch overflow-hidden">
+        <div className="flex flex-1 flex-col items-stretch justify-stretch overflow-hidden">
           <CanvasFragment pageActor={pageActor[2]} pageEditorActor={pageEditorActor[2]} />
         </div>
 
-        <div className="p-2 w-[270px] border-l border-gray-200 ">
+        <div className="w-[270px] border-l border-gray-200 p-2">
           <div className="flex items-center gap-2">
             <Button
               onClick={() => pageActor[1]({ type: "SAVE" })}

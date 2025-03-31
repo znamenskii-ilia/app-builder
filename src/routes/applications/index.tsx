@@ -7,8 +7,8 @@ export const Route = createFileRoute("/applications/")({
 
 function RootPage() {
   return (
-    <div className="flex flex-col h-screen container mx-auto py-4">
-      <h1 className="text-2xl font-bold mb-4">Applications</h1>
+    <div className="container mx-auto flex h-screen flex-col py-4">
+      <h1 className="mb-4 text-2xl font-bold">Applications</h1>
       <ApplicationList />
     </div>
   );

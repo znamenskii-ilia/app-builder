@@ -52,11 +52,11 @@ const WorkareaTabsTrigger = ({
   };
 
   return (
-    <div className="relative group">
+    <div className="group relative">
       <Link
         to={to}
         className={cn(
-          "inline-flex h-10 items-center justify-center whitespace-nowrap border-b-2 border-transparent pl-4 pr-8 py-1 text-sm font-medium text-neutral-500 transition-all disabled:pointer-events-none disabled:opacity-50 data-[state=active]:border-current data-[state=active]:text-neutral-900",
+          "inline-flex h-10 items-center justify-center border-b-2 border-transparent py-1 pr-8 pl-4 text-sm font-medium whitespace-nowrap text-neutral-500 transition-all disabled:pointer-events-none disabled:opacity-50 data-[state=active]:border-current data-[state=active]:text-neutral-900",
           isSelected && "border-current text-neutral-900",
         )}
         {...props}
@@ -68,7 +68,7 @@ const WorkareaTabsTrigger = ({
       </Link>
       <Link
         to={to}
-        className="opacity-0 group-hover:opacity-100 cursor-pointer absolute right-0 top-1/2 -translate-y-1/2"
+        className="absolute top-1/2 right-0 -translate-y-1/2 cursor-pointer opacity-0 group-hover:opacity-100"
       >
         <X />
       </Link>

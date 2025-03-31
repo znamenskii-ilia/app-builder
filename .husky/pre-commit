@@ -1,2 +1,3 @@
+pnpm prettier
 pnpm check-types
 pnpm lint

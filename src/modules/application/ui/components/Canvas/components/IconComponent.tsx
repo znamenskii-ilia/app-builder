@@ -1,3 +1,3 @@
 export const IconComponent = () => {
-  return <span className="inline-block w-4 h-4 bg-red-500" />;
+  return <span className="inline-block h-4 w-4 bg-red-500" />;
 };

@@ -123,10 +123,10 @@ export const BoxEditor = ({
             onValueChange={handleDirectionChange}
           >
             <ToggleGroupItem value="row" aria-label="Row direction">
-              <MoveRight className="w-4 h-4" />
+              <MoveRight className="h-4 w-4" />
             </ToggleGroupItem>
             <ToggleGroupItem value="column" aria-label="Column direction">
-              <MoveDown className="w-4 h-4" />
+              <MoveDown className="h-4 w-4" />
             </ToggleGroupItem>
           </ToggleGroup>
 
@@ -137,16 +137,16 @@ export const BoxEditor = ({
             onValueChange={handleAlignChange}
           >
             <ToggleGroupItem value="start" aria-label="Start align">
-              <AlignStartHorizontal className="w-4 h-4" />
+              <AlignStartHorizontal className="h-4 w-4" />
             </ToggleGroupItem>
             <ToggleGroupItem value="center" aria-label="Center align">
-              <AlignCenterHorizontal className="w-4 h-4" />
+              <AlignCenterHorizontal className="h-4 w-4" />
             </ToggleGroupItem>
             <ToggleGroupItem value="end" aria-label="End align">
-              <AlignEndHorizontal className="w-4 h-4" />
+              <AlignEndHorizontal className="h-4 w-4" />
             </ToggleGroupItem>
             <ToggleGroupItem value="stretch" aria-label="Stretch align">
-              <SeparatorHorizontal className="w-4 h-4" />
+              <SeparatorHorizontal className="h-4 w-4" />
             </ToggleGroupItem>
           </ToggleGroup>
 
@@ -157,19 +157,19 @@ export const BoxEditor = ({
             onValueChange={handleJustifyChange}
           >
             <ToggleGroupItem value="start" aria-label="Start justify">
-              <AlignHorizontalJustifyStart className="w-4 h-4" />
+              <AlignHorizontalJustifyStart className="h-4 w-4" />
             </ToggleGroupItem>
             <ToggleGroupItem value="center" aria-label="Center justify">
-              <AlignCenterVertical className="w-4 h-4" />
+              <AlignCenterVertical className="h-4 w-4" />
             </ToggleGroupItem>
             <ToggleGroupItem value="end" aria-label="End justify">
-              <AlignHorizontalJustifyEnd className="w-4 h-4" />
+              <AlignHorizontalJustifyEnd className="h-4 w-4" />
             </ToggleGroupItem>
             <ToggleGroupItem value="space-between" aria-label="Space between">
-              <AlignHorizontalSpaceBetween className="w-4 h-4" />
+              <AlignHorizontalSpaceBetween className="h-4 w-4" />
             </ToggleGroupItem>
             <ToggleGroupItem value="space-around" aria-label="Space around">
-              <AlignHorizontalSpaceAround className="w-4 h-4" />
+              <AlignHorizontalSpaceAround className="h-4 w-4" />
             </ToggleGroupItem>
           </ToggleGroup>
 
@@ -229,7 +229,10 @@ export const BoxEditor = ({
             onValueChange={(value) =>
               onComponentChange({
                 ...component,
-                props: { ...component.props, border: value[0] as 0 | 1 | 2 | 3 },
+                props: {
+                  ...component.props,
+                  border: value[0] as 0 | 1 | 2 | 3,
+                },
               })
             }
           />

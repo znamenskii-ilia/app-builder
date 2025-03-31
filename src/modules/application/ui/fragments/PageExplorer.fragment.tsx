@@ -38,11 +38,22 @@ const PageExplorerItemFragment = memo(
         isSelected={selectedComponentId === component.id}
         isHighlighted={highlightedComponentId === component.id}
         onMouseOver={() =>
-          pageEditorActor.send({ type: "HIGHLIGHT_COMPONENT", componentId: component.id })
+          pageEditorActor.send({
+            type: "HIGHLIGHT_COMPONENT",
+            componentId: component.id,
+          })
         }
-        onMouseOut={() => pageEditorActor.send({ type: "HIGHLIGHT_COMPONENT", componentId: null })}
+        onMouseOut={() =>
+          pageEditorActor.send({
+            type: "HIGHLIGHT_COMPONENT",
+            componentId: null,
+          })
+        }
         onSelect={() =>
-          pageEditorActor.send({ type: "SELECT_COMPONENT", componentId: component.id })
+          pageEditorActor.send({
+            type: "SELECT_COMPONENT",
+            componentId: component.id,
+          })
         }
       >
         {component.children.map((componentId) => (

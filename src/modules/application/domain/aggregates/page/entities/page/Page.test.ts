@@ -126,7 +126,10 @@ describe("deleteComponent", () => {
     const page = makePage({
       children: {
         __root: makeBoxComponent({ id: "__root", children: ["box-2"] }),
-        "box-2": makeBoxComponent({ id: "box-2", children: ["box-3", "box-4"] }),
+        "box-2": makeBoxComponent({
+          id: "box-2",
+          children: ["box-3", "box-4"],
+        }),
         "box-3": makeBoxComponent({ id: "box-3", children: ["box-5"] }),
         "box-4": makeBoxComponent({ id: "box-4" }),
         "box-5": makeBoxComponent({ id: "box-5" }),
@@ -202,7 +205,10 @@ describe("moveComponent", () => {
     it("should return the same page if the target component is not a box", () => {
       const page = makePage({
         children: {
-          __root: makeBoxComponent({ id: "__root", children: ["box-2", "box-3"] }),
+          __root: makeBoxComponent({
+            id: "__root",
+            children: ["box-2", "box-3"],
+          }),
           "box-2": makeBoxComponent({ id: "box-2", children: ["button-1"] }),
           "box-3": makeBoxComponent({ id: "box-3", children: ["button-2"] }),
           "button-1": makeButtonComponent({ id: "button-1" }),
@@ -216,7 +222,10 @@ describe("moveComponent", () => {
     it("should move the component", () => {
       const page = makePage({
         children: {
-          __root: makeBoxComponent({ id: "__root", children: ["box-2", "box-3"] }),
+          __root: makeBoxComponent({
+            id: "__root",
+            children: ["box-2", "box-3"],
+          }),
           "box-2": makeBoxComponent({ id: "box-2", children: ["button-1"] }),
           "box-3": makeBoxComponent({ id: "box-3" }),
           "button-1": makeButtonComponent({ id: "button-1" }),
@@ -244,7 +253,10 @@ describe("moveComponent", () => {
   it("when the position is before, it should move the component before the target component", () => {
     const page = makePage({
       children: {
-        __root: makeBoxComponent({ id: "__root", children: ["box-2", "box-3"] }),
+        __root: makeBoxComponent({
+          id: "__root",
+          children: ["box-2", "box-3"],
+        }),
         "box-2": makeBoxComponent({ id: "box-2", children: ["button-1"] }),
         "box-3": makeBoxComponent({ id: "box-3", children: ["button-2"] }),
         "button-1": makeButtonComponent({ id: "button-1" }),
@@ -273,7 +285,10 @@ describe("moveComponent", () => {
   it("when the position is after, it should move the component after the target component", () => {
     const page = makePage({
       children: {
-        __root: makeBoxComponent({ id: "__root", children: ["box-2", "box-3"] }),
+        __root: makeBoxComponent({
+          id: "__root",
+          children: ["box-2", "box-3"],
+        }),
         "box-2": makeBoxComponent({ id: "box-2", children: ["button-1"] }),
         "box-3": makeBoxComponent({ id: "box-3", children: ["button-2"] }),
         "button-1": makeButtonComponent({ id: "button-1" }),

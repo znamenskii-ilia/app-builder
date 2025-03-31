@@ -22,7 +22,7 @@ export const AppExplorerSection = ({
 
   return (
     <Collapsible open={isOpen} onOpenChange={setIsOpen}>
-      <CollapsibleTrigger className="flex items-center p-1 w-full bg-gray-200">
+      <CollapsibleTrigger className="flex w-full items-center bg-gray-200 p-1">
         {isOpen ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
         <div className="ml-1">{title}</div>
       </CollapsibleTrigger>

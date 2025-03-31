@@ -60,7 +60,10 @@ export const ImageEditor = ({
             onValueChange={(event) => {
               onComponentChange({
                 ...component,
-                props: { ...component.props, widthType: event as ImageComponentWidth },
+                props: {
+                  ...component.props,
+                  widthType: event as ImageComponentWidth,
+                },
               });
             }}
           >
@@ -84,7 +87,10 @@ export const ImageEditor = ({
                 onChange={(e) => {
                   onComponentChange({
                     ...component,
-                    props: { ...component.props, customWidth: Number(e.target.value) },
+                    props: {
+                      ...component.props,
+                      customWidth: Number(e.target.value),
+                    },
                   });
                 }}
               />

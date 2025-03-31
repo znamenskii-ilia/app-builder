@@ -48,13 +48,22 @@ const CanvasItemFragment = memo(
             isSelected={selectedComponentId === component.id}
             isHighlighted={highlightedComponentId === component.id}
             onMouseOver={() =>
-              pageEditorActor.send({ type: "HIGHLIGHT_COMPONENT", componentId: component.id })
+              pageEditorActor.send({
+                type: "HIGHLIGHT_COMPONENT",
+                componentId: component.id,
+              })
             }
             onMouseOut={() =>
-              pageEditorActor.send({ type: "HIGHLIGHT_COMPONENT", componentId: null })
+              pageEditorActor.send({
+                type: "HIGHLIGHT_COMPONENT",
+                componentId: null,
+              })
             }
             onClick={() =>
-              pageEditorActor.send({ type: "SELECT_COMPONENT", componentId: component.id })
+              pageEditorActor.send({
+                type: "SELECT_COMPONENT",
+                componentId: component.id,
+              })
             }
             key={component.id}
           >
@@ -75,13 +84,22 @@ const CanvasItemFragment = memo(
             isSelected={selectedComponentId === component.id}
             isHighlighted={highlightedComponentId === component.id}
             onMouseOver={() =>
-              pageEditorActor.send({ type: "HIGHLIGHT_COMPONENT", componentId: component.id })
+              pageEditorActor.send({
+                type: "HIGHLIGHT_COMPONENT",
+                componentId: component.id,
+              })
             }
             onMouseOut={() =>
-              pageEditorActor.send({ type: "HIGHLIGHT_COMPONENT", componentId: null })
+              pageEditorActor.send({
+                type: "HIGHLIGHT_COMPONENT",
+                componentId: null,
+              })
             }
             onClick={() =>
-              pageEditorActor.send({ type: "SELECT_COMPONENT", componentId: component.id })
+              pageEditorActor.send({
+                type: "SELECT_COMPONENT",
+                componentId: component.id,
+              })
             }
             key={component.id}
           />
@@ -93,13 +111,22 @@ const CanvasItemFragment = memo(
             isSelected={selectedComponentId === component.id}
             isHighlighted={highlightedComponentId === component.id}
             onMouseOver={() =>
-              pageEditorActor.send({ type: "HIGHLIGHT_COMPONENT", componentId: component.id })
+              pageEditorActor.send({
+                type: "HIGHLIGHT_COMPONENT",
+                componentId: component.id,
+              })
             }
             onMouseOut={() =>
-              pageEditorActor.send({ type: "HIGHLIGHT_COMPONENT", componentId: null })
+              pageEditorActor.send({
+                type: "HIGHLIGHT_COMPONENT",
+                componentId: null,
+              })
             }
             onClick={() =>
-              pageEditorActor.send({ type: "SELECT_COMPONENT", componentId: component.id })
+              pageEditorActor.send({
+                type: "SELECT_COMPONENT",
+                componentId: component.id,
+              })
             }
             key={component.id}
           />
@@ -111,13 +138,22 @@ const CanvasItemFragment = memo(
             isSelected={selectedComponentId === component.id}
             isHighlighted={highlightedComponentId === component.id}
             onMouseOver={() =>
-              pageEditorActor.send({ type: "HIGHLIGHT_COMPONENT", componentId: component.id })
+              pageEditorActor.send({
+                type: "HIGHLIGHT_COMPONENT",
+                componentId: component.id,
+              })
             }
             onMouseOut={() =>
-              pageEditorActor.send({ type: "HIGHLIGHT_COMPONENT", componentId: null })
+              pageEditorActor.send({
+                type: "HIGHLIGHT_COMPONENT",
+                componentId: null,
+              })
             }
             onClick={() =>
-              pageEditorActor.send({ type: "SELECT_COMPONENT", componentId: component.id })
+              pageEditorActor.send({
+                type: "SELECT_COMPONENT",
+                componentId: component.id,
+              })
             }
             key={component.id}
           />
@@ -129,13 +165,22 @@ const CanvasItemFragment = memo(
             isSelected={selectedComponentId === component.id}
             isHighlighted={highlightedComponentId === component.id}
             onMouseOver={() =>
-              pageEditorActor.send({ type: "HIGHLIGHT_COMPONENT", componentId: component.id })
+              pageEditorActor.send({
+                type: "HIGHLIGHT_COMPONENT",
+                componentId: component.id,
+              })
             }
             onMouseOut={() =>
-              pageEditorActor.send({ type: "HIGHLIGHT_COMPONENT", componentId: null })
+              pageEditorActor.send({
+                type: "HIGHLIGHT_COMPONENT",
+                componentId: null,
+              })
             }
             onClick={() =>
-              pageEditorActor.send({ type: "SELECT_COMPONENT", componentId: component.id })
+              pageEditorActor.send({
+                type: "SELECT_COMPONENT",
+                componentId: component.id,
+              })
             }
             key={component.id}
           />

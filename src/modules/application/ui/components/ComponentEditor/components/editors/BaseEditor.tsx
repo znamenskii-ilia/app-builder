@@ -51,7 +51,7 @@ export const BaseEditor = <TComponent extends Component>({
           </div>
         )}
         <Button size="icon-sm" variant="ghost" onClick={() => onComponentDelete(component.id)}>
-          <Trash2 className="w-4 h-4" />
+          <Trash2 className="h-4 w-4" />
         </Button>
       </div>
       {children}
