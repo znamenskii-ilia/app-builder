@@ -10,7 +10,7 @@ import {
   moveComponent,
   renamePage,
 } from "./Page";
-import { makePage } from "../Page.factory";
+import { makePage } from "./Page.factory";
 
 describe("renamePage", () => {
   test("should rename the page", () => {
