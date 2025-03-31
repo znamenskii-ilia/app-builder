@@ -1,5 +1,5 @@
+import { ComponentEvent } from "../../../valueObjects/ComponentEvent";
 import type { BaseComponent } from "../BaseComponent";
-import type { ComponentEvent } from "../../page/valueObjects/ComponentEvent";
 
 export type ButtonComponentSize = "small" | "medium" | "large";
 export type ButtonComponentVariant = "text" | "contained" | "outlined";
