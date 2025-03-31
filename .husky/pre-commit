@@ -1,3 +1,2 @@
-pnpm prettier
 pnpm check-types
-pnpm lint
+pnpm run lint-staged
