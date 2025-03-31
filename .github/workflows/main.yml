@@ -17,13 +17,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: "yarn" # Automatically caches ~/.cache/yarn
+          cache: "pnpm" # Automatically caches ~/.cache/pnpm
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Run unit tests
-        run: yarn test
+        run: pnpm test
 
   lint:
     name: Lint
@@ -37,13 +37,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: "yarn"
+          cache: "pnpm"
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Run lint
-        run: yarn lint
+        run: pnpm lint
 
   build:
     name: Build
@@ -58,10 +58,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: "yarn"
+          cache: "pnpm"
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Build the app
-        run: yarn build
+        run: pnpm build
