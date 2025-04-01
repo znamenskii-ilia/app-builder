@@ -16,6 +16,11 @@ export const AppNavFragment = ({ applicationActor }: AppNavFragmentProps) => {
   if (!application) return null;
 
   const handleEntityDelete = (entityId: string, entityType: "page" | "function" | "dataSource") => {
+    console.log("[DELETE ENTITY] Deleting entity", entityId, entityType);
+    const confirm = window.confirm("Are you sure you want to delete this entity?");
+
+    if (!confirm) return;
+
     applicationActor.send({
       type: "DELETE_ENTITY",
       entityId,
