@@ -61,7 +61,7 @@ const PageExplorerItemFragment = memo(
             pageActor={pageActor}
             pageEditorActor={pageEditorActor}
             component={page.children[componentId]}
-            level={(level + 1) as 0 | 1 | 2 | 3 | 4}
+            level={level + 1}
             key={componentId}
           />
         ))}

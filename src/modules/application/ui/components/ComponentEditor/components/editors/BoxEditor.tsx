@@ -184,7 +184,7 @@ export const BoxEditor = ({
                 ...component,
                 props: {
                   ...component.props,
-                  padding: value[0] as 0 | 1 | 2 | 3 | 4 | 5 | 6,
+                  padding: value[0],
                 },
               })
             }
@@ -201,7 +201,7 @@ export const BoxEditor = ({
                 ...component,
                 props: {
                   ...component.props,
-                  gap: value[0] as 0 | 1 | 2 | 3 | 4 | 5 | 6,
+                  gap: value[0],
                 },
               })
             }
@@ -231,7 +231,7 @@ export const BoxEditor = ({
                 ...component,
                 props: {
                   ...component.props,
-                  border: value[0] as 0 | 1 | 2 | 3,
+                  border: value[0],
                 },
               })
             }

@@ -1,20 +1,18 @@
 import type { BaseComponent } from "../BaseComponent";
 
-export type HeadingComponentLevel = 1 | 2 | 3 | 4 | 5 | 6;
 export type HeadingComponentAlign = "left" | "center" | "right";
-export type HeadingComponentMargin = 1 | 2 | 3 | 4 | 5 | 6;
 
 export type HeadingComponent = BaseComponent & {
   component: "Heading";
   props: {
     text: string;
-    level: HeadingComponentLevel;
+    level: number;
     align: HeadingComponentAlign;
     color: string;
-    marginTop: HeadingComponentMargin;
-    marginRight: HeadingComponentMargin;
-    marginBottom: HeadingComponentMargin;
-    marginLeft: HeadingComponentMargin;
+    marginTop: number;
+    marginRight: number;
+    marginBottom: number;
+    marginLeft: number;
   };
 };
 
@@ -27,10 +25,10 @@ export const newHeadingComponent = (id: string): HeadingComponent => ({
     level: 1,
     align: "left",
     color: "black",
-    marginTop: 0 as HeadingComponentMargin,
-    marginRight: 0 as HeadingComponentMargin,
-    marginBottom: 0 as HeadingComponentMargin,
-    marginLeft: 0 as HeadingComponentMargin,
+    marginTop: 0,
+    marginRight: 0,
+    marginBottom: 0,
+    marginLeft: 0,
   },
   children: [],
 });

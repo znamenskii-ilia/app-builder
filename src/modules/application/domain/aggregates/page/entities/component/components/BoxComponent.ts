@@ -27,10 +27,10 @@ export type BoxComponent = BaseComponent & {
     };
     align: BoxComponentAlign;
     justify: BoxComponentJustify;
-    gap: 0 | 1 | 2 | 3 | 4 | 5 | 6;
-    padding: 0 | 1 | 2 | 3 | 4 | 5 | 6;
+    gap: number;
+    padding: number;
     background: string;
-    border: 0 | 1 | 2 | 3;
+    border: number;
   };
 };
 

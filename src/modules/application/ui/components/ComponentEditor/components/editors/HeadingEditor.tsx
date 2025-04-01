@@ -10,11 +10,7 @@ import {
   SelectValue,
 } from "@/common/ui/components/select";
 import { ToggleGroup, ToggleGroupItem } from "@/common/ui/components/toggle-group";
-import type {
-  HeadingComponent,
-  HeadingComponentLevel,
-  HeadingComponentMargin,
-} from "@/modules/application/domain";
+import type { HeadingComponent } from "@/modules/application/domain";
 import { PropertyGrid } from "../PropertyGrid";
 import { Section } from "../Section";
 import { BaseEditor, BaseEditorProps } from "./BaseEditor";
@@ -45,7 +41,7 @@ export const HeadingEditor = ({
                 ...component,
                 props: {
                   ...component.props,
-                  level: parseInt(value) as HeadingComponentLevel,
+                  level: parseInt(value),
                 },
               })
             }
@@ -118,7 +114,7 @@ export const HeadingEditor = ({
                 ...component,
                 props: {
                   ...component.props,
-                  marginTop: parseInt(e.target.value) as HeadingComponentMargin,
+                  marginTop: parseInt(e.target.value),
                 },
               })
             }
@@ -136,7 +132,7 @@ export const HeadingEditor = ({
                 ...component,
                 props: {
                   ...component.props,
-                  marginRight: parseInt(e.target.value) as HeadingComponentMargin,
+                  marginRight: parseInt(e.target.value),
                 },
               })
             }
@@ -154,7 +150,7 @@ export const HeadingEditor = ({
                 ...component,
                 props: {
                   ...component.props,
-                  marginBottom: parseInt(e.target.value) as HeadingComponentMargin,
+                  marginBottom: parseInt(e.target.value),
                 },
               })
             }
@@ -172,7 +168,7 @@ export const HeadingEditor = ({
                 ...component,
                 props: {
                   ...component.props,
-                  marginLeft: parseInt(e.target.value) as HeadingComponentMargin,
+                  marginLeft: parseInt(e.target.value),
                 },
               })
             }
