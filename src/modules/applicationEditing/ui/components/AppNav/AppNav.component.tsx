@@ -4,6 +4,7 @@ import { tv } from "tailwind-variants";
 
 import { Application } from "@/modules/applicationEditing/domain";
 import { AppEntityExplorer, AppEntityExplorerItem } from "../AppEntityExplorer";
+import { NoEntitiesCta } from "../NoEntitiesCta/NoEntitiesCta";
 
 type AppNavProps = {
   application: Application;
@@ -60,44 +61,56 @@ export const AppNav = ({ application, onEntityDelete }: AppNavProps) => {
         <div className={styles.entityPanel()}>
           {openPanel === "pages" && (
             <AppEntityExplorer>
-              {application.pages.map((page) => (
-                <AppEntityExplorerItem
-                  key={page.id}
-                  title={page.name}
-                  to={`/applications/${application.id}/pages/${page.id}`}
-                  onDelete={() => {
-                    onEntityDelete(page.id, "page");
-                  }}
-                />
-              ))}
+              {application.pages.length > 0 ? (
+                application.pages.map((page) => (
+                  <AppEntityExplorerItem
+                    key={page.id}
+                    title={page.name}
+                    to={`/applications/${application.id}/pages/${page.id}`}
+                    onDelete={() => {
+                      onEntityDelete(page.id, "page");
+                    }}
+                  />
+                ))
+              ) : (
+                <NoEntitiesCta entityType="page" applicationId={application.id} />
+              )}
             </AppEntityExplorer>
           )}
           {openPanel === "functions" && (
             <AppEntityExplorer>
-              {application.functions.map((jsFunction) => (
-                <AppEntityExplorerItem
-                  key={jsFunction.id}
-                  title={jsFunction.name}
-                  to={`/applications/${application.id}/functions/${jsFunction.id}`}
-                  onDelete={() => {
-                    onEntityDelete(jsFunction.id, "function");
-                  }}
-                />
-              ))}
+              {application.functions.length > 0 ? (
+                application.functions.map((jsFunction) => (
+                  <AppEntityExplorerItem
+                    key={jsFunction.id}
+                    title={jsFunction.name}
+                    to={`/applications/${application.id}/functions/${jsFunction.id}`}
+                    onDelete={() => {
+                      onEntityDelete(jsFunction.id, "function");
+                    }}
+                  />
+                ))
+              ) : (
+                <NoEntitiesCta entityType="function" applicationId={application.id} />
+              )}
             </AppEntityExplorer>
           )}
           {openPanel === "dataSources" && (
             <AppEntityExplorer>
-              {application.dataSources.map((dataSource) => (
-                <AppEntityExplorerItem
-                  key={dataSource.id}
-                  title={dataSource.name}
-                  to={`/applications/${application.id}/dataSources/${dataSource.id}`}
-                  onDelete={() => {
-                    onEntityDelete(dataSource.id, "dataSource");
-                  }}
-                />
-              ))}
+              {application.dataSources.length > 0 ? (
+                application.dataSources.map((dataSource) => (
+                  <AppEntityExplorerItem
+                    key={dataSource.id}
+                    title={dataSource.name}
+                    to={`/applications/${application.id}/dataSources/${dataSource.id}`}
+                    onDelete={() => {
+                      onEntityDelete(dataSource.id, "dataSource");
+                    }}
+                  />
+                ))
+              ) : (
+                <NoEntitiesCta entityType="dataSource" applicationId={application.id} />
+              )}
             </AppEntityExplorer>
           )}
         </div>

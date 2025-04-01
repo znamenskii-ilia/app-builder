@@ -13,8 +13,8 @@ type AppEntityExplorerItemProps = {
 
 const makeStyles = tv({
   slots: {
-    base: "flex items-center justify-between py-1 px-2 hover:bg-gray-200",
-    link: "flex-1",
+    base: "flex items-center justify-between hover:bg-gray-200",
+    link: "flex-1 py-1 px-2",
   },
   variants: {
     isSelected: {
