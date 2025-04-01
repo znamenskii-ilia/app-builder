@@ -1,2 +1,2 @@
-pnpm check-types
+pnpm run check-types
 pnpm run lint-staged

@@ -56,15 +56,20 @@ const PageExplorerItemFragment = memo(
           })
         }
       >
-        {component.children.map((componentId) => (
-          <PageExplorerItemFragment
-            pageActor={pageActor}
-            pageEditorActor={pageEditorActor}
-            component={page.children[componentId]}
-            level={level + 1}
-            key={componentId}
-          />
-        ))}
+        {component.children.map((componentId) => {
+          if (!page.children[componentId]) {
+            console.log(componentId);
+          }
+          return (
+            <PageExplorerItemFragment
+              pageActor={pageActor}
+              pageEditorActor={pageEditorActor}
+              component={page.children[componentId]}
+              level={level + 1}
+              key={componentId}
+            />
+          );
+        })}
       </PageExplorerItem>
     );
   },

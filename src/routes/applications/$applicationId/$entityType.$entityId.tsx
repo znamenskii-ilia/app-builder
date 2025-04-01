@@ -55,9 +55,6 @@ function PagePage() {
   );
   const selectedComponent = useSelector(pageActor[2], selectComponentMaybe(selectedComponentId));
 
-  // const pageJson = useSelector(pageActor[2], selectToJson);
-  // console.log("pageJson", pageJson);
-
   const handleDragEnd = (event: DragEndEvent) => {
     if (!event.over) return;
 

@@ -69,6 +69,13 @@ export const deleteComponent = (page: Page, componentId: string): Page => {
     });
   }
 
+  // Delete the component from the parent
+  const componentParentId = findParentWithChild(nextPage, componentId);
+
+  if (!componentParentId) return page;
+
+  nextPage = detachComponent(nextPage, componentId, componentParentId);
+
   const newChildren = { ...nextPage.children };
 
   delete newChildren[componentId];

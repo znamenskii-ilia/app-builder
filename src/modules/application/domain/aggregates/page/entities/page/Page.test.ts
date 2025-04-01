@@ -117,7 +117,10 @@ describe("deleteComponent", () => {
     expect(deleteComponent(page, "box-2")).toEqual({
       ...page,
       children: {
-        __root: page.children["__root"],
+        __root: {
+          ...page.children["__root"],
+          children: [],
+        },
       },
     });
   });
@@ -139,7 +142,10 @@ describe("deleteComponent", () => {
     expect(deleteComponent(page, "box-2")).toEqual({
       ...page,
       children: {
-        __root: page.children["__root"],
+        __root: {
+          ...page.children["__root"],
+          children: [],
+        },
       },
     });
   });

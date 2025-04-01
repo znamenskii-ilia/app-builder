@@ -1,4 +1,3 @@
-import memoizeOne from "memoize-one";
 import { SnapshotFrom } from "xstate";
 
 import {
@@ -37,26 +36,6 @@ export const selectRootComponent = (pageSnapshot: SnapshotFrom<typeof pageLogic>
 
   return getRootComponent(page);
 };
-
-export const selectToJson = memoizeOne((pageContext: SnapshotFrom<typeof pageLogic>): string => {
-  const { page } = pageContext.context;
-
-  if (!page) {
-    throw new Error("Page is not found");
-  }
-
-  const componentToJson = (component: Component) => {
-    return {
-      id: component.id,
-      component: component,
-      children: component.children,
-    };
-  };
-
-  const json = Object.values(page.children).map(componentToJson);
-
-  return JSON.stringify(json, null, 2);
-});
 
 export type PageExplorerAdapterProps = {
   pageActor: PageActor;
