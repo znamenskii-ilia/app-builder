@@ -7,6 +7,7 @@ import { AppEntityExplorer, AppEntityExplorerItem } from "../AppEntityExplorer";
 
 type AppNavProps = {
   application: Application;
+  onEntityDelete: (entityId: string, entityType: "page" | "function" | "dataSource") => void;
 };
 
 const makeStyles = tv({
@@ -25,7 +26,7 @@ const makeStyles = tv({
   },
 });
 
-export const AppNav = ({ application }: AppNavProps) => {
+export const AppNav = ({ application, onEntityDelete }: AppNavProps) => {
   const [openPanel, setOpenPanel] = useState<"pages" | "functions" | "dataSources" | null>(null);
   const styles = makeStyles();
   const handlePanelClick = (panel: "pages" | "functions" | "dataSources") => {
@@ -64,6 +65,9 @@ export const AppNav = ({ application }: AppNavProps) => {
                   key={page.id}
                   title={page.name}
                   to={`/applications/${application.id}/pages/${page.id}`}
+                  onDelete={() => {
+                    onEntityDelete(page.id, "page");
+                  }}
                 />
               ))}
             </AppEntityExplorer>
@@ -75,6 +79,9 @@ export const AppNav = ({ application }: AppNavProps) => {
                   key={jsFunction.id}
                   title={jsFunction.name}
                   to={`/applications/${application.id}/functions/${jsFunction.id}`}
+                  onDelete={() => {
+                    onEntityDelete(jsFunction.id, "function");
+                  }}
                 />
               ))}
             </AppEntityExplorer>
@@ -86,6 +93,9 @@ export const AppNav = ({ application }: AppNavProps) => {
                   key={dataSource.id}
                   title={dataSource.name}
                   to={`/applications/${application.id}/dataSources/${dataSource.id}`}
+                  onDelete={() => {
+                    onEntityDelete(dataSource.id, "dataSource");
+                  }}
                 />
               ))}
             </AppEntityExplorer>

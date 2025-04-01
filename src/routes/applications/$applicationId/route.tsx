@@ -1,58 +1,28 @@
-import { Application } from "@/modules/applicationEditing/domain";
-import { AppNav } from "@/modules/applicationEditing/ui/components/AppNav";
-import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
+import { createFileRoute, Outlet } from "@tanstack/react-router";
+import { useActor } from "@xstate/react";
+
+import { applicationLogic } from "@/modules/applicationEditing/application/interactors/application/application.logic";
+import { AppNavFragment } from "@/modules/applicationEditing/ui/fragments/AppNav.fragment";
 
 export const Route = createFileRoute("/applications/$applicationId")({
   component: ApplicationPage,
-  loader: async ({ params }) => {
-    const application: Application = {
-      id: params.applicationId,
-      name: "Application 1",
-      description: "Description 1",
-      lastModified: 1717171717171,
-      pages: [
-        {
-          id: "page-1",
-          name: "Page 1",
-          type: "page",
-        },
-        {
-          id: "page-2",
-          name: "Page 2",
-          type: "page",
-        },
-      ],
-      functions: [
-        {
-          id: "function-1",
-          name: "Function 1",
-          type: "function",
-        },
-      ],
-      dataSources: [],
-    };
-
-    if (application.pages.length > 0) {
-      redirect({
-        to: `/applications/$applicationId/$entityType/$entityId`,
-        params: {
-          applicationId: params.applicationId,
-          entityType: "pages",
-          entityId: application.pages[0].id,
-        },
-      });
-    }
-
-    return { application };
-  },
 });
 
 function ApplicationPage() {
-  const { application } = Route.useLoaderData();
+  const { applicationId } = Route.useParams();
+  const [applicationSnapshot, _, applicationActor] = useActor(applicationLogic, {
+    input: {
+      applicationId,
+    },
+  });
+
+  if (applicationSnapshot.matches("loading")) {
+    return <div>Application is loading...</div>;
+  }
 
   return (
     <div className="flex h-full">
-      <AppNav application={application} />
+      <AppNavFragment applicationActor={applicationActor} />
       <div className="flex-1">
         <Outlet />
       </div>

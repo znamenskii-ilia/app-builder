@@ -1,15 +1,20 @@
 import { Link } from "@tanstack/react-router";
 import { tv } from "tailwind-variants";
 
+import { Button } from "@/common/ui/components/button";
+import { Trash2 } from "lucide-react";
+
 type AppEntityExplorerItemProps = {
   title: string;
   to: string;
   isSelected?: boolean;
+  onDelete?: () => void;
 };
 
 const makeStyles = tv({
   slots: {
-    base: "block py-1 px-2 hover:bg-gray-200",
+    base: "flex items-center justify-between py-1 px-2 hover:bg-gray-200",
+    link: "flex-1",
   },
   variants: {
     isSelected: {
@@ -22,12 +27,18 @@ export const AppEntityExplorerItem = ({
   title,
   to,
   isSelected = false,
+  onDelete,
 }: AppEntityExplorerItemProps) => {
   const styles = makeStyles({ isSelected });
 
   return (
-    <Link to={to} className={styles.base()}>
-      {title}
-    </Link>
+    <div className={styles.base()}>
+      <Link to={to} className={styles.link()}>
+        {title}
+      </Link>
+      <Button variant="ghost" size="icon-sm" onClick={onDelete}>
+        <Trash2 width={16} height={16} />
+      </Button>
+    </div>
   );
 };

@@ -1,4 +1,4 @@
-export type ApplicationEntityType = "page" | "data-source" | "function";
+export type ApplicationEntityType = "page" | "function" | "dataSource";
 
 export type ApplicationEntity = {
   id: string;
