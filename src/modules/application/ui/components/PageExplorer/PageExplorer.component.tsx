@@ -14,7 +14,7 @@ export const PageExplorer = ({ children }: PageExplorerProps) => {
   const styles = makeStyles();
 
   return (
-    <div className={styles.base()}>
+    <div className={styles.base()} role="tree" aria-label="Page explorer">
       <h3 className="mb-1 px-2">Page explorer</h3>
       {children}
     </div>

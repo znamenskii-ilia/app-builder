@@ -114,6 +114,10 @@ export const PageExplorerItem = ({
           onMouseOut();
         }}
         onClick={onSelect}
+        role="treeitem"
+        aria-level={level + 1}
+        aria-selected={isSelected}
+        aria-expanded={children !== undefined}
       >
         <ComponentIcon componentType={componentType} />
         {componentName}
@@ -128,7 +132,7 @@ export const PageExplorerItem = ({
         )}
       </div>
 
-      {children && <div>{children}</div>}
+      {children && <div role="group">{children}</div>}
     </div>
   );
 };
