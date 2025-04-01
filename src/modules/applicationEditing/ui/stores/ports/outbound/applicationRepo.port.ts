@@ -1,4 +1,4 @@
-import type { Application } from "../../../domain";
+import type { Application } from "@/modules/applicationEditing/domain";
 
 export type ApplicationRepo = {
   // createPage: (pageName: string) => Promise<Page>;

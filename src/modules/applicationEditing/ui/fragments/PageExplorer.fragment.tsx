@@ -6,8 +6,8 @@ import { memo } from "react";
 import {
   PageActor,
   selectPageMaybe,
-} from "@/modules/applicationEditing/application/interactors/page";
-import { PageEditorActor } from "@/modules/applicationEditing/application/interactors/pageEditor";
+} from "@/modules/applicationEditing/ui/stores/interactors/page";
+import { PageEditorActor } from "@/modules/applicationEditing/ui/stores/interactors/pageEditor";
 import { type Component, getRootComponent } from "@/modules/applicationEditing/domain";
 import {
   PageExplorer,

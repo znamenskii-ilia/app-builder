@@ -1,12 +1,12 @@
 import { useSelector } from "@xstate/react";
 import { memo, PropsWithChildren } from "react";
 
-import { PageActor } from "@/modules/applicationEditing/application/interactors/page";
+import { PageActor } from "@/modules/applicationEditing/ui/stores/interactors/page";
 import {
   selectPageMaybe,
   selectRootComponent,
-} from "@/modules/applicationEditing/application/interactors/page/page.selectors";
-import { PageEditorActor } from "@/modules/applicationEditing/application/interactors/pageEditor/pageEditor.logic";
+} from "@/modules/applicationEditing/ui/stores/interactors/page/page.selectors";
+import { PageEditorActor } from "@/modules/applicationEditing/ui/stores/interactors/pageEditor/pageEditor.logic";
 import type { Component } from "@/modules/applicationEditing/domain";
 
 import {

@@ -3,8 +3,8 @@ import { useSelector } from "@xstate/react";
 import {
   PageActor,
   selectComponentMaybe,
-} from "@/modules/applicationEditing/application/interactors/page";
-import { PageEditorActor } from "@/modules/applicationEditing/application/interactors/pageEditor";
+} from "@/modules/applicationEditing/ui/stores/interactors/page";
+import { PageEditorActor } from "@/modules/applicationEditing/ui/stores/interactors/pageEditor";
 import { ComponentEditor } from "@/modules/applicationEditing/ui/components/ComponentEditor";
 
 type ComponentEditorFragmentProps = {

@@ -8,8 +8,8 @@ import {
   pageLogic,
   selectComponentMaybe,
   selectPageMaybe,
-} from "@/modules/applicationEditing/application/interactors/page";
-import { pageEditorLogic } from "@/modules/applicationEditing/application/interactors/pageEditor";
+} from "@/modules/applicationEditing/ui/stores/interactors/page";
+import { pageEditorLogic } from "@/modules/applicationEditing/ui/stores/interactors/pageEditor";
 import { Canvas } from "@/modules/applicationEditing/ui/components/Canvas";
 import { CanvasFragment } from "@/modules/applicationEditing/ui/fragments/Canvas.fragment";
 import { ComponentEditorFragment } from "@/modules/applicationEditing/ui/fragments/ComponentEditor.fragment";

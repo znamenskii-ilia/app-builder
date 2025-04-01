@@ -1,7 +1,7 @@
 import { useMatch, useNavigate } from "@tanstack/react-router";
 import { useSelector } from "@xstate/react";
 
-import { ApplicationActor } from "@/modules/applicationEditing/application/interactors/application/application.logic";
+import { ApplicationActor } from "@/modules/applicationEditing/ui/stores/interactors/application/application.logic";
 import { AppNav } from "../components/AppNav";
 
 type AppNavFragmentProps = {

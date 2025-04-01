@@ -1,5 +1,5 @@
-import { PageRepo } from "../../application/ports/outbound/pageRepo.port";
-import { newBoxComponent, Page } from "../../domain";
+import { newBoxComponent, Page } from "@/modules/applicationEditing/domain";
+import { PageRepo } from "@/modules/applicationEditing/ui/stores/ports/outbound/pageRepo.port";
 
 const findPage = async (pageId: string) => {
   const page = localStorage.getItem(`page-${pageId}`);

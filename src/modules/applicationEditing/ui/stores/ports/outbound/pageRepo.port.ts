@@ -1,4 +1,4 @@
-import type { Page } from "../../../domain";
+import type { Page } from "@/modules/applicationEditing/domain";
 
 export type PageRepo = {
   // createPage: (pageName: string) => Promise<Page>;

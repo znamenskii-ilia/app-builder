@@ -1,7 +1,7 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 import { useActor } from "@xstate/react";
 
-import { applicationLogic } from "@/modules/applicationEditing/application/interactors/application/application.logic";
+import { applicationLogic } from "@/modules/applicationEditing/ui/stores/interactors/application/application.logic";
 import { AppNavFragment } from "@/modules/applicationEditing/ui/fragments/AppNav.fragment";
 
 export const Route = createFileRoute("/applications/$applicationId")({
