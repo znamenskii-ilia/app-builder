@@ -81,18 +81,18 @@ export const HeadingComponent = memo(
     onMouseOut,
     onClick,
   }: HeadingComponentProps) => {
-    const Component = `h${component.props.level}` as const;
+    const Component = `h${component.props.level as 1 | 2 | 3 | 4 | 5 | 6}` as const;
     const styles = makeStyles({ isSelected, isHighlighted });
 
     return (
       <Component
         className={styles.base({
-          level: component.props.level,
+          level: component.props.level as 1 | 2 | 3 | 4 | 5 | 6,
           align: component.props.align,
-          marginTop: component.props.marginTop,
-          marginRight: component.props.marginRight,
-          marginBottom: component.props.marginBottom,
-          marginLeft: component.props.marginLeft,
+          marginTop: component.props.marginTop as 1 | 2 | 3 | 4 | 5 | 6,
+          marginRight: component.props.marginRight as 1 | 2 | 3 | 4 | 5 | 6,
+          marginBottom: component.props.marginBottom as 1 | 2 | 3 | 4 | 5 | 6,
+          marginLeft: component.props.marginLeft as 1 | 2 | 3 | 4 | 5 | 6,
         })}
         style={{ color: component.props.color }}
         onMouseOver={(event) => {

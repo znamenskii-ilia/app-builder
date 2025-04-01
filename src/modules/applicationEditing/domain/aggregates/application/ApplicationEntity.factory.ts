@@ -8,7 +8,7 @@ export const createApplicationEntity = (
   return {
     id: faker.string.uuid(),
     name: faker.lorem.words(2),
-    type: faker.helpers.arrayElement(["page", "data-source", "function"]),
+    type: faker.helpers.arrayElement(["page", "dataSource", "function"]),
     ...applicationEntity,
   };
 };

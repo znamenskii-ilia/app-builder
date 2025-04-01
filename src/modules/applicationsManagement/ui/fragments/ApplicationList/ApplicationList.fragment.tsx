@@ -8,14 +8,18 @@ export const ApplicationListFragment = () => {
       name: "Application 1",
       description: "Description 1",
       lastModified: 1717171717171,
-      pageCount: 1,
+      pages: [],
+      functions: [],
+      dataSources: [],
     },
     {
       id: "2",
       name: "Application 2",
       description: "Description 2",
       lastModified: 1717171717171,
-      pageCount: 2,
+      pages: [],
+      functions: [],
+      dataSources: [],
     },
   ];
 

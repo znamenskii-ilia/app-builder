@@ -11,7 +11,7 @@ export type Application = {
     id: string;
     name: string;
   }[];
-  datasources: {
+  dataSources: {
     id: string;
     name: string;
   }[];

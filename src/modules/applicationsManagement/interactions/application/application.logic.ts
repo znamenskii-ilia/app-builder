@@ -17,22 +17,20 @@ export const applicationLogic = setup({
       const application: Application = {
         id: input.applicationId,
         name: "Nebula Dashboard",
-        description: "Building responsive web applications using React and TypeScript",
+        description: "Nebula Dashboard",
         lastModified: 1715731200,
         pages: [
           {
             id: "1",
             name: "Home",
-            description: "Home page",
-            lastModified: 1715731200,
           },
           {
             id: "2",
             name: "About",
-            description: "About page",
-            lastModified: 1715731200,
           },
         ],
+        functions: [],
+        dataSources: [],
       };
 
       return application;

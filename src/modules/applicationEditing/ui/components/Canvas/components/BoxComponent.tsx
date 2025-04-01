@@ -109,9 +109,9 @@ export const BoxComponent = memo(
           direction: component.props.direction,
           align: component.props.align,
           justify: component.props.justify,
-          padding: component.props.padding,
-          gap: component.props.gap,
-          border: component.props.border,
+          padding: component.props.padding as 0 | 1 | 2 | 3 | 4 | 5 | 6,
+          gap: component.props.gap as 0 | 1 | 2 | 3 | 4 | 5 | 6,
+          border: component.props.border as 0 | 1 | 2 | 3,
         })}
         style={{ backgroundColor: component.props.background }}
       >

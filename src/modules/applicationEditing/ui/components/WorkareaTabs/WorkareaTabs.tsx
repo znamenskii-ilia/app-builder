@@ -45,7 +45,7 @@ const WorkareaTabsTrigger = ({
 }: WorkareaTabsTriggerProps) => {
   const resolveIcon = () => {
     if (entityType === "page") return <PanelsTopLeft size={22} />;
-    if (entityType === "data-source") return <ArrowUpDown size={20} />;
+    if (entityType === "dataSource") return <ArrowUpDown size={20} />;
     if (entityType === "function") return <Braces size={18} />;
 
     return null;

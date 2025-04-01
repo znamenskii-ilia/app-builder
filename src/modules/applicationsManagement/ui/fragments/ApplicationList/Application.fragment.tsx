@@ -23,7 +23,7 @@ export const ApplicationFragment = ({ applicationId }: ApplicationFragmentProps)
         },
       ],
       functions: [],
-      datasources: [],
+      dataSources: [],
     },
     {
       id: "2",
@@ -32,7 +32,7 @@ export const ApplicationFragment = ({ applicationId }: ApplicationFragmentProps)
       lastModified: 1717171717171,
       pages: [],
       functions: [],
-      datasources: [],
+      dataSources: [],
     },
   ];
 
