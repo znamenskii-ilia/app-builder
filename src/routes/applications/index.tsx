@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ApplicationList } from "../../modules/applications/ui/components/ApplicationList";
+import { ApplicationList } from "../../modules/applicationsManagement/ui/components/ApplicationList";
 
 export const Route = createFileRoute("/applications/")({
   component: RootPage,
