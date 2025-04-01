@@ -8,13 +8,13 @@ import {
   pageLogic,
   selectComponentMaybe,
   selectPageMaybe,
-} from "@/modules/application/application/interactors/page";
-import { pageEditorLogic } from "@/modules/application/application/interactors/pageEditor/pageEditor.logic";
-import { Canvas } from "@/modules/application/ui/components/Canvas";
-import { CanvasFragment } from "@/modules/application/ui/fragments/Canvas.fragment";
-import { ComponentEditorFragment } from "@/modules/application/ui/fragments/ComponentEditor.fragment";
-import { ComponentsLibraryFragment } from "@/modules/application/ui/fragments/ComponentsLibrary.fragment";
-import { PageExplorerFragment } from "@/modules/application/ui/fragments/PageExplorer.fragment";
+} from "@/modules/applicationEditing/application/interactors/page";
+import { pageEditorLogic } from "@/modules/applicationEditing/application/interactors/pageEditor";
+import { Canvas } from "@/modules/applicationEditing/ui/components/Canvas";
+import { CanvasFragment } from "@/modules/applicationEditing/ui/fragments/Canvas.fragment";
+import { ComponentEditorFragment } from "@/modules/applicationEditing/ui/fragments/ComponentEditor.fragment";
+import { ComponentsLibraryFragment } from "@/modules/applicationEditing/ui/fragments/ComponentsLibrary.fragment";
+import { PageExplorerFragment } from "@/modules/applicationEditing/ui/fragments/PageExplorer.fragment";
 
 export const Route = createFileRoute("/applications/$applicationId/$entityType/$entityId")({
   component: EntityPage,

@@ -5,7 +5,7 @@ import {
   getRootComponent,
   type Component,
   type Page,
-} from "@/modules/application/domain";
+} from "@/modules/applicationEditing/domain";
 
 import { PageActor, pageLogic } from "./page.logic";
 

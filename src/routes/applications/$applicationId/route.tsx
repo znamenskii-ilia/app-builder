@@ -1,72 +1,59 @@
-import { createFileRoute, Outlet } from "@tanstack/react-router";
-import { useMachine } from "@xstate/react";
-import { useEffect } from "react";
-import { applicationEditorLogic } from "../../../modules/application/application/interactors/applicationEditor";
-import { ApplicationEntityType } from "../../../modules/application/domain/aggregates/application/ApplicationEntity";
-import { Route as PageRoute } from "./$entityType.$entityId";
+import { Application } from "@/modules/applicationEditing/domain";
+import { AppNav } from "@/modules/applicationEditing/ui/components/AppNav";
+import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/applications/$applicationId")({
   component: ApplicationPage,
+  loader: async ({ params }) => {
+    const application: Application = {
+      id: params.applicationId,
+      name: "Application 1",
+      description: "Description 1",
+      lastModified: 1717171717171,
+      pages: [
+        {
+          id: "page-1",
+          name: "Page 1",
+          type: "page",
+        },
+        {
+          id: "page-2",
+          name: "Page 2",
+          type: "page",
+        },
+      ],
+      functions: [
+        {
+          id: "function-1",
+          name: "Function 1",
+          type: "function",
+        },
+      ],
+      dataSources: [],
+    };
+
+    if (application.pages.length > 0) {
+      redirect({
+        to: `/applications/$applicationId/$entityType/$entityId`,
+        params: {
+          applicationId: params.applicationId,
+          entityType: "pages",
+          entityId: application.pages[0].id,
+        },
+      });
+    }
+
+    return { application };
+  },
 });
 
-const routeEntityTypeToEntityType = (entityType: string): ApplicationEntityType => {
-  switch (entityType) {
-    case "pages":
-      return "page";
-    case "data-sources":
-      return "data-source";
-    case "functions":
-      return "function";
-    default: {
-      throw new Error(`Unknown entity type: ${entityType}`);
-    }
-  }
-};
-
 function ApplicationPage() {
-  const { applicationId } = Route.useParams();
-  const { entityType, entityId } = PageRoute.useParams();
-  const [applicationEditor, _, applicationEditorActor] = useMachine(applicationEditorLogic, {
-    input: {
-      applicationId,
-      entity: [routeEntityTypeToEntityType(entityType), entityId],
-    },
-  });
-
-  useEffect(() => {
-    applicationEditorActor.send({
-      type: "SELECT_ENTITY",
-      entity: [routeEntityTypeToEntityType(entityType), entityId],
-    });
-  }, [applicationEditorActor, entityType, entityId]);
-
-  if (!applicationEditor.matches("applicationLoaded")) {
-    return <div>Loading...</div>;
-  }
+  const { application } = Route.useLoaderData();
 
   return (
-    <div className="flex w-full flex-1">
-      {/* <div className="border-r border-gray-200 overflow-auto w-[250px]">
-        <div className="p-3">{applicationEditor.context.application?.name}</div>
-        <AppExplorerAdapter
-          selectedEntityId={entityId}
-          applicationEditorActor={applicationEditorActor}
-        />
-      </div> */}
-      <div className="flex flex-1 flex-col bg-gray-50">
-        {/* <WorkareaTabsList>
-          {openEntities.map((entity) => (
-            <WorkareaTabsTrigger
-              entityType={entity.type}
-              isSelected={entity.id === entityId}
-              to={`/applications/${applicationEditorActor.getSnapshot().context.applicationId}/${entity.id}`}
-              key={entity.id}
-            >
-              {entity.name}
-            </WorkareaTabsTrigger>
-          ))}
-        </WorkareaTabsList> */}
-
+    <div className="flex h-full">
+      <AppNav application={application} />
+      <div className="flex-1">
         <Outlet />
       </div>
     </div>

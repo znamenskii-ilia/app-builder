@@ -1,7 +1,7 @@
 import { memo } from "react";
 import { tv } from "tailwind-variants";
 
-import type { ImageComponent as ImageComponentType } from "@/modules/application/domain";
+import type { ImageComponent as ImageComponentType } from "@/modules/applicationEditing/domain";
 
 type ImageComponentProps = {
   component: ImageComponentType;

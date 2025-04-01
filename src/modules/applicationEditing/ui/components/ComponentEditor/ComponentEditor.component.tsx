@@ -1,4 +1,4 @@
-import type { Component } from "@/modules/application/domain";
+import type { Component } from "@/modules/applicationEditing/domain";
 
 import { BaseEditorProps } from "./components/editors/BaseEditor";
 import { BoxEditor } from "./components/editors/BoxEditor";

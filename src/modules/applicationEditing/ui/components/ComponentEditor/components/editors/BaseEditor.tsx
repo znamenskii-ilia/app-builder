@@ -4,7 +4,7 @@ import { tv } from "tailwind-variants";
 
 import { Button } from "@/common/ui/components/button";
 import { Input } from "@/common/ui/components/input";
-import type { Component } from "@/modules/application/domain";
+import type { Component } from "@/modules/applicationEditing/domain";
 
 export type BaseEditorProps<TComponent extends Component> = PropsWithChildren<{
   component: TComponent;

@@ -1,6 +1,6 @@
 import { Heading, Image, RectangleHorizontal, SquareDashed, Text } from "lucide-react";
 
-import type { ComponentType } from "@/modules/application/domain";
+import type { ComponentType } from "@/modules/applicationEditing/domain";
 
 type ComponentIconProps = {
   componentType: ComponentType;

@@ -1,7 +1,7 @@
 import { Input } from "@/common/ui/components/input";
 import { Label } from "@/common/ui/components/label";
 import { ToggleGroup, ToggleGroupItem } from "@/common/ui/components/toggle-group";
-import type { ButtonComponent, ButtonComponentSize } from "@/modules/application/domain";
+import type { ButtonComponent, ButtonComponentSize } from "@/modules/applicationEditing/domain";
 import { PropertyGrid } from "../PropertyGrid";
 import { Section } from "../Section";
 import { BaseEditor, BaseEditorProps } from "./BaseEditor";

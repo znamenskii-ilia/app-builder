@@ -4,7 +4,7 @@ import type {
   Application,
   ApplicationEntity,
   ApplicationEntityType,
-} from "@/modules/application/domain";
+} from "@/modules/applicationEditing/domain";
 
 import { applicationEditorLogic } from "./applicationEditor.logic";
 

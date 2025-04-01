@@ -3,10 +3,16 @@ import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import { useSelector } from "@xstate/react";
 import { memo } from "react";
 
-import { PageActor, selectPageMaybe } from "@/modules/application/application/interactors/page";
-import { PageEditorActor } from "@/modules/application/application/interactors/pageEditor";
-import { type Component, getRootComponent } from "@/modules/application/domain";
-import { PageExplorer, PageExplorerItem } from "@/modules/application/ui/components/PageExplorer";
+import {
+  PageActor,
+  selectPageMaybe,
+} from "@/modules/applicationEditing/application/interactors/page";
+import { PageEditorActor } from "@/modules/applicationEditing/application/interactors/pageEditor";
+import { type Component, getRootComponent } from "@/modules/applicationEditing/domain";
+import {
+  PageExplorer,
+  PageExplorerItem,
+} from "@/modules/applicationEditing/ui/components/PageExplorer";
 
 type PageExplorerItemFragmentProps = {
   pageActor: PageActor;

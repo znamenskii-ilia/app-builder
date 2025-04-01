@@ -15,6 +15,7 @@ import { Route as ApplicationsRouteImport } from "./routes/applications/route";
 import { Route as IndexImport } from "./routes/index";
 import { Route as ApplicationsIndexImport } from "./routes/applications/index";
 import { Route as ApplicationsApplicationIdRouteImport } from "./routes/applications/$applicationId/route";
+import { Route as ApplicationsApplicationIdIndexImport } from "./routes/applications/$applicationId/index";
 import { Route as ApplicationsApplicationIdEntityTypeEntityIdImport } from "./routes/applications/$applicationId/$entityType.$entityId";
 
 // Create/Update Routes
@@ -41,6 +42,12 @@ const ApplicationsApplicationIdRouteRoute = ApplicationsApplicationIdRouteImport
   id: "/$applicationId",
   path: "/$applicationId",
   getParentRoute: () => ApplicationsRouteRoute,
+} as any);
+
+const ApplicationsApplicationIdIndexRoute = ApplicationsApplicationIdIndexImport.update({
+  id: "/",
+  path: "/",
+  getParentRoute: () => ApplicationsApplicationIdRouteRoute,
 } as any);
 
 const ApplicationsApplicationIdEntityTypeEntityIdRoute =
@@ -82,6 +89,13 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof ApplicationsIndexImport;
       parentRoute: typeof ApplicationsRouteImport;
     };
+    "/applications/$applicationId/": {
+      id: "/applications/$applicationId/";
+      path: "/";
+      fullPath: "/applications/$applicationId/";
+      preLoaderRoute: typeof ApplicationsApplicationIdIndexImport;
+      parentRoute: typeof ApplicationsApplicationIdRouteImport;
+    };
     "/applications/$applicationId/$entityType/$entityId": {
       id: "/applications/$applicationId/$entityType/$entityId";
       path: "/$entityType/$entityId";
@@ -95,10 +109,12 @@ declare module "@tanstack/react-router" {
 // Create and export the route tree
 
 interface ApplicationsApplicationIdRouteRouteChildren {
+  ApplicationsApplicationIdIndexRoute: typeof ApplicationsApplicationIdIndexRoute;
   ApplicationsApplicationIdEntityTypeEntityIdRoute: typeof ApplicationsApplicationIdEntityTypeEntityIdRoute;
 }
 
 const ApplicationsApplicationIdRouteRouteChildren: ApplicationsApplicationIdRouteRouteChildren = {
+  ApplicationsApplicationIdIndexRoute: ApplicationsApplicationIdIndexRoute,
   ApplicationsApplicationIdEntityTypeEntityIdRoute:
     ApplicationsApplicationIdEntityTypeEntityIdRoute,
 };
@@ -125,13 +141,14 @@ export interface FileRoutesByFullPath {
   "/applications": typeof ApplicationsRouteRouteWithChildren;
   "/applications/$applicationId": typeof ApplicationsApplicationIdRouteRouteWithChildren;
   "/applications/": typeof ApplicationsIndexRoute;
+  "/applications/$applicationId/": typeof ApplicationsApplicationIdIndexRoute;
   "/applications/$applicationId/$entityType/$entityId": typeof ApplicationsApplicationIdEntityTypeEntityIdRoute;
 }
 
 export interface FileRoutesByTo {
   "/": typeof IndexRoute;
-  "/applications/$applicationId": typeof ApplicationsApplicationIdRouteRouteWithChildren;
   "/applications": typeof ApplicationsIndexRoute;
+  "/applications/$applicationId": typeof ApplicationsApplicationIdIndexRoute;
   "/applications/$applicationId/$entityType/$entityId": typeof ApplicationsApplicationIdEntityTypeEntityIdRoute;
 }
 
@@ -141,6 +158,7 @@ export interface FileRoutesById {
   "/applications": typeof ApplicationsRouteRouteWithChildren;
   "/applications/$applicationId": typeof ApplicationsApplicationIdRouteRouteWithChildren;
   "/applications/": typeof ApplicationsIndexRoute;
+  "/applications/$applicationId/": typeof ApplicationsApplicationIdIndexRoute;
   "/applications/$applicationId/$entityType/$entityId": typeof ApplicationsApplicationIdEntityTypeEntityIdRoute;
 }
 
@@ -151,12 +169,13 @@ export interface FileRouteTypes {
     | "/applications"
     | "/applications/$applicationId"
     | "/applications/"
+    | "/applications/$applicationId/"
     | "/applications/$applicationId/$entityType/$entityId";
   fileRoutesByTo: FileRoutesByTo;
   to:
     | "/"
-    | "/applications/$applicationId"
     | "/applications"
+    | "/applications/$applicationId"
     | "/applications/$applicationId/$entityType/$entityId";
   id:
     | "__root__"
@@ -164,6 +183,7 @@ export interface FileRouteTypes {
     | "/applications"
     | "/applications/$applicationId"
     | "/applications/"
+    | "/applications/$applicationId/"
     | "/applications/$applicationId/$entityType/$entityId";
   fileRoutesById: FileRoutesById;
 }
@@ -206,12 +226,17 @@ export const routeTree = rootRoute
       "filePath": "applications/$applicationId/route.tsx",
       "parent": "/applications",
       "children": [
+        "/applications/$applicationId/",
         "/applications/$applicationId/$entityType/$entityId"
       ]
     },
     "/applications/": {
       "filePath": "applications/index.tsx",
       "parent": "/applications"
+    },
+    "/applications/$applicationId/": {
+      "filePath": "applications/$applicationId/index.tsx",
+      "parent": "/applications/$applicationId"
     },
     "/applications/$applicationId/$entityType/$entityId": {
       "filePath": "applications/$applicationId/$entityType.$entityId.tsx",

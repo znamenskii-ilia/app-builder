@@ -1,13 +1,13 @@
 import { ActorRefFromLogic, assign, fromPromise, setup } from "xstate";
 
-import type { Page } from "@/modules/application/domain";
+import type { Page } from "@/modules/applicationEditing/domain";
 import {
   addComponent,
   deleteComponent,
   moveComponent,
   renameComponent,
   updateComponentProps,
-} from "@/modules/application/domain";
+} from "@/modules/applicationEditing/domain";
 
 import type { PageEvents } from "./page.ports";
 

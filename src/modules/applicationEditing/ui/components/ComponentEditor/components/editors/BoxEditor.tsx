@@ -23,7 +23,7 @@ import {
 } from "@/common/ui/components/select";
 import { Slider } from "@/common/ui/components/slider";
 import { ToggleGroup, ToggleGroupItem } from "@/common/ui/components/toggle-group";
-import type { BoxComponent } from "@/modules/application/domain";
+import type { BoxComponent } from "@/modules/applicationEditing/domain";
 import { PropertyGrid } from "../PropertyGrid";
 import { Section } from "../Section";
 import { BaseEditor, BaseEditorProps } from "./BaseEditor";

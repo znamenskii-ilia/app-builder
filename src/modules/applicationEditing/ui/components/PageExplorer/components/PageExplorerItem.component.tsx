@@ -1,8 +1,8 @@
 import { useDndContext, useDraggable } from "@dnd-kit/core";
 import { tv } from "tailwind-variants";
 
-import type { ComponentType } from "@/modules/application/domain";
-import { ComponentIcon } from "@/modules/application/ui/components/ComponentIcon/ComponentIcon";
+import type { ComponentType } from "@/modules/applicationEditing/domain";
+import { ComponentIcon } from "@/modules/applicationEditing/ui/components/ComponentIcon/ComponentIcon";
 
 import { PageExplorerBottomDropLine } from "./PageExplorerBottomDropLine.component";
 import { PageExplorerDropOn } from "./PageExplorerDropOn.component";

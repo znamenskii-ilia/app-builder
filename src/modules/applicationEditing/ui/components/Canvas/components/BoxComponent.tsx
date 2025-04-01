@@ -2,7 +2,7 @@ import { useDroppable } from "@dnd-kit/core";
 import { memo, PropsWithChildren } from "react";
 import { tv } from "tailwind-variants";
 
-import type { BoxComponent as BoxComponentType } from "@/modules/application/domain";
+import type { BoxComponent as BoxComponentType } from "@/modules/applicationEditing/domain";
 
 type BoxComponentProps = PropsWithChildren<{
   component: BoxComponentType;

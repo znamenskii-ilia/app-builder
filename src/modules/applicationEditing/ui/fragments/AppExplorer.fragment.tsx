@@ -2,13 +2,13 @@ import { useSelector } from "@xstate/react";
 import { useCallback, useMemo } from "react";
 import { ActorRefFrom } from "xstate";
 
-import { applicationEditorLogic } from "@/modules/application/application/interactors/applicationEditor";
-import type { ApplicationEntity } from "@/modules/application/domain";
+import { applicationEditorLogic } from "@/modules/applicationEditing/application/interactors/applicationEditor";
+import type { ApplicationEntity } from "@/modules/applicationEditing/domain";
 import {
   AppExplorer,
   AppExplorerItem,
   AppExplorerSection,
-} from "@/modules/application/ui/components/AppExplorer";
+} from "@/modules/applicationEditing/ui/components/AppExplorer";
 
 export type AppExplorerFragmentProps = {
   selectedEntityId: string;

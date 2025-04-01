@@ -5,7 +5,7 @@ import { Button } from "@/common/ui/components/button";
 import type {
   ButtonComponentSize,
   ButtonComponent as ButtonComponentType,
-} from "@/modules/application/domain";
+} from "@/modules/applicationEditing/domain";
 
 type ButtonComponentProps = {
   component: ButtonComponentType;

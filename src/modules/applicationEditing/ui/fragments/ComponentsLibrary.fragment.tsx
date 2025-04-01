@@ -1,9 +1,9 @@
-import type { ComponentType } from "@/modules/application/domain";
+import type { ComponentType } from "@/modules/applicationEditing/domain";
 import {
   ComponentsLibrary,
   ComponentsLibraryItem,
   ComponentsLibrarySection,
-} from "@/modules/application/ui/components/ComponentsLibrary";
+} from "@/modules/applicationEditing/ui/components/ComponentsLibrary";
 
 export const ComponentsLibraryFragment = () => {
   const layoutBlueprintComponentTypes: ComponentType[] = ["Box"];

@@ -10,7 +10,7 @@ import {
   SelectValue,
 } from "@/common/ui/components/select";
 import { ToggleGroup, ToggleGroupItem } from "@/common/ui/components/toggle-group";
-import type { HeadingComponent } from "@/modules/application/domain";
+import type { HeadingComponent } from "@/modules/applicationEditing/domain";
 import { PropertyGrid } from "../PropertyGrid";
 import { Section } from "../Section";
 import { BaseEditor, BaseEditorProps } from "./BaseEditor";

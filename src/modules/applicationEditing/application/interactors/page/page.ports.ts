@@ -1,4 +1,4 @@
-import type { Component } from "@/modules/application/domain";
+import type { Component } from "@/modules/applicationEditing/domain";
 
 export type PageEvents =
   | {

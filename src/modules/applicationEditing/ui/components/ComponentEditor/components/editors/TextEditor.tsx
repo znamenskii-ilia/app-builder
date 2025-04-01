@@ -1,6 +1,6 @@
 import { Input } from "@/common/ui/components/input";
 import { Label } from "@/common/ui/components/label";
-import type { TextComponent } from "@/modules/application/domain";
+import type { TextComponent } from "@/modules/applicationEditing/domain";
 import { PropertyGrid } from "../PropertyGrid";
 import { Section } from "../Section";
 import { BaseEditor, BaseEditorProps } from "./BaseEditor";
