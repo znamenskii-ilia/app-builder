@@ -2,10 +2,17 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ApplicationListFragment } from "../../modules/applicationsManagement/ui/fragments/ApplicationList/ApplicationList.fragment";
 
 export const Route = createFileRoute("/applications/")({
-  component: RootPage,
+  component: ApplicationsPage,
+  head: () => ({
+    meta: [
+      {
+        title: "Applications",
+      },
+    ],
+  }),
 });
 
-function RootPage() {
+function ApplicationsPage() {
   return (
     <div className="container mx-auto flex h-screen flex-col py-4">
       <h1 className="mb-4 text-2xl font-bold">Applications</h1>
