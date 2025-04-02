@@ -1,36 +1,89 @@
+import { useState, useEffect } from "react";
+
 import { Application } from "../../../domain";
 import { ApplicationList } from "../../components/ApplicationList";
+import { NoApplicationsNotice } from "../../components/NoApplicationsNotice/NoApplicationsNotice.component";
+
+const useApplications = () => {
+  const [applications, setApplications] = useState<Application[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  useEffect(() => {
+    setIsLoading(true);
+
+    const fetchApplications = async () => {
+      try {
+        const applications = await fetch("https://jsonplaceholder.typicode.com/comments?_limit=3")
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.length === 0) {
+              return [];
+            }
+
+            if (data[0].body) {
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              return data.map((item: any) => ({
+                id: item.id,
+                name: item.name,
+                description: item.body,
+                lastModified: item.lastModified || Date.now(),
+                pages: [],
+                functions: [],
+                dataSources: [],
+              }));
+            }
+
+            return data;
+          });
+
+        setApplications(applications);
+        setIsLoading(false);
+      } catch (error) {
+        setError(error as string);
+        setIsLoading(false);
+      }
+    };
+
+    fetchApplications();
+
+    return () => {
+      setApplications([]);
+    };
+  }, []);
+
+  return { applications, isLoading, error };
+};
 
 export const ApplicationListFragment = () => {
-  const applications: Application[] = [
-    {
-      id: "1",
-      name: "Application 1",
-      description: "Description 1",
-      lastModified: 1717171717171,
-      pages: [],
-      functions: [],
-      dataSources: [],
-    },
-    {
-      id: "2",
-      name: "Application 2",
-      description: "Description 2",
-      lastModified: 1717171717171,
-      pages: [],
-      functions: [],
-      dataSources: [],
-    },
-  ];
+  const { applications, isLoading, error } = useApplications();
 
-  if (applications.length === 0) {
+  if (isLoading) {
     return (
-      <div>
-        <div>You have no applications yet</div>
-        {/* <Link to="/applications/new">Create Application</Link> */}
+      <div data-testid="application-list-fragment">
+        <div data-testid="application-list-fragment-loading">Loading...</div>
       </div>
     );
   }
 
-  return <ApplicationList applications={applications} />;
+  if (error) {
+    return (
+      <div data-testid="application-list-fragment">
+        <div data-testid="application-list-fragment-error">Failed to load applications</div>
+      </div>
+    );
+  }
+
+  if (applications.length === 0) {
+    return (
+      <div data-testid="application-list-fragment">
+        <NoApplicationsNotice />
+      </div>
+    );
+  }
+
+  return (
+    <div data-testid="application-list-fragment">
+      <ApplicationList applications={applications} />
+    </div>
+  );
 };

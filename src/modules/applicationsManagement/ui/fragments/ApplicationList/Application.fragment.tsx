@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 import { Application } from "@/modules/applicationsManagement/domain";
 import { ApplicationDetails } from "@/modules/applicationsManagement/ui/components/ApplicationDetails";
 
@@ -5,36 +7,37 @@ type ApplicationFragmentProps = {
   applicationId: string;
 };
 
+const useApplications = () => {
+  const [applications, setApplications] = useState<Application[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    setIsLoading(true);
+
+    const fetchApplications = async () => {
+      const applications = await fetch(
+        "https://jsonplaceholder.typicode.com/comments?_limit=10",
+      ).then((res) => res.json());
+      setApplications(applications);
+      setIsLoading(false);
+    };
+
+    fetchApplications();
+
+    return () => {
+      setApplications([]);
+    };
+  }, []);
+
+  return { applications, isLoading };
+};
+
 export const ApplicationFragment = ({ applicationId }: ApplicationFragmentProps) => {
-  const applications: Application[] = [
-    {
-      id: "1",
-      name: "Application 12",
-      description: "Description 1",
-      lastModified: 1717171717171,
-      pages: [
-        {
-          id: "page-1",
-          name: "Page 1",
-        },
-        {
-          id: "page-2",
-          name: "Page 2",
-        },
-      ],
-      functions: [],
-      dataSources: [],
-    },
-    {
-      id: "2",
-      name: "Application 2",
-      description: "Description 2",
-      lastModified: 1717171717171,
-      pages: [],
-      functions: [],
-      dataSources: [],
-    },
-  ];
+  const { applications, isLoading } = useApplications();
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   const application = applications.find((application) => application.id === applicationId);
 

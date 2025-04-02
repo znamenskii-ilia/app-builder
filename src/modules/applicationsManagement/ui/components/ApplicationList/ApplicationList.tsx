@@ -1,11 +1,13 @@
 import { Link } from "@tanstack/react-router";
-import { Application } from "../../../domain";
+import { HTMLAttributes } from "react";
+
+import { Application } from "@/modules/applicationsManagement/domain";
 
 type ApplicationListProps = {
   applications: Application[];
-};
+} & HTMLAttributes<HTMLUListElement>;
 
-export const ApplicationList = ({ applications }: ApplicationListProps) => {
+export const ApplicationList = ({ applications, ...props }: ApplicationListProps) => {
   const formatDate = (timestamp: number): string => {
     const date = new Date(timestamp);
     return new Intl.DateTimeFormat("en-US", {
@@ -16,7 +18,11 @@ export const ApplicationList = ({ applications }: ApplicationListProps) => {
   };
 
   return (
-    <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <ul
+      className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+      data-testid="application-list"
+      {...props}
+    >
       {applications.map((application) => (
         <li key={application.id}>
           <Link
@@ -34,7 +40,7 @@ export const ApplicationList = ({ applications }: ApplicationListProps) => {
 
               <div className="flex items-center">
                 <span className="text-sm text-gray-500">
-                  Last modified: {formatDate(application.lastModified)}
+                  Last modified: <time>{formatDate(application.lastModified)}</time>
                 </span>
               </div>
             </div>

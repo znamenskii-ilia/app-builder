@@ -19,8 +19,6 @@ function Meta({ children }: { children: ReactNode }) {
   const matches = useMatches();
   const meta = matches.at(-1)?.meta?.find((meta) => meta?.title || "");
 
-  console.log(matches);
-
   useEffect(() => {
     document.title = [meta?.title, TITLE].filter(Boolean).join(" | ");
   }, [meta]);
