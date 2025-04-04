@@ -53,7 +53,7 @@ export const Wizard = ({ steps, ...props }: WizardProps) => {
   }
 
   return (
-    <div className={styles.root()} {...props}>
+    <div className={styles.root()} data-testid="wizard" {...props}>
       {/* Step indicator */}
       <nav className={styles.nav()} aria-label="Wizard progress">
         <ol className={styles.stepList()} role="list">

@@ -3,38 +3,20 @@ import { useState, useEffect } from "react";
 import { Application } from "../../../domain";
 import { ApplicationList } from "../../components/ApplicationList";
 import { NoApplicationsNotice } from "../../components/NoApplicationsNotice/NoApplicationsNotice.component";
-
+import { getApplications } from "../../../api/api";
 const useApplications = () => {
   const [applications, setApplications] = useState<Application[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
   useEffect(() => {
     setIsLoading(true);
 
     const fetchApplications = async () => {
+      setIsLoading(true);
+
       try {
-        const applications = await fetch("https://jsonplaceholder.typicode.com/comments?_limit=3")
-          .then((res) => res.json())
-          .then((data) => {
-            if (data.length === 0) {
-              return [];
-            }
-
-            if (data[0].body) {
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              return data.map((item: any) => ({
-                id: item.id,
-                name: item.name,
-                description: item.body,
-                lastModified: item.lastModified || Date.now(),
-                pages: [],
-                functions: [],
-                dataSources: [],
-              }));
-            }
-
-            return data;
-          });
+        const applications = await getApplications();
 
         setApplications(applications);
         setIsLoading(false);

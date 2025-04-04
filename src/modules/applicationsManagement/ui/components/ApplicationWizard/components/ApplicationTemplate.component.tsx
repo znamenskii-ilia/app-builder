@@ -8,7 +8,7 @@ type ApplicationTemplateProps = {
 
 export const ApplicationTemplate = ({ value, onValueChange }: ApplicationTemplateProps) => {
   return (
-    <div>
+    <div data-testid="application-template-step">
       <RadioGroup value={value} onValueChange={onValueChange}>
         <div className="flex items-center space-x-2">
           <RadioGroupItem value="blank" id="r1" />

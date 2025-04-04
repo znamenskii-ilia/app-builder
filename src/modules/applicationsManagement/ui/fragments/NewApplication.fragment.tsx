@@ -31,7 +31,7 @@ export const NewApplicationFragment = ({ actor }: NewApplicationFragmentProps) =
     <Wizard
       steps={[
         {
-          label: "Application type",
+          label: "Type",
           isCurrent: snapshot.matches("chooseApplicationType"),
           isDone: Boolean(context.type),
           isFinal: false,

@@ -71,9 +71,9 @@ export const ApplicationWizardLogic = setup({
       on: {
         SET_APPLICATION_DATA: {
           guard: ({ event }) =>
-            event.name.length > 5 &&
+            event.name.length > 4 &&
             event.name.length < 40 &&
-            event.description.length > 5 &&
+            event.description.length > 4 &&
             event.description.length < 200,
           target: "saving",
           actions: assign(({ event }) => ({

@@ -8,7 +8,7 @@ type ApplicationTypeProps = {
 
 export const ApplicationType = ({ value, onValueChange }: ApplicationTypeProps) => {
   return (
-    <div>
+    <div data-testid="application-type-step">
       <RadioGroup value={value} onValueChange={onValueChange}>
         <div className="flex items-center space-x-2">
           <RadioGroupItem value="web" id="r1" />

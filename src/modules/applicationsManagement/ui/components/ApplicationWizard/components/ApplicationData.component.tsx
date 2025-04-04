@@ -1,5 +1,6 @@
 import { Button } from "@/common/ui/components/button";
 import { Input } from "@/common/ui/components/input";
+import { Label } from "@radix-ui/react-label";
 import { useState } from "react";
 
 type ApplicationDataProps = {
@@ -12,9 +13,12 @@ export const ApplicationData = ({ value, onSave }: ApplicationDataProps) => {
   const [description, setDescription] = useState(value);
 
   return (
-    <div>
-      <Input name="name" value={name} onChange={(e) => setName(e.target.value)} />
+    <div data-testid="application-data-step">
+      <Label htmlFor="name">Name</Label>
+      <Input id="name" name="name" value={name} onChange={(e) => setName(e.target.value)} />
+      <Label htmlFor="description">Description</Label>
       <Input
+        id="description"
         name="description"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
